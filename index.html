@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AWARE™ Labs</title>
+<meta name="description" content="Prototypes and experiments from the AWARE™ team.">
+<meta property="og:title" content="AWARE™ Labs">
+<meta property="og:description" content="Prototypes and experiments from the AWARE™ team.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AWARE™ Labs">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 259 259'%3E%3Ccircle cx='129.5' cy='129.5' r='129.5' fill='%23FF3300'/%3E%3Cpath d='M162.307 154.696C174.803 139.995 184.659 123.839 184.659 103.513C184.659 85.8112 173.438 67.5098 154.657 67.5098C147.096 67.5098 136.67 70.45 129.155 84.1761C121.639 70.45 111.213 67.5098 103.653 67.5098C84.8713 67.5098 73.6504 85.8112 73.6504 103.513C73.6504 123.839 83.5362 139.965 96.0171 154.651L83.4311 181.519H96.6922L104.748 164.342C107.133 166.892 109.563 169.413 111.978 171.933C116.224 176.358 120.619 180.934 124.684 185.509L129.155 190.534L133.64 185.524C137.645 181.054 141.951 176.568 146.136 172.233C148.626 169.638 151.146 167.027 153.622 164.402L161.647 181.534H174.908L162.337 154.712L162.307 154.696ZM101.658 142.636C92.2818 130.8 85.6513 118.334 85.6513 103.513C85.6513 91.7216 92.3868 79.5107 103.653 79.5107C110.313 79.5107 115.279 83.201 119.254 91.1216L122.524 98.1121L101.658 142.636ZM137.465 163.907C134.72 166.757 131.915 169.668 129.155 172.623C126.319 169.578 123.424 166.562 120.604 163.622C117.064 159.932 113.553 156.287 110.208 152.626L129.14 112.243L148.086 152.656C144.666 156.392 141.081 160.127 137.45 163.892L137.465 163.907ZM156.667 142.681L135.785 98.1121L139.055 91.1216C143.031 83.201 147.996 79.5107 154.657 79.5107C165.923 79.5107 172.658 91.7216 172.658 103.513C172.658 118.349 166.043 130.83 156.667 142.681Z' fill='%23F5F5F5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --scarlet:#FF3300;
+    --earth:#290800;
+    --snow:#F5F5F5;
+    --white:#ffffff;
+    --muted:rgba(41,8,0,.55);
+    --line:rgba(41,8,0,.18);
+    --r:4px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:var(--snow);
+    color:var(--earth);
+    font-family:"Rethink Sans",system-ui,sans-serif;
+    font-size:15px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{
+    min-height:100%;
+    display:grid;
+    grid-template-rows:auto 1fr auto;
+    max-width:780px;
+    margin:0 auto;
+    padding:40px 32px;
+  }
+  header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding-bottom:48px;
+  }
+  header svg{display:block;width:32px;height:32px;border-radius:50%}
+  header .wordmark{
+    font-weight:700;
+    font-size:16px;
+    letter-spacing:-.1px;
+  }
+  header .wordmark .sub{color:var(--muted);font-weight:400;margin-left:6px}
+
+  main h1{
+    font-size:38px;
+    line-height:1.1;
+    font-weight:700;
+    letter-spacing:-1px;
+    margin:0 0 16px;
+  }
+  main .lede{
+    font-size:17px;
+    color:var(--muted);
+    max-width:54ch;
+    margin:0 0 48px;
+  }
+
+  .grid{
+    display:grid;
+    gap:14px;
+    grid-template-columns:1fr;
+  }
+  @media (min-width:640px){
+    .grid{grid-template-columns:1fr 1fr}
+  }
+
+  .card{
+    display:block;
+    text-decoration:none;
+    color:inherit;
+    background:var(--white);
+    border:0.5px solid var(--line);
+    border-radius:var(--r);
+    padding:22px 22px 20px;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .card:hover{
+    border-color:var(--earth);
+  }
+  .card:focus-visible{
+    outline:2px solid var(--scarlet);
+    outline-offset:2px;
+  }
+  .card .label{
+    font-size:11px;
+    color:var(--muted);
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .card .label::after{
+    content:"";
+    flex:1;
+    border-top:0.5px solid var(--line);
+  }
+  .card .name{
+    font-weight:700;
+    font-size:18px;
+    margin:0 0 6px;
+    letter-spacing:-.2px;
+  }
+  .card .desc{
+    color:var(--muted);
+    font-size:14px;
+    margin:0;
+  }
+  .card .arrow{
+    margin-top:18px;
+    font-size:13px;
+    color:var(--earth);
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .card:hover .arrow{color:var(--scarlet)}
+
+  footer{
+    margin-top:64px;
+    padding-top:24px;
+    border-top:0.5px solid var(--line);
+    color:var(--muted);
+    font-size:12px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  footer a{color:var(--earth);text-decoration:none;border-bottom:0.5px solid var(--line)}
+  footer a:hover{color:var(--scarlet);border-bottom-color:var(--scarlet)}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <svg viewBox="0 0 259 259" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="129.5" cy="129.5" r="129.5" fill="#FF3300"/>
+      <path d="M162.307 154.696C174.803 139.995 184.659 123.839 184.659 103.513C184.659 85.8112 173.438 67.5098 154.657 67.5098C147.096 67.5098 136.67 70.45 129.155 84.1761C121.639 70.45 111.213 67.5098 103.653 67.5098C84.8713 67.5098 73.6504 85.8112 73.6504 103.513C73.6504 123.839 83.5362 139.965 96.0171 154.651L83.4311 181.519H96.6922L104.748 164.342C107.133 166.892 109.563 169.413 111.978 171.933C116.224 176.358 120.619 180.934 124.684 185.509L129.155 190.534L133.64 185.524C137.645 181.054 141.951 176.568 146.136 172.233C148.626 169.638 151.146 167.027 153.622 164.402L161.647 181.534H174.908L162.337 154.712L162.307 154.696ZM101.658 142.636C92.2818 130.8 85.6513 118.334 85.6513 103.513C85.6513 91.7216 92.3868 79.5107 103.653 79.5107C110.313 79.5107 115.279 83.201 119.254 91.1216L122.524 98.1121L101.658 142.636ZM137.465 163.907C134.72 166.757 131.915 169.668 129.155 172.623C126.319 169.578 123.424 166.562 120.604 163.622C117.064 159.932 113.553 156.287 110.208 152.626L129.14 112.243L148.086 152.656C144.666 156.392 141.081 160.127 137.45 163.892L137.465 163.907ZM156.667 142.681L135.785 98.1121L139.055 91.1216C143.031 83.201 147.996 79.5107 154.657 79.5107C165.923 79.5107 172.658 91.7216 172.658 103.513C172.658 118.349 166.043 130.83 156.667 142.681Z" fill="#F5F5F5"/>
+    </svg>
+    <div class="wordmark">AWARE™ <span class="sub">Labs</span></div>
+  </header>
+
+  <main>
+    <h1>Prototypes and experiments from the AWARE™ team.</h1>
+    <p class="lede">Working drafts of tools we're exploring with producers, brands, and partners. Some will become product. Others won't. All are dummy data unless noted.</p>
+
+    <div class="grid">
+
+      <a class="card" href="/simulator/">
+        <div class="label">Simulator</div>
+        <p class="name">Supply chain emissions</p>
+        <p class="desc">Swap suppliers and materials across a product's chain. See how emissions move against a locked baseline.</p>
+        <span class="arrow">Open →</span>
+      </a>
+
+      <a class="card" href="/open-dpp/">
+        <div class="label">Wizard</div>
+        <p class="name">Open DPP readiness</p>
+        <p class="desc">A short diagnostic to see how prepared a company is for Digital Product Passport compliance.</p>
+        <span class="arrow">Open →</span>
+      </a>
+
+    </div>
+  </main>
+
+  <footer>
+    <span>AWARE™ Labs</span>
+    <span><a href="https://traceaware.io">traceaware.io</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
