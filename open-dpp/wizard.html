@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DPP wizard — final</title>
+<title>DPP readiness wizard — AWARE™</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 
@@ -420,7 +420,7 @@
       <div class="bottom-nav-left">
         <button class="btn-back" onclick="go('screen-start')">← Back</button>
       </div>
-      <button class="feedback-link" onclick="#">I don't see myself here or I see a mistake</button>
+      <button class="feedback-link" onclick="window.open('https://hub.traceaware.io/?b=69b9541f04c89fc5c8dbecf2', '_blank')">I don't see myself here or I see a mistake</button>
     </div>
   </main>
 </div>
@@ -456,7 +456,7 @@
       <div class="bottom-nav-left">
         <button class="btn-back" onclick="go('screen-q1')">← Back</button>
       </div>
-      <button class="feedback-link" onclick="#">I don't see myself here or I see a mistake</button>
+      <button class="feedback-link" onclick="window.open('https://hub.traceaware.io/?b=69b9541f04c89fc5c8dbecf2', '_blank')">I don't see myself here or I see a mistake</button>
     </div>
   </main>
 </div>
@@ -496,7 +496,7 @@
       <div class="bottom-nav-left">
         <button class="btn-back" onclick="go('screen-q2')">← Back</button>
       </div>
-      <button class="feedback-link" onclick="#">I don't see myself here or I see a mistake</button>
+      <button class="feedback-link" onclick="window.open('https://hub.traceaware.io/?b=69b9541f04c89fc5c8dbecf2', '_blank')">I don't see myself here or I see a mistake</button>
     </div>
   </main>
 </div>
@@ -514,8 +514,9 @@
         <span class="email-capture-label">Get notified when things change</span>
         <div class="email-capture-row">
           <input type="email" placeholder="your@email.com">
-          <button>Notify me</button>
+          <button onclick="submitEmail(this)">Notify me</button>
         </div>
+        <p class="email-status" style="display:none; font-size:13px; color:var(--earth); margin-top:8px;">You're on the list — we'll be in touch when things change.</p>
       </div>
     </div>
     <div class="bottom-nav">
@@ -523,7 +524,7 @@
         <button class="btn-back" onclick="go('screen-q1')">← Back to previous question</button>
         <button class="restart" onclick="restart()">← Start again</button>
       </div>
-      <button class="feedback-link" onclick="#">I don't see myself here or I see a mistake</button>
+      <button class="feedback-link" onclick="window.open('https://hub.traceaware.io/?b=69b9541f04c89fc5c8dbecf2', '_blank')">I don't see myself here or I see a mistake</button>
     </div>
   </main>
 </div>
@@ -542,17 +543,18 @@
         <span class="email-capture-label">Get notified when things change</span>
         <div class="email-capture-row">
           <input type="email" placeholder="your@email.com">
-          <button>Notify me</button>
+          <button onclick="submitEmail(this)">Notify me</button>
         </div>
+        <p class="email-status" style="display:none; font-size:13px; color:var(--earth); margin-top:8px;">You're on the list — we'll be in touch when things change.</p>
       </div>
-      <a class="cta" href="#">Get in touch if you want help</a>
+      <a class="cta" href="https://traceaware.io/contact-us" target="_blank">Get in touch if you want help</a>
     </div>
     <div class="bottom-nav">
       <div class="bottom-nav-left">
         <button class="btn-back" onclick="go('screen-q1')">← Back to previous question</button>
         <button class="restart" onclick="restart()">← Start again</button>
       </div>
-      <button class="feedback-link" onclick="#">I don't see myself here or I see a mistake</button>
+      <button class="feedback-link" onclick="window.open('https://hub.traceaware.io/?b=69b9541f04c89fc5c8dbecf2', '_blank')">I don't see myself here or I see a mistake</button>
     </div>
   </main>
 </div>
@@ -570,17 +572,18 @@
         <span class="email-capture-label">Get notified when things change</span>
         <div class="email-capture-row">
           <input type="email" placeholder="your@email.com">
-          <button>Notify me</button>
+          <button onclick="submitEmail(this)">Notify me</button>
         </div>
+        <p class="email-status" style="display:none; font-size:13px; color:var(--earth); margin-top:8px;">You're on the list — we'll be in touch when things change.</p>
       </div>
-      <a class="cta" href="#">Get in touch if you want help</a>
+      <a class="cta" href="https://traceaware.io/contact-us" target="_blank">Get in touch if you want help</a>
     </div>
     <div class="bottom-nav">
       <div class="bottom-nav-left">
         <button class="btn-back" onclick="go('screen-q2')">← Back to previous question</button>
         <button class="restart" onclick="restart()">← Start again</button>
       </div>
-      <button class="feedback-link" onclick="#">I don't see myself here or I see a mistake</button>
+      <button class="feedback-link" onclick="window.open('https://hub.traceaware.io/?b=69b9541f04c89fc5c8dbecf2', '_blank')">I don't see myself here or I see a mistake</button>
     </div>
   </main>
 </div>
@@ -594,13 +597,14 @@
       <p>Before you put a product on the EU market, as of 2027, you'll need a valid DPP in place. If there isn't one, you can't sell it. The brands and manufacturers you source from are responsible for creating it. Start asking them what they're doing about it, and if they're struggling, put us in touch. We're here to help producers.</p>
     </div>
     <div class="cta-list">
-      <a class="cta primary" href="#">Get in touch if you want help</a>
+      <a class="cta primary" href="https://traceaware.io/contact-us" target="_blank">Get in touch if you want help</a>
       <div class="email-capture" style="margin-top: 6px;">
         <span class="email-capture-label">Get notified when things change</span>
         <div class="email-capture-row">
           <input type="email" placeholder="your@email.com">
-          <button>Notify me</button>
+          <button onclick="submitEmail(this)">Notify me</button>
         </div>
+        <p class="email-status" style="display:none; font-size:13px; color:var(--earth); margin-top:8px;">You're on the list — we'll be in touch when things change.</p>
       </div>
     </div>
     <div class="bottom-nav">
@@ -608,7 +612,7 @@
         <button class="btn-back" onclick="go('screen-q3')">← Back to previous question</button>
         <button class="restart" onclick="restart()">← Start again</button>
       </div>
-      <button class="feedback-link" onclick="#">I don't see myself here or I see a mistake</button>
+      <button class="feedback-link" onclick="window.open('https://hub.traceaware.io/?b=69b9541f04c89fc5c8dbecf2', '_blank')">I don't see myself here or I see a mistake</button>
     </div>
   </main>
 </div>
@@ -625,14 +629,14 @@
     <div class="cta-list">
       <a class="cta primary" href="https://rhys-the-davies.github.io/open-dpp/" target="_blank">Read the open-dpp reference documentation</a>
       <a class="cta" href="https://github.com/rhys-the-davies/open-dpp" target="_blank">Browse the open schema on GitHub</a>
-      <a class="cta" href="#">Get in touch with AWARE™ for direct help</a>
+      <a class="cta" href="https://traceaware.io/contact-us" target="_blank">Get in touch with AWARE™ for direct help</a>
     </div>
     <div class="bottom-nav">
       <div class="bottom-nav-left">
         <button class="btn-back" onclick="go('screen-q3')">← Back to previous question</button>
         <button class="restart" onclick="restart()">← Start again</button>
       </div>
-      <button class="feedback-link" onclick="#">I don't see myself here or I see a mistake</button>
+      <button class="feedback-link" onclick="window.open('https://hub.traceaware.io/?b=69b9541f04c89fc5c8dbecf2', '_blank')">I don't see myself here or I see a mistake</button>
     </div>
   </main>
 </div>
@@ -663,7 +667,7 @@
     </ol>
 
     <div class="result-ctas">
-      <a class="cta primary" href="#">Get in touch if you need help</a>
+      <a class="cta primary" href="https://traceaware.io/contact-us" target="_blank">Get in touch if you need help</a>
     </div>
 
     <div class="bottom-nav">
@@ -671,7 +675,7 @@
         <button class="btn-back" onclick="go('screen-q3')">← Back to previous question</button>
         <button class="restart" onclick="restart()">← Start again</button>
       </div>
-      <button class="feedback-link" onclick="#">I don't see myself here or I see a mistake</button>
+      <button class="feedback-link" onclick="window.open('https://hub.traceaware.io/?b=69b9541f04c89fc5c8dbecf2', '_blank')">I don't see myself here or I see a mistake</button>
     </div>
   </main>
 </div>
@@ -702,7 +706,7 @@
     </ol>
 
     <div class="result-ctas">
-      <a class="cta primary" href="#">Get in touch if you need help</a>
+      <a class="cta primary" href="https://traceaware.io/contact-us" target="_blank">Get in touch if you need help</a>
     </div>
 
     <div class="bottom-nav">
@@ -710,7 +714,7 @@
         <button class="btn-back" onclick="go('screen-q3')">← Back to previous question</button>
         <button class="restart" onclick="restart()">← Start again</button>
       </div>
-      <button class="feedback-link" onclick="#">I don't see myself here or I see a mistake</button>
+      <button class="feedback-link" onclick="window.open('https://hub.traceaware.io/?b=69b9541f04c89fc5c8dbecf2', '_blank')">I don't see myself here or I see a mistake</button>
     </div>
   </main>
 </div>
@@ -741,7 +745,7 @@
     </ol>
 
     <div class="result-ctas">
-      <a class="cta primary" href="#">Get in touch if you need help</a>
+      <a class="cta primary" href="https://traceaware.io/contact-us" target="_blank">Get in touch if you need help</a>
     </div>
 
     <div class="bottom-nav">
@@ -749,7 +753,7 @@
         <button class="btn-back" onclick="go('screen-q3')">← Back to previous question</button>
         <button class="restart" onclick="restart()">← Start again</button>
       </div>
-      <button class="feedback-link" onclick="#">I don't see myself here or I see a mistake</button>
+      <button class="feedback-link" onclick="window.open('https://hub.traceaware.io/?b=69b9541f04c89fc5c8dbecf2', '_blank')">I don't see myself here or I see a mistake</button>
     </div>
   </main>
 </div>
@@ -780,7 +784,7 @@
     </ol>
 
     <div class="result-ctas">
-      <a class="cta primary" href="#">Get in touch if you need help</a>
+      <a class="cta primary" href="https://traceaware.io/contact-us" target="_blank">Get in touch if you need help</a>
     </div>
 
     <div class="bottom-nav">
@@ -788,7 +792,7 @@
         <button class="btn-back" onclick="go('screen-q3')">← Back to previous question</button>
         <button class="restart" onclick="restart()">← Start again</button>
       </div>
-      <button class="feedback-link" onclick="#">I don't see myself here or I see a mistake</button>
+      <button class="feedback-link" onclick="window.open('https://hub.traceaware.io/?b=69b9541f04c89fc5c8dbecf2', '_blank')">I don't see myself here or I see a mistake</button>
     </div>
   </main>
 </div>
@@ -829,6 +833,49 @@
     answers.q1 = null; answers.q2 = null; answers.q3 = null;
     document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
     go('screen-start');
+  }
+
+  function submitEmail(btn) {
+    const row = btn.closest('.email-capture-row');
+    const input = row.querySelector('input[type="email"]');
+    const email = input.value.trim();
+    const statusEl = row.parentElement.querySelector('.email-status');
+
+    if (!email || !email.includes('@')) {
+      input.style.borderColor = 'var(--scarlet)';
+      input.focus();
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '...';
+    input.disabled = true;
+
+    fetch('https://api.hsforms.com/submissions/v3/integration/submit/147939258/1e3be01f-28cf-46fc-b0e3-1adb981b7f7c', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fields: [{ name: 'email', value: email }],
+        context: { pageUri: window.location.href, pageName: document.title }
+      })
+    })
+    .then(res => {
+      if (res.ok) {
+        row.style.display = 'none';
+        if (statusEl) { statusEl.style.display = 'block'; }
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Notify me';
+        input.disabled = false;
+        if (statusEl) { statusEl.textContent = 'Something went wrong — please try again.'; statusEl.style.display = 'block'; statusEl.style.color = 'var(--scarlet)'; }
+      }
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.textContent = 'Notify me';
+      input.disabled = false;
+      if (statusEl) { statusEl.textContent = 'Something went wrong — please try again.'; statusEl.style.display = 'block'; statusEl.style.color = 'var(--scarlet)'; }
+    });
   }
 </script>
 </body>
