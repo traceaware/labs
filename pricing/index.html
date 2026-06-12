@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing - AWARE™</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --sc: #FF3300;
+  --earth: #1C1008;
+  --text: #1C1008;
+  --text-sec: #888;
+  --border: rgba(0,0,0,0.08);
+  --border-med: rgba(0,0,0,0.13);
+  --bg: #ffffff;
+  --snow: #F5F5F5;
+}
+html { font-size: 15px; }
+body { font-family: 'Inter', -apple-system, sans-serif; color: var(--text); background: var(--bg); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+.container { max-width: 960px; margin: 0 auto; padding: 0 48px; }
+
+/* ── Nav ── */
+nav { padding: 20px 0; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; }
+.nav-logo { display: flex; align-items: center; gap: 7px; }
+
+.nav-wordmark { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; }
+.nav-sup { font-size: 9px; vertical-align: super; font-weight: 400; }
+
+/* ── Hero ── */
+.hero { padding: 80px 0 72px; border-bottom: 0.5px solid var(--border); text-align: center; }
+.hero h1 { font-size: 52px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 20px; }
+.hero h1 .sc { color: var(--sc); }
+.hero-sub { font-size: 15px; color: var(--text-sec); line-height: 1.7; max-width: 460px; margin: 0 auto; }
+
+/* ── Section ── */
+.section { padding: 52px 0; border-bottom: 0.5px solid var(--border); }
+.section:last-child { border-bottom: none; padding-bottom: 72px; }
+.sec-eyebrow { font-size: 11px; color: var(--text-sec); margin-bottom: 10px; letter-spacing: 0.01em; }
+.sec-heading { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.25; margin-bottom: 24px; color: var(--text); }
+.sec-heading .sc { color: var(--sc); }
+
+/* ── 1. Roles ── */
+.role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-med); border-radius: 6px; overflow: hidden; border: 0.5px solid var(--border-med); }
+.role-card { background: var(--bg); padding: 32px 36px; }
+.role-badge { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-sec); border: 0.5px solid var(--border-med); border-radius: 20px; padding: 3px 10px; margin-bottom: 16px; }
+.role-title { font-size: 17px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px; line-height: 1.3; }
+.role-desc { font-size: 13px; color: var(--text-sec); margin-bottom: 22px; line-height: 1.65; }
+.role-kws { display: flex; flex-wrap: wrap; gap: 5px; }
+.kw { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 0.5px solid var(--border-med); color: var(--text-sec); background: var(--snow); }
+.role-both { margin-top: 0; font-size: 12px; color: var(--text-sec); padding: 13px 20px; border: 0.5px solid var(--border-med); border-top: none; border-radius: 0 0 6px 6px; background: var(--snow); line-height: 1.65; }
+
+/* ── 2. Features ── */
+.feat-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; }
+.feat-col-head { font-size: 13px; font-weight: 600; padding-bottom: 14px; border-bottom: 0.5px solid var(--border-med); margin-bottom: 4px; letter-spacing: -0.01em; }
+.feat-list { list-style: none; }
+.feat-item { padding: 11px 0; border-bottom: 0.5px solid var(--border); display: grid; grid-template-columns: 10px 1fr; gap: 12px; align-items: baseline; }
+.feat-item:last-child { border-bottom: none; }
+.feat-dash { color: var(--sc); font-size: 12px; line-height: 1.8; font-weight: 500; }
+.feat-name { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+.feat-desc { font-size: 12px; color: var(--text-sec); line-height: 1.55; }
+.shared-band { margin-top: 36px; padding-top: 28px; border-top: 0.5px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.shared-eyebrow { grid-column: 1 / -1; font-size: 11px; color: var(--text-sec); margin-bottom: 2px; }
+.shared-name { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+.shared-desc { font-size: 12px; color: var(--text-sec); line-height: 1.55; }
+
+/* ── 3. Membership ── */
+.mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.mem-name { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+.mem-desc { font-size: 12px; color: var(--text-sec); line-height: 1.55; }
+
+/* ── 4. Estimator ── */
+.est-layout { display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start; }
+.est-config { }
+.est-config-label { font-size: 12px; color: var(--text-sec); margin-bottom: 9px; }
+.est-config-label.dim { opacity: 0.4; }
+
+.cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 20px; }
+.cat-card { border: 0.5px solid var(--border-med); border-radius: 4px; padding: 9px 11px; cursor: pointer; user-select: none; background: var(--bg); transition: border-color .12s; }
+.cat-card:hover { border-color: rgba(255,51,0,0.4); }
+.cat-card.on { border-color: var(--sc); background: rgba(255,51,0,0.03); }
+.cc-name { font-size: 11px; font-weight: 500; margin-bottom: 1px; }
+.cat-card.on .cc-name { color: var(--sc); }
+.cc-role { font-size: 10px; color: var(--text-sec); }
+
+.vol-sub { font-size: 11px; color: var(--text-sec); margin-bottom: 7px; }
+.vol-block { margin-bottom: 10px; }
+.pills { display: flex; flex-wrap: wrap; gap: 5px; }
+.pill { font-size: 11px; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--border-med); color: var(--text-sec); background: var(--bg); cursor: pointer; user-select: none; transition: all .12s; }
+.pill:hover { border-color: rgba(255,51,0,0.4); color: var(--text); }
+.pill.on { background: var(--sc); color: #fff; border-color: var(--sc); }
+.pill.free-p { border-style: dashed; }
+.pill.sales { border-style: dashed; }
+.vol-section.dim .pill { opacity: 0.25; pointer-events: none; }
+
+/* Pricing display */
+.est-display { }
+.tier-table { width: 100%; border-collapse: collapse; }
+.tier-table thead th { font-size: 10px; font-weight: 500; color: var(--text-sec); text-align: left; padding: 0 12px 10px 0; border-bottom: 0.5px solid var(--border-med); letter-spacing: 0.01em; }
+.tier-table thead th:last-child { text-align: right; padding-right: 0; }
+.tier-table tbody tr { border-bottom: 0.5px solid var(--border); transition: background .12s; }
+.tier-table tbody tr:last-child { border-bottom: none; }
+.tier-table tbody tr.highlighted { background: rgba(255,51,0,0.04); }
+.tier-table tbody tr.highlighted td { color: var(--text); }
+.tier-table tbody tr.highlighted .tier-name { font-weight: 600; color: var(--sc); }
+.tier-table tbody td { font-size: 12px; color: var(--text-sec); padding: 11px 12px 11px 0; vertical-align: middle; }
+.tier-table tbody td:last-child { text-align: right; padding-right: 0; font-weight: 500; }
+.tier-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.tier-free-tag { display: inline-block; font-size: 9px; font-weight: 600; letter-spacing: 0.03em; color: var(--sc); border: 0.5px solid rgba(255,51,0,0.3); border-radius: 3px; padding: 1px 5px; margin-left: 6px; vertical-align: middle; }
+.tier-sales { font-size: 11px; font-style: italic; color: var(--text-sec); }
+.your-marker { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 600; color: var(--sc); }
+.your-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sc); flex-shrink: 0; }
+
+.est-result-strip { margin-top: 16px; padding: 14px 16px; background: var(--snow); border-radius: 4px; border: 0.5px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.est-result-strip.hidden { display: none; }
+.strip-monthly { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+.strip-monthly span { font-size: 13px; font-weight: 400; color: var(--text-sec); margin-left: 3px; }
+.strip-annual { font-size: 12px; color: var(--text-sec); }
+.strip-annual strong { color: var(--text); font-weight: 500; }
+.strip-cpk { font-size: 11px; color: var(--text-sec); }
+.strip-discount { font-size: 11px; color: var(--text-sec); }
+.strip-discount s { opacity: 0.45; }
+.strip-right { text-align: right; }
+
+.yr-tog-wrap { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.yr-lbl { font-size: 11px; color: var(--text-sec); }
+.yr-tog { display: flex; border: 0.5px solid var(--border-med); border-radius: 4px; overflow: hidden; }
+.ybtn { font-size: 11px; padding: 4px 12px; background: none; border: none; cursor: pointer; color: var(--text-sec); font-family: 'Inter', sans-serif; }
+.ybtn.on { background: var(--bg); color: var(--text); font-weight: 500; box-shadow: inset 0 0 0 0.5px var(--border-med); }
+
+/* Curve */
+.curve-outer { margin-top: 32px; padding-top: 28px; border-top: 0.5px solid var(--border); transition: opacity .2s; }
+.curve-outer.dim { opacity: 0.2; pointer-events: none; }
+.curve-eyebrow { font-size: 11px; color: var(--text-sec); margin-bottom: 5px; }
+.curve-note { font-size: 11px; color: var(--text-sec); margin-bottom: 12px; line-height: 1.6; opacity: 0.8; }
+.curve-wrap { position: relative; width: 100%; height: 180px; }
+
+/* ── 5. Conditions ── */
+.cond-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 36px; }
+.cond-item { font-size: 12px; color: var(--text-sec); line-height: 1.65; padding: 14px 0; border-bottom: 0.5px solid var(--border); }
+.cond-item:nth-last-child(-n+3) { border-bottom: none; }
+.cond-item strong { font-weight: 600; color: var(--text); display: block; margin-bottom: 3px; }
+
+@media (max-width: 720px) {
+  .container { padding: 0 20px; }
+  .hero h1 { font-size: 36px; }
+  .role-grid, .feat-cols, .shared-band, .est-layout, .cat-grid, .mem-grid, .cond-grid { grid-template-columns: 1fr 1fr; }
+  .cond-grid { grid-template-columns: 1fr; }
+  .mem-grid { grid-template-columns: 1fr 1fr; }
+  .est-layout { grid-template-columns: 1fr; }
+  .cond-item:nth-last-child(-n+3) { border-bottom: 0.5px solid var(--border); }
+  .cond-item:last-child { border-bottom: none; }
+}
+
+.labs-disclaimer-overlay{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  background:rgba(41,8,0,.6);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  animation:labs-disclaimer-fade .2s ease-out;
+  font-family:"Rethink Sans",system-ui,sans-serif;
+}
+.labs-disclaimer-overlay[hidden]{display:none}
+@keyframes labs-disclaimer-fade{from{opacity:0}to{opacity:1}}
+.labs-disclaimer-card{
+  background:#F5F3EF;color:#290800;border-radius:4px;
+  max-width:480px;width:100%;
+  padding:32px 32px 28px;position:relative;
+  box-shadow:0 20px 60px rgba(41,8,0,.25);
+  animation:labs-disclaimer-rise .25s ease-out;
+}
+@keyframes labs-disclaimer-rise{
+  from{transform:translateY(8px);opacity:0}
+  to{transform:translateY(0);opacity:1}
+}
+.labs-disclaimer-mark{width:36px;height:36px;border-radius:50%;margin-bottom:18px;display:block}
+.labs-disclaimer-card h2{font-size:20px;font-weight:700;letter-spacing:-.2px;margin:0 0 12px;line-height:1.3}
+.labs-disclaimer-card p{font-size:14.5px;line-height:1.55;color:rgba(41,8,0,.7);margin:0 0 14px}
+.labs-disclaimer-card p:last-of-type{margin-bottom:22px}
+.labs-disclaimer-card a{color:#290800;text-decoration:none;border-bottom:0.5px solid rgba(41,8,0,.3)}
+.labs-disclaimer-card a:hover{color:#FF3300;border-bottom-color:#FF3300}
+.labs-disclaimer-actions{display:flex;justify-content:flex-end;align-items:center;gap:10px}
+.labs-disclaimer-dismiss{
+  font-family:inherit;font-size:13px;font-weight:500;
+  background:#290800;color:#F5F3EF;
+  border:0;padding:9px 18px;border-radius:4px;
+  cursor:pointer;letter-spacing:.1px;
+}
+.labs-disclaimer-dismiss:hover{background:#FF3300}
+.labs-disclaimer-dismiss:focus-visible{outline:2px solid #FF3300;outline-offset:2px}
+@media(max-width:520px){
+  .labs-disclaimer-card{padding:26px 22px 22px}
+  .labs-disclaimer-card h2{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-logo">
+      <svg style="width:28px;height:28px;border-radius:50%;display:block" viewBox="0 0 259 259" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="129.5" cy="129.5" r="129.5" fill="#FF3300"/>
+        <path d="M162.307 154.696C174.803 139.995 184.659 123.839 184.659 103.513C184.659 85.8112 173.438 67.5098 154.657 67.5098C147.096 67.5098 136.67 70.45 129.155 84.1761C121.639 70.45 111.213 67.5098 103.653 67.5098C84.8713 67.5098 73.6504 85.8112 73.6504 103.513C73.6504 123.839 83.5362 139.965 96.0171 154.651L83.4311 181.519H96.6922L104.748 164.342C107.133 166.892 109.563 169.413 111.978 171.933C116.224 176.358 120.619 180.934 124.684 185.509L129.155 190.534L133.64 185.524C137.645 181.054 141.951 176.568 146.136 172.233C148.626 169.638 151.146 167.027 153.622 164.402L161.647 181.534H174.908L162.337 154.712L162.307 154.696ZM101.658 142.636C92.2818 130.8 85.6513 118.334 85.6513 103.513C85.6513 91.7216 92.3868 79.5107 103.653 79.5107C110.313 79.5107 115.279 83.201 119.254 91.1216L122.524 98.1121L101.658 142.636ZM137.465 163.907C134.72 166.757 131.915 169.668 129.155 172.623C126.319 169.578 123.424 166.562 120.604 163.622C117.064 159.932 113.553 156.287 110.208 152.626L129.14 112.243L148.086 152.656C144.666 156.392 141.081 160.127 137.45 163.892L137.465 163.907ZM156.667 142.681L135.785 98.1121L139.055 91.1216C143.031 83.201 147.996 79.5107 154.657 79.5107C165.923 79.5107 172.658 91.7216 172.658 103.513C172.658 118.349 166.043 130.83 156.667 142.681Z" fill="#F5F5F5"/>
+      </svg>
+      <span class="nav-wordmark">AWARE<span class="nav-sup">™</span></span>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Pricing for every part<br>of the <span class="sc">supply chain.</span></h1>
+    <p class="hero-sub">Two roles, one platform. Whether you make materials or manage them, you pay only for what you produce - EU compliance and blockchain-secured proof included.</p>
+  </div>
+
+  <!-- 1. Roles -->
+  <div class="section">
+    <h2 class="sec-heading">What do you produce?</h2>
+    <div class="role-grid">
+      <div class="role-card">
+        <div class="role-badge">Producer</div>
+        <div class="role-title">You make materials or products.</div>
+        <div class="role-desc">You need to prove what you made, how you made it, and what impact it had.</div>
+        <div class="role-kws">
+          <span class="kw">Raw material suppliers</span>
+          <span class="kw">Fibre &amp; yarn producers</span>
+          <span class="kw">Fabric manufacturers</span>
+          <span class="kw">Product manufacturers</span>
+        </div>
+      </div>
+      <div class="role-card">
+        <div class="role-badge">Product owner</div>
+        <div class="role-title">You receive goods and report on them.</div>
+        <div class="role-desc">You need to verify where your materials came from and meet buyer and regulatory requirements.</div>
+        <div class="role-kws">
+          <span class="kw">Product manufacturers</span>
+          <span class="kw">Trading companies</span>
+          <span class="kw">Wholesalers</span>
+          <span class="kw">Brands &amp; retailers</span>
+        </div>
+      </div>
+    </div>
+    <p class="role-both">Product manufacturers often need both - a producer membership to secure their own batches, and a product owner membership to receive and report on incoming materials.</p>
+  </div>
+
+  <!-- 2. What you get -->
+  <div class="section">
+    <h2 class="sec-heading">What you get</h2>
+    <div class="feat-cols">
+      <div>
+        <div class="feat-col-head">Producer - per batch</div>
+        <ul class="feat-list">
+          <li class="feat-item"><span class="feat-dash">-</span><div><div class="feat-name">EU compliance report</div><div class="feat-desc">Meets ESPR and related regulations, generated from your data.</div></div></li>
+          <li class="feat-item"><span class="feat-dash">-</span><div><div class="feat-name">Secured blockchain proof</div><div class="feat-desc">Your data timestamped and secured on a public blockchain.</div></div></li>
+          <li class="feat-item"><span class="feat-dash">-</span><div><div class="feat-name">Impact report</div><div class="feat-desc">Environmental impact for this batch, calculated automatically.</div></div></li>
+          <li class="feat-item"><span class="feat-dash">-</span><div><div class="feat-name">Token Tracker</div><div class="feat-desc">See where your material moves after it leaves you.</div></div></li>
+        </ul>
+      </div>
+      <div>
+        <div class="feat-col-head">Product owner - per product</div>
+        <ul class="feat-list">
+          <li class="feat-item"><span class="feat-dash">-</span><div><div class="feat-name">EU Digital Product Passport</div><div class="feat-desc">Regulation-ready, built from verified supply chain data.</div></div></li>
+          <li class="feat-item"><span class="feat-dash">-</span><div><div class="feat-name">Traceability report</div><div class="feat-desc">Full material history, from raw input to finished product.</div></div></li>
+          <li class="feat-item"><span class="feat-dash">-</span><div><div class="feat-name">Customs reports</div><div class="feat-desc">Covers UFLPA, AGEC, and equivalent cross-border requirements.</div></div></li>
+          <li class="feat-item"><span class="feat-dash">-</span><div><div class="feat-name">Impact report</div><div class="feat-desc">Environmental impact for this product, from verified data.</div></div></li>
+          <li class="feat-item"><span class="feat-dash">-</span><div><div class="feat-name">Token Tracker</div><div class="feat-desc">See where your materials move through the chain.</div></div></li>
+          <li class="feat-item"><span class="feat-dash">-</span><div><div class="feat-name">Data export</div><div class="feat-desc">Export as a spreadsheet. API access coming soon.</div></div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="shared-band">
+      <p class="shared-eyebrow">Included with every transaction</p>
+      <div>
+        <div class="shared-name">Crypto TC</div>
+        <div class="shared-desc">A transaction certificate issued automatically at the point of transfer, at no extra cost.</div>
+      </div>
+      <div>
+        <div class="shared-name">Traceability record</div>
+        <div class="shared-desc">A written record of every transaction the material has been through to reach its current point.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Membership -->
+  <div class="section">
+    <h2 class="sec-heading">Every member gets</h2>
+    <div class="mem-grid">
+      <div><div class="mem-name">KYB verification</div><div class="mem-desc">Your entry point into the verified member network.</div></div>
+      <div><div class="mem-name">Registry listing</div><div class="mem-desc">Listed publicly, searchable by brands and supply chain partners.</div></div>
+      <div><div class="mem-name">Membership certificate</div><div class="mem-desc">Physical and digital, to share with customers and auditors.</div></div>
+      <div><div class="mem-name">Marketing materials</div><div class="mem-desc">To communicate your verified status to customers and partners.</div></div>
+    </div>
+  </div>
+
+  <!-- 4. Estimator -->
+  <div class="section">
+    <h2 class="sec-heading">What would you pay?</h2>
+    <div class="est-layout">
+
+      <!-- Config panel -->
+      <div class="est-config">
+        <div class="est-config-label" id="lbl-cat">What best describes you?</div>
+        <div class="cat-grid">
+          <div class="cat-card" data-i="0" onclick="pickCat(0)"><div class="cc-name">Raw material supplier</div><div class="cc-role">Producer</div></div>
+          <div class="cat-card" data-i="1" onclick="pickCat(1)"><div class="cc-name">Fibre &amp; yarn producer</div><div class="cc-role">Producer</div></div>
+          <div class="cat-card" data-i="2" onclick="pickCat(2)"><div class="cc-name">Fabric manufacturer</div><div class="cc-role">Producer</div></div>
+          <div class="cat-card" data-i="3" onclick="pickCat(3)"><div class="cc-name">Product manufacturer</div><div class="cc-role">Producer + product owner</div></div>
+          <div class="cat-card" data-i="4" onclick="pickCat(4)"><div class="cc-name">Trading company / wholesaler</div><div class="cc-role">Product owner</div></div>
+          <div class="cat-card" data-i="5" onclick="pickCat(5)"><div class="cc-name">Brand or retailer</div><div class="cc-role">Product owner</div></div>
+        </div>
+
+        <div class="vol-section dim" id="vol-section">
+          <div id="vol-inner"></div>
+        </div>
+
+        <div class="yr-tog-wrap">
+          <span class="yr-lbl">Showing:</span>
+          <div class="yr-tog">
+            <button class="ybtn on" onclick="sy(0,this)">First year</button>
+            <button class="ybtn" onclick="sy(1,this)">From year two</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Display panel -->
+      <div class="est-display">
+        <table class="tier-table" id="tier-table">
+          <thead>
+            <tr>
+              <th style="width:38%">Volume / year</th>
+              <th>Monthly fee</th>
+              <th>Membership</th>
+              <th>Annual total</th>
+            </tr>
+          </thead>
+          <tbody id="tier-tbody"></tbody>
+        </table>
+        <div class="est-result-strip hidden" id="result-strip"></div>
+      </div>
+    </div>
+    <div class="curve-outer" id="curve-outer">
+      <div class="curve-eyebrow">How cost per kg changes with volume</div>
+      <div class="curve-note">The dotted line shows how cost per kg falls as volume grows. Your position is marked.</div>
+      <div class="curve-wrap"><canvas id="curveCanvas" role="img" aria-label="Line chart showing cost per kg declining with volume"></canvas></div>
+    </div>
+  </div>
+
+  <!-- 5. Conditions -->
+  <div class="section">
+    <h2 class="sec-heading">Good to know</h2>
+    <div class="cond-grid">
+      <div class="cond-item"><strong>Membership fee</strong>One-time upfront annual payment. First year: €650. From year two: €1,150.</div>
+      <div class="cond-item"><strong>Data tokens</strong>Billed monthly on a yearly commitment. 1 token = 1 kg of verified material.</div>
+      <div class="cond-item"><strong>Free entry tier</strong>Available to producers only, up to 0.25M kg/year. Membership fee still applies.</div>
+      <div class="cond-item"><strong>Token validity</strong>Free tokens valid 12 months. Purchased tokens valid 24 months. Unused tokens expire.</div>
+      <div class="cond-item"><strong>Product manufacturers</strong>May need both memberships - producer and product owner - each billed separately.</div>
+      <div class="cond-item"><strong>Currency</strong>All prices in EUR. Where agreed with The Movement B.V. directly, governed by Dutch law.</div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const CATS=[
+  {p:true,o:false},{p:true,o:false},{p:true,o:false},
+  {p:true,o:true},{p:false,o:true},{p:false,o:true}
+];
+const PT=[
+  {l:'Free (0.25M kg)',v:0.25,m:0,free:true},
+  {l:'1M kg',v:1,m:500},{l:'5M kg',v:5,m:1665},
+  {l:'12.5M kg',v:12.5,m:3130},{l:'30M kg',v:30,m:5000},
+  {l:'Unlimited',v:null,m:null,sales:true}
+];
+const OT=[
+  {l:'0.15M kg',v:0.15,m:833},{l:'0.5M kg',v:0.5,m:1675},
+  {l:'2M kg',v:2,m:3750},{l:'5M kg',v:5,m:6667},
+  {l:'Unlimited',v:null,m:null,sales:true}
+];
+const MEM=[650,1150];
+let cat=null,pVol=null,oVol=null,yr=0,curveInst=null;
+
+function fe(n){return'€'+Math.round(n).toLocaleString();}
+function fk(n){return n>=10000?'€'+Math.round(n/1000)+'k':'€'+Math.round(n).toLocaleString();}
+
+// Determine active tiers based on cat selection
+function activeTiers(){
+  if(cat===null||!CATS[cat].o&&CATS[cat].p) return PT;
+  if(!CATS[cat].p&&CATS[cat].o) return OT;
+  return PT; // both: show producer tiers, note PO separately
+}
+
+function pickCat(i){
+  cat=i; pVol=null; oVol=null;
+  document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('on'));
+  document.querySelector('[data-i="'+i+'"]').classList.add('on');
+  document.getElementById('vol-section').classList.remove('dim');
+  renderVol();
+  renderTable();
+  renderResult();
+}
+
+function renderVol(){
+  if(cat===null)return;
+  const c=CATS[cat]; let h='';
+  if(c.p){
+    if(c.o) h+='<div class="vol-sub" style="font-size:11px;color:var(--text-sec);margin-bottom:6px;">As a producer:</div>';
+    h+='<div class="vol-block"><div class="pills">'+PT.map((t,i)=>{
+      const cl=['pill',t.free?'free-p':'',t.sales?'sales':'',pVol===i?'on':''].filter(Boolean).join(' ');
+      return`<span class="${cl}" onclick="pv('p',${i})">${t.sales?'Unlimited':t.l}</span>`;
+    }).join('')+'</div></div>';
+  }
+  if(c.o){
+    if(c.p) h+='<div class="vol-sub" style="font-size:11px;color:var(--text-sec);margin-bottom:6px;margin-top:8px;">As a product owner:</div>';
+    h+='<div class="vol-block"><div class="pills">'+OT.map((t,i)=>{
+      const cl=['pill',t.sales?'sales':'',oVol===i?'on':''].filter(Boolean).join(' ');
+      return`<span class="${cl}" onclick="pv('o',${i})">${t.sales?'Unlimited':t.l}</span>`;
+    }).join('')+'</div></div>';
+  }
+  document.getElementById('vol-inner').innerHTML=h;
+}
+
+function pv(role,i){
+  if(role==='p')pVol=i; else oVol=i;
+  renderVol(); renderTable(); renderResult();
+}
+
+function sy(y,btn){
+  yr=y;
+  document.querySelectorAll('.ybtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderTable(); renderResult();
+}
+
+function isReady(){
+  if(cat===null)return false;
+  const c=CATS[cat];
+  return !(c.p&&pVol===null) && !(c.o&&oVol===null);
+}
+
+function hasSales(){
+  if(!isReady())return false;
+  const c=CATS[cat];
+  return (c.p&&pVol!==null&&PT[pVol].sales)||(c.o&&oVol!==null&&OT[oVol].sales);
+}
+
+function renderTable(){
+  const tiers=cat!==null&&CATS[cat].o&&!CATS[cat].p ? OT : PT;
+  const mem=MEM[yr];
+  // determine highlighted index
+  const hiIdx=cat!==null&&CATS[cat].p?pVol:(cat!==null&&CATS[cat].o?oVol:null);
+
+  const rows=tiers.map((t,i)=>{
+    const isHi=hiIdx===i;
+    const isFree=t.free;
+    const isSales=t.sales;
+    let volCell=`<td><span class="tier-name">${t.l}</span>${isFree?'<span class="tier-free-tag">FREE</span>':''}</td>`;
+    let monthCell, memCell, annualCell;
+    if(isSales){
+      monthCell=`<td><span class="tier-sales">Contact sales</span></td>`;
+      memCell=`<td>${fe(mem)}</td>`;
+      annualCell=`<td>-</td>`;
+    } else {
+      monthCell=`<td>${isFree?'-':fe(t.m)}</td>`;
+      memCell=`<td>${fe(mem)}</td>`;
+      annualCell=`<td>${isFree?fe(mem):fe(t.m*12+mem)}</td>`;
+    }
+    let markerCell='';
+    if(isHi&&!isSales){
+      volCell=`<td><span class="tier-name">${t.l}</span>${isFree?'<span class="tier-free-tag">FREE</span>':''} <span class="your-marker"><span class="your-dot"></span>yours</span></td>`;
+    }
+    return`<tr class="${isHi?'highlighted':''}">${volCell}${monthCell}${memCell}${annualCell}</tr>`;
+  }).join('');
+  document.getElementById('tier-tbody').innerHTML=rows;
+}
+
+function renderResult(){
+  const strip=document.getElementById('result-strip');
+  const co=document.getElementById('curve-outer');
+  if(!isReady()||hasSales()){
+    strip.classList.add('hidden');
+    co.classList.add('dim');
+    if(hasSales()){
+      strip.classList.remove('hidden');
+      strip.innerHTML=`<div><div class="strip-monthly" style="font-size:15px;font-weight:500">Custom quote required</div><div class="strip-annual">Contact our sales team for unlimited tier pricing.</div></div>`;
+    }
+    return;
+  }
+  const c=CATS[cat]; const mem=MEM[yr];
+  let tok=0,mt=0,vol=0;
+  if(c.p&&pVol!==null&&!PT[pVol].sales){const t=PT[pVol];tok+=(t.m||0)*12;mt+=mem;vol+=t.v||0;}
+  if(c.o&&oVol!==null&&!OT[oVol].sales){const t=OT[oVol];tok+=t.m*12;mt+=mem;vol+=t.v||0;}
+  const annual=tok+mt;
+  const monthly=annual/12;
+  const isFree=c.p&&!c.o&&pVol===0;
+  const nMem=(c.p?1:0)+(c.o?1:0);
+  const saving=(MEM[1]-MEM[0])*nMem;
+  const cpk=vol>0?annual/(vol*1e6):0;
+
+  strip.classList.remove('hidden');
+  if(isFree){
+    strip.innerHTML=`<div><div class="strip-monthly">Free <span>entry tier</span></div><div class="strip-annual">Up to 0.25M kg/year - membership still applies</div></div><div class="strip-right"><div class="strip-discount">First year membership: €${MEM[0]} &nbsp;<s>€${MEM[1]}</s></div></div>`;
+  } else {
+    strip.innerHTML=`
+      <div>
+        <div class="strip-monthly">${fk(monthly)}<span>/ month</span></div>
+        <div class="strip-annual"><strong>${fe(annual)}</strong> per year${cpk>0?' &nbsp;·&nbsp; €'+cpk.toFixed(5)+' per kg':''}</div>
+      </div>
+      <div class="strip-right">
+        <div class="strip-discount">First year saves €${saving} &nbsp;<s>€${MEM[1]*nMem}</s> €${MEM[0]*nMem}</div>
+      </div>`;
+  }
+  co.classList.remove('dim');
+  drawCurve(vol,annual);
+}
+
+function drawCurve(selVol,selAnnual){
+  const c=cat!==null?CATS[cat]:{p:true,o:false};
+  const tiers=(c.p?PT:OT).filter(t=>!t.sales&&!t.free);
+  const mem=MEM[yr];
+  const labels=tiers.map(t=>t.l);
+  const vals=tiers.map(t=>parseFloat((((t.m||0)*12+mem)/(t.v*1e6)).toFixed(6)));
+  let ui=null;
+  if(c.p&&pVol!==null&&!PT[pVol].sales&&!PT[pVol].free) ui=tiers.findIndex(t=>t.l===PT[pVol].l);
+  else if(!c.p&&c.o&&oVol!==null&&!OT[oVol].sales) ui=tiers.findIndex(t=>t.l===OT[oVol].l);
+  if(curveInst){curveInst.destroy();curveInst=null;}
+  const ctx=document.getElementById('curveCanvas').getContext('2d');
+  curveInst=new Chart(ctx,{type:'line',data:{labels,datasets:[
+    {data:vals,borderColor:'rgba(255,51,0,0.4)',borderWidth:1.5,borderDash:[4,4],backgroundColor:'rgba(255,51,0,0.03)',pointRadius:vals.map((_,i)=>i===ui?0:3),pointBackgroundColor:'rgba(255,51,0,0.3)',pointBorderColor:'transparent',fill:true,tension:0.3,label:'€/kg'},
+    {data:vals.map((v,i)=>i===ui?v:null),borderWidth:0,pointRadius:6,pointBackgroundColor:'#FF3300',pointBorderColor:'#fff',pointBorderWidth:2,label:'Your price',showLine:false}
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label==='Your price'?' Your price: €'+c.raw.toFixed(5)+'/kg':' €'+c.raw.toFixed(5)+'/kg'},filter:i=>i.raw!==null}},
+    scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'rgba(0,0,0,0.4)',autoSkip:false,maxRotation:0}},
+    y:{min:0,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10},color:'rgba(0,0,0,0.4)',callback:v=>'€'+v.toFixed(4)}}}}});
+  if(ui!==null){setTimeout(()=>{
+    const meta=curveInst.getDatasetMeta(1);
+    if(!meta.data[ui])return;
+    const pt=meta.data[ui];
+    const c2=document.getElementById('curveCanvas').getContext('2d');
+    c2.save();c2.fillStyle='#FF3300';c2.font='500 10px Inter,sans-serif';
+    c2.fillText('Your price',pt.x+9,pt.y+4);c2.restore();
+  },80);}
+}
+
+// Init: default to raw material supplier (cat 0) + free tier (pVol 0)
+cat = 0;
+pVol = 0;
+document.querySelector('[data-i="0"]').classList.add('on');
+document.getElementById('eb-vol').classList.remove('inactive');
+renderVol();
+renderTable();
+renderResult();
+</script>
+
+<div class="labs-disclaimer-overlay" id="labs-disclaimer" role="dialog" aria-modal="true" aria-labelledby="labs-disclaimer-title">
+  <div class="labs-disclaimer-card">
+    <svg class="labs-disclaimer-mark" viewBox="0 0 259 259" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="129.5" cy="129.5" r="129.5" fill="#FF3300"/>
+      <path d="M162.307 154.696C174.803 139.995 184.659 123.839 184.659 103.513C184.659 85.8112 173.438 67.5098 154.657 67.5098C147.096 67.5098 136.67 70.45 129.155 84.1761C121.639 70.45 111.213 67.5098 103.653 67.5098C84.8713 67.5098 73.6504 85.8112 73.6504 103.513C73.6504 123.839 83.5362 139.965 96.0171 154.651L83.4311 181.519H96.6922L104.748 164.342C107.133 166.892 109.563 169.413 111.978 171.933C116.224 176.358 120.619 180.934 124.684 185.509L129.155 190.534L133.64 185.524C137.645 181.054 141.951 176.568 146.136 172.233C148.626 169.638 151.146 167.027 153.622 164.402L161.647 181.534H174.908L162.337 154.712L162.307 154.696ZM101.658 142.636C92.2818 130.8 85.6513 118.334 85.6513 103.513C85.6513 91.7216 92.3868 79.5107 103.653 79.5107C110.313 79.5107 115.279 83.201 119.254 91.1216L122.524 98.1121L101.658 142.636ZM137.465 163.907C134.72 166.757 131.915 169.668 129.155 172.623C126.319 169.578 123.424 166.562 120.604 163.622C117.064 159.932 113.553 156.287 110.208 152.626L129.14 112.243L148.086 152.656C144.666 156.392 141.081 160.127 137.45 163.892L137.465 163.907ZM156.667 142.681L135.785 98.1121L139.055 91.1216C143.031 83.201 147.996 79.5107 154.657 79.5107C165.923 79.5107 172.658 91.7216 172.658 103.513C172.658 118.349 166.043 130.83 156.667 142.681Z" fill="#F5F5F5"/>
+    </svg>
+    <h2 id="labs-disclaimer-title">This is a prototype</h2>
+    <p>This pricing page is a working draft - figures are drawn from current published pricing but the tool itself is in development. Content may change before it goes live.</p>
+    <p>Questions or feedback? <a href="mailto:support@wearaware.co">support@wearaware.co</a></p>
+    <div class="labs-disclaimer-actions">
+      <button class="labs-disclaimer-dismiss" onclick="document.getElementById('labs-disclaimer').hidden=true">Got it</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
