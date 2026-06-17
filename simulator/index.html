@@ -5,653 +5,359 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AWARE™ supply chain emissions simulator</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 259 259'%3E%3Ccircle cx='129.5' cy='129.5' r='129.5' fill='%23FF3300'/%3E%3Cpath d='M162.307 154.696C174.803 139.995 184.659 123.839 184.659 103.513C184.659 85.8112 173.438 67.5098 154.657 67.5098C147.096 67.5098 136.67 70.45 129.155 84.1761C121.639 70.45 111.213 67.5098 103.653 67.5098C84.8713 67.5098 73.6504 85.8112 73.6504 103.513C73.6504 123.839 83.5362 139.965 96.0171 154.651L83.4311 181.519H96.6922L104.748 164.342C107.133 166.892 109.563 169.413 111.978 171.933C116.224 176.358 120.619 180.934 124.684 185.509L129.155 190.534L133.64 185.524C137.645 181.054 141.951 176.568 146.136 172.233C148.626 169.638 151.146 167.027 153.622 164.402L161.647 181.534H174.908L162.337 154.712L162.307 154.696ZM101.658 142.636C92.2818 130.8 85.6513 118.334 85.6513 103.513C85.6513 91.7216 92.3868 79.5107 103.653 79.5107C110.313 79.5107 115.279 83.201 119.254 91.1216L122.524 98.1121L101.658 142.636ZM137.465 163.907C134.72 166.757 131.915 169.668 129.155 172.623C126.319 169.578 123.424 166.562 120.604 163.622C117.064 159.932 113.553 156.287 110.208 152.626L129.14 112.243L148.086 152.656C144.666 156.392 141.081 160.127 137.45 163.892L137.465 163.907ZM156.667 142.681L135.785 98.1121L139.055 91.1216C143.031 83.201 147.996 79.5107 154.657 79.5107C165.923 79.5107 172.658 91.7216 172.658 103.513C172.658 118.349 166.043 130.83 156.667 142.681Z' fill='%23F5F5F5'/%3E%3C/svg%3E">
-<meta name="description" content="An interactive wireframe exploring how producers and brands could model the emissions impact of supplier and process changes across a product's supply chain.">
+<meta name="description" content="An interactive wireframe exploring how producers and brands could model the emissions impact of supplier and material changes across a product catalogue.">
 <meta property="og:title" content="AWARE™ supply chain emissions simulator">
-<meta property="og:description" content="An interactive wireframe exploring how producers and brands could model the emissions impact of supplier and process changes across a product's supply chain.">
+<meta property="og:description" content="An interactive wireframe exploring how producers and brands could model the emissions impact of supplier and material changes across a product catalogue.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="AWARE™ Labs">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AWARE™ supply chain emissions simulator">
-<meta name="twitter:description" content="An interactive wireframe exploring how producers and brands could model the emissions impact of supplier and process changes across a product's supply chain.">
+<meta name="twitter:description" content="An interactive wireframe exploring how producers and brands could model the emissions impact of supplier and material changes across a product catalogue.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --ink:#111; --line:#111; --muted:#777; --faint:#cfcfcf;
-    --bg:#fff; --shade:#f5f5f5; --base:#9a9a9a;
-    --r:6px;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;background:var(--bg);color:var(--ink);
-    font-family:"Rethink Sans",system-ui,sans-serif;
-    font-size:14px;line-height:1.5;padding:28px;
-  }
-  .wrap{max-width:1040px;margin:0 auto}
-  .stamp{
-    border:1px solid var(--line);padding:4px 10px;display:inline-block;
-    font-size:11px;margin-bottom:14px;border-radius:var(--r);
-  }
-  h1{font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:-.3px}
-  .sub{color:var(--muted);margin:0 0 18px;font-size:13px;max-width:74ch}
+:root{
+  --ink:#111;--line:#111;--muted:#777;--faint:#cfcfcf;
+  --bg:#fff;--shade:#f5f5f5;--base:#9a9a9a;--r:6px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  font-size:13px;line-height:1.5;
+}
+.wrap{max-width:1100px;margin:0 auto;padding:28px}
+.topbar{
+  border:1px solid var(--line);padding:8px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;background:var(--shade);
+}
+.topbar-title{font-size:14px;font-weight:700;letter-spacing:-.2px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.stamp{border:1px solid var(--faint);padding:3px 8px;font-size:10px;color:var(--muted);border-radius:var(--r)}
+.cat-header{margin-bottom:24px}
+.cat-h1{font-size:22px;font-weight:700;letter-spacing:-.3px;margin:0 0 6px;line-height:1.2;font-family:"SFMono-Regular",Consolas,monospace}
+.cat-sub{font-size:13px;color:var(--muted);margin:0;max-width:74ch;line-height:1.6}
+.tbtn{
+  font-family:inherit;font-size:11px;border:1px solid var(--line);
+  background:var(--bg);color:var(--ink);padding:4px 10px;cursor:pointer;border-radius:var(--r);
+}
+.tbtn:hover,.tbtn.active{background:var(--ink);color:var(--bg)}
+.view{display:none}
+.view.active{display:block}
 
-  .pinned{position:sticky;top:0;background:var(--bg);padding-top:6px;z-index:5}
-  .product{
-    border:2px solid var(--line);border-bottom:0;padding:9px 14px;
-    display:flex;justify-content:space-between;align-items:center;
-    background:var(--ink);color:var(--bg);gap:14px;
-    border-radius:var(--r) var(--r) 0 0;
-  }
-  .product .prod-left{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-  .product .prod-group{display:flex;align-items:center;gap:8px}
-  .product .pl{font-size:12px;opacity:.7}
-  .product select{
-    font-family:inherit;font-size:14px;font-weight:700;
-    background:var(--ink);color:var(--bg);border:1px solid #555;
-    padding:3px 8px;border-radius:var(--r);
-  }
-  .product .prod-vol input[type=range]{
-    width:140px;accent-color:var(--bg);cursor:pointer;
-  }
-  .product .vol-readout{
-    font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;
-    min-width:78px;text-align:right;
-  }
-  .product .pm{font-size:12px;opacity:.7;text-align:right;white-space:nowrap}
+/* catalogue */
+.filter-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.filter-label{font-size:11px;color:var(--muted)}
+.chip{
+  font-family:inherit;font-size:11px;padding:3px 9px;border:1px solid var(--faint);
+  color:var(--muted);border-radius:20px;cursor:pointer;background:var(--bg);
+}
+.chip.set{border-color:var(--line);color:var(--ink)}
+.compare-bar{
+  border:1px solid var(--line);padding:8px 12px;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:12px;background:var(--shade);border-radius:var(--r);
+}
+.compare-bar.hidden{display:none}
+.cat-list{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.cat-list-head{
+  display:flex;align-items:center;gap:16px;
+  padding:8px 16px 8px 14px;
+  border-bottom:1px solid var(--line);background:var(--shade);
+}
+.cat-list-head .ch-cb{width:16px;flex-shrink:0}
+.cat-list-head .ch-product{flex:1;font-size:12px;color:var(--muted);font-weight:400}
+.cat-list-head .ch-num{width:130px;flex-shrink:0;text-align:right;font-size:12px;color:var(--muted);cursor:pointer;font-weight:400}
+.cat-list-head .ch-num:hover{color:var(--ink)}
+.cat-list-head .ch-del{width:32px;flex-shrink:0}
+.cat-row{
+  display:flex;align-items:center;gap:16px;
+  padding:12px 16px 12px 14px;
+  border-bottom:1px solid var(--faint);
+  cursor:pointer;transition:background .1s;
+}
+.cat-row:hover{background:var(--shade)}
+.cat-row:last-child{border-bottom:0}
+.cat-row.sel{background:var(--shade)}
+.cb-col{width:16px;flex-shrink:0;display:flex;align-items:center}
+.cb{width:13px;height:13px;border:1px solid var(--line);display:inline-block;border-radius:2px;flex-shrink:0;cursor:pointer}
+.cb.on{background:var(--ink);border-color:var(--ink)}
+.product-col{flex:1;min-width:0}
+.pname{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.pmeta{font-size:11px;color:var(--muted)}
+.mtag{font-size:10px;padding:2px 7px;border:1px solid var(--faint);color:var(--muted);display:inline-block;margin-right:4px;border-radius:3px}
+.num-col{width:130px;flex-shrink:0;text-align:right}
+.num-big{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);display:block;line-height:1.1}
+.num-big.muted{color:var(--base)}
+.num-unit{font-size:11px;color:var(--muted);display:block;margin-top:3px}
+.del-col{width:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.del-btn{
+  width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+  border-radius:var(--r);color:var(--muted);font-size:14px;cursor:pointer;
+  border:1px solid transparent;background:var(--bg);font-family:inherit;
+}
+.del-btn:hover{border-color:var(--faint);background:var(--shade);color:var(--ink)}
+.modelled-tag{font-size:9px;padding:1px 5px;border:1px solid var(--line);color:var(--ink);display:inline-block;margin-left:6px;border-radius:3px;vertical-align:middle}
+.variant-tag{font-size:9px;padding:2px 6px;border:1px dashed var(--base);color:var(--base);display:inline-block;margin-left:7px;border-radius:3px;vertical-align:middle}
+.cat-note{font-size:11px;color:var(--muted);margin-top:9px;font-style:italic}
 
-  .delta{
-    border:2px solid var(--line);padding:14px;
-    display:grid;grid-template-columns:1fr 1fr 1.3fr;margin-bottom:20px;
-    border-radius:0 0 var(--r) var(--r);
-  }
-  .delta .cell{padding:0 16px;border-right:1px dashed var(--faint)}
-  .delta .cell:last-child{border-right:0}
-  .delta .lbl{font-size:11px;color:var(--muted);margin-bottom:6px}
-  .delta .big{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
-  .delta .per{font-size:12px;color:var(--muted);margin-top:3px;font-variant-numeric:tabular-nums}
-  .delta .per b{color:var(--ink);font-weight:700}
-  #deltaCell .big{font-size:28px}
+/* crumb */
+.crumb{font-size:11px;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.crumb a{color:var(--muted);text-decoration:none;border-bottom:1px dashed var(--faint);cursor:pointer}
+.crumb a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+.crumb .sep{color:var(--faint)}
+.crumb .cur{color:var(--ink)}
 
-  #deltaCell .empty{
-    display:flex;flex-direction:column;justify-content:center;
-    min-height:74px;color:var(--muted);font-size:12.5px;line-height:1.5;
-  }
-  #deltaCell .empty b{color:var(--ink);font-weight:700;display:block;margin-bottom:2px;font-size:13px}
+/* detail */
+.detail-layout{display:grid;grid-template-columns:1fr 320px;gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.detail-layout.panel-closed{grid-template-columns:1fr}
+.detail-main{padding:20px;min-width:0}
+.detail-panel{border-left:2px solid var(--line);background:var(--shade)}
+.detail-panel.closed{display:none}
+.hero{margin-bottom:20px}
+.hero-label{font-size:11px;color:var(--muted);margin-bottom:4px}
+.hero-num{font-size:32px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+.hero-unit{font-size:13px;color:var(--muted);margin-left:6px}
+.chain-stage{border:1px solid var(--line);border-radius:var(--r);margin-bottom:0;overflow:hidden}
+.stage-head{display:flex;justify-content:space-between;align-items:baseline;padding:7px 12px;border-bottom:1px dashed var(--faint);background:var(--shade)}
+.stage-step{font-size:10px;color:var(--muted)}
+.stage-proc{font-size:12px;font-weight:700}
+.stage-em{font-size:12px;font-variant-numeric:tabular-nums;font-weight:700}
+.stage-body{padding:8px 12px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;align-items:baseline}
+.leg{display:flex;align-items:center;gap:10px;padding:5px 12px;font-size:11px;color:var(--muted);border-left:1px dashed var(--faint);border-right:1px dashed var(--faint);background:var(--shade)}
+.leg .km{color:var(--ink)}
+.leg .lem{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink)}
+.detail-cta-row{margin-top:16px;display:flex;justify-content:flex-end;gap:8px}
 
-  .meter{
-    margin-top:9px;height:12px;border:1px solid var(--line);position:relative;
-    background:var(--bg);border-radius:var(--r);overflow:hidden;
-  }
-  .meter>span{position:absolute;left:0;top:0;bottom:0;background:var(--ink);transition:width .18s linear}
-  .deltaword{font-size:12px;margin-top:6px;color:var(--muted)}
+/* panel */
+.panel-inner{padding:16px}
+.panel-title{font-size:12px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.panel-close{font-family:inherit;font-size:11px;border:1px solid var(--faint);background:var(--bg);color:var(--muted);padding:2px 7px;cursor:pointer;border-radius:var(--r)}
+.panel-close:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.panel-section{margin-bottom:16px}
+.panel-section-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.model-stage{border:1px solid var(--faint);padding:8px 10px;margin-bottom:6px;border-radius:var(--r);background:var(--bg)}
+.model-stage-name{font-size:11px;font-weight:700;margin-bottom:6px}
+.model-sel{font-family:inherit;font-size:11px;width:100%;padding:4px 6px;border:1px solid var(--line);border-radius:var(--r);background:var(--bg);color:var(--ink);margin-bottom:4px}
+.model-sel:last-child{margin-bottom:0}
+.delta-hero{border-top:1px solid var(--line);padding-top:12px;margin-top:4px}
+.delta-row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px}
+.delta-pct{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:4px}
+.delta-empty{font-size:11px;color:var(--muted);line-height:1.6}
+.delta-empty b{color:var(--ink);display:block;margin-bottom:3px;font-size:12px}
+.meter{margin-top:8px;height:10px;border:1px solid var(--line);background:var(--bg);border-radius:var(--r);overflow:hidden;position:relative}
+.meter>span{position:absolute;left:0;top:0;bottom:0;background:var(--ink);transition:width .18s linear}
+.delta-word{font-size:10px;color:var(--muted);margin-top:5px}
+.save-btn{
+  font-family:inherit;font-size:11px;border:1px solid var(--line);
+  background:var(--ink);color:var(--bg);padding:7px 12px;cursor:pointer;
+  border-radius:var(--r);width:100%;margin-top:12px;font-weight:700;
+}
+.save-btn:hover{background:#333}
+.save-btn.hidden{display:none}
+.reset-btn{font-family:inherit;font-size:11px;border:1px solid var(--faint);background:var(--bg);color:var(--muted);padding:5px 10px;cursor:pointer;border-radius:var(--r);width:100%;margin-top:6px}
+.reset-btn:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.saved-note{font-size:10px;color:var(--base);margin-top:6px;text-align:center;display:none}
+.saved-note.visible{display:block}
 
-  .scatter-wrap{border:1px solid var(--line);margin-bottom:20px;border-radius:var(--r);overflow:hidden}
-  .scatter-wrap h2{margin:0;font-size:12px;font-weight:700;padding:9px 14px;border-bottom:1px solid var(--line)}
-  .scatter-wrap .body{padding:14px}
-  .scatter-wrap .legend{font-size:12px;color:var(--muted);margin-bottom:10px}
-  .scatter-wrap .legend .k{display:inline-block;margin-right:18px}
-  .scatter-wrap .legend .sw{display:inline-block;width:10px;height:10px;border:1.5px solid var(--ink);vertical-align:middle;margin-right:5px;border-radius:50%}
-  .scatter-wrap .legend .sw.base{border-color:var(--base);background:var(--bg)}
-  .scatter-wrap .legend .sw.scen{background:var(--ink)}
-  #scatter{width:100%;height:300px;display:block}
-  #scatter text{font-family:"Rethink Sans",system-ui,sans-serif;font-size:11px;fill:var(--muted)}
-  #scatter .axis{stroke:var(--line);stroke-width:1}
-  #scatter .grid{stroke:var(--faint);stroke-width:.5;stroke-dasharray:2 3}
-  #scatter .quad{fill:var(--shade)}
-  #scatter .quadlbl{fill:var(--faint);font-size:10px}
-  #scatter .basedot{fill:var(--bg);stroke:var(--base);stroke-width:1.5}
-  #scatter .scendot{fill:var(--ink);stroke:var(--ink)}
-  #scatter .movelink{stroke:var(--ink);stroke-width:1;stroke-dasharray:3 2}
-  #scatter .dlabel{fill:var(--ink);font-size:11px}
+/* conceptual form */
+.sup-form{border:1px dashed var(--line);padding:12px;margin-top:12px;display:none;border-radius:var(--r)}
+.sup-form.open{display:block}
+.sup-form label{display:block;font-size:10px;color:var(--muted);margin:7px 0 3px}
+.sup-form input,.sup-form select{font-family:inherit;font-size:12px;width:100%;border:1px solid var(--line);padding:4px 7px;border-radius:var(--r);background:var(--bg)}
+.sup-form .matrow{display:flex;gap:6px;margin-bottom:4px}
+.sup-form .matrow input{flex:1}
+.sup-form .matrow button{font-family:inherit;border:1px solid var(--line);background:var(--bg);cursor:pointer;padding:0 8px;border-radius:var(--r)}
+.sup-form .actions{display:flex;gap:6px;margin-top:10px}
+.sup-form .actions button{flex:1}
+.efnote{font-size:10px;color:var(--muted);margin-top:6px;border-left:2px solid var(--faint);padding-left:6px}
+.addbtn{font-family:inherit;font-size:11px;border:1px solid var(--line);background:var(--bg);padding:5px 10px;cursor:pointer;border-radius:var(--r);width:100%}
+.addbtn:hover{background:var(--ink);color:var(--bg)}
+.roster-item{border:1px solid var(--faint);padding:8px;margin-bottom:7px;border-radius:var(--r)}
+.roster-item.custom{border-style:dashed;background:var(--shade)}
+.roster-item .rnm{font-weight:700;font-size:12px}
+.roster-item .rmt{color:var(--muted);font-size:11px}
+.roster-tag{font-size:9px;border:1px solid var(--faint);color:var(--muted);padding:1px 5px;float:right;border-radius:3px}
 
-  .cols{display:grid;grid-template-columns:290px 1fr;gap:18px;align-items:start}
-  .panel{border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-  .panel h2{
-    margin:0;font-size:12px;font-weight:700;
-    padding:9px 14px;border-bottom:1px solid var(--line);
-    display:flex;justify-content:space-between;align-items:baseline;
-  }
-  .panel .body{padding:12px}
+/* scatter */
+.scatter-wrap{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:16px}
+.scatter-head{font-size:11px;font-weight:700;padding:7px 12px;border-bottom:1px solid var(--line);background:var(--shade);display:flex;justify-content:space-between;align-items:baseline}
+.scatter-legend{font-size:11px;color:var(--muted)}
+.scatter-body{padding:12px}
+#scatter{width:100%;height:220px;display:block}
+#scatter text{font-family:"SFMono-Regular",Consolas,monospace;font-size:10px;fill:var(--muted)}
+#scatter .axis{stroke:var(--line);stroke-width:1}
+#scatter .grid{stroke:var(--faint);stroke-width:.5;stroke-dasharray:2 3}
+#scatter .quad{fill:var(--shade)}
+#scatter .basedot{fill:var(--bg);stroke:var(--base);stroke-width:1.5}
+#scatter .scendot{fill:var(--ink);stroke:var(--ink)}
+#scatter .movelink{stroke:var(--ink);stroke-width:1;stroke-dasharray:3 2}
+#scatter .dlabel{fill:var(--ink);font-size:10px}
 
-  .roster .item{border:1px solid var(--faint);padding:9px;margin-bottom:8px;border-radius:var(--r)}
-  .roster .item.custom{border-style:dashed;background:var(--shade)}
-  .roster .item .nm{font-weight:700}
-  .roster .item .mt{color:var(--muted);font-size:12px}
-  .roster .tag{font-size:10px;border:1px solid var(--muted);color:var(--muted);padding:1px 6px;float:right;border-radius:var(--r)}
-  .addbtn,.reset{
-    font-family:inherit;font-size:12px;border:1px solid var(--line);
-    background:var(--bg);padding:6px 12px;cursor:pointer;
-    border-radius:var(--r);width:100%;font-weight:500;
-  }
-  .addbtn:hover,.reset:hover{background:var(--ink);color:var(--bg)}
+/* comparison */
+.comp-chart-wrap{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:18px}
+.comp-chart-head{font-size:11px;font-weight:700;padding:7px 12px;border-bottom:1px solid var(--line);background:var(--shade);display:flex;justify-content:space-between;align-items:baseline}
+.comp-chart-sub{font-size:11px;color:var(--muted)}
+#compChart{width:100%;display:block}
+#compChart text{font-family:"SFMono-Regular",Consolas,monospace;font-size:11px;fill:var(--ink)}
+#compChart .bar-bg{fill:var(--shade)}
+#compChart .bar-fill{fill:var(--ink)}
+#compChart .bar-fill.variant{fill:var(--base)}
+#compChart .bar-val{fill:var(--ink);font-size:11px}
+#compChart .axis{stroke:var(--line);stroke-width:1}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:0}
+.comp-card{border:1px solid var(--line);padding:14px;border-radius:var(--r)}
+.comp-card.variant-card{border-style:dashed;border-color:var(--base)}
+.comp-name{font-size:12px;font-weight:700;margin-bottom:3px}
+.comp-meta{font-size:11px;color:var(--muted);margin-bottom:10px}
+.comp-num{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1;margin-bottom:3px}
+.comp-unit{font-size:11px;color:var(--muted);margin-bottom:10px}
+.comp-divider{border:0;border-top:1px solid var(--faint);margin:10px 0}
+.comp-row{display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px dashed var(--faint)}
+.comp-row:last-child{border:0}
+.comp-lbl{color:var(--muted)}
+.comp-note{font-size:11px;color:var(--muted);font-style:italic;padding:10px;background:var(--shade);border-radius:var(--r);border:1px solid var(--faint);margin-top:14px}
 
-  .form{border:1px dashed var(--line);padding:12px;margin-top:10px;display:none;border-radius:var(--r)}
-  .form.open{display:block}
-  .form label{display:block;font-size:11px;color:var(--muted);margin:8px 0 3px}
-  .form input,.form select{
-    font-family:inherit;font-size:13px;width:100%;
-    border:1px solid var(--line);padding:5px 7px;border-radius:var(--r);background:var(--bg);
-  }
-  .form .matrow{display:flex;gap:6px;margin-bottom:5px}
-  .form .matrow input{flex:1}
-  .form .matrow button{font-family:inherit;border:1px solid var(--line);background:var(--bg);cursor:pointer;padding:0 10px;border-radius:var(--r)}
-  .form .actions{display:flex;gap:6px;margin-top:12px}
-  .form .actions button{flex:1}
-  .efnote{font-size:11px;color:var(--muted);margin-top:6px;border-left:2px solid var(--faint);padding-left:8px}
-
-  .chain .stage{border:1px solid var(--line);border-radius:var(--r);margin-bottom:0}
-  .stage .shead{display:flex;justify-content:space-between;align-items:baseline;padding:7px 12px;border-bottom:1px dashed var(--faint);background:var(--shade);border-radius:var(--r) var(--r) 0 0}
-  .stage .stepno{font-size:11px;color:var(--muted)}
-  .stage .proc{font-weight:700;font-size:13px}
-  /* two stacked controls on the left, scenario number on the right */
-  .stage .sbody{padding:10px 12px;display:grid;grid-template-columns:1.6fr 110px;gap:12px;align-items:start}
-  .stage .controls{display:flex;flex-direction:column;gap:8px}
-  .stage label{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}
-  .stage select{font-family:inherit;font-size:13px;width:100%;border:1px solid var(--line);padding:5px 7px;border-radius:var(--r);background:var(--bg)}
-  .stage select:focus{outline:2px solid var(--ink);outline-offset:-2px}
-  .stage .loc-sub{font-size:11px;color:var(--muted);margin-top:2px}
-  .stage .num{align-self:end}
-  .stage .em{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;font-size:15px}
-  .stage .embase{text-align:right;font-size:11px;color:var(--base);font-variant-numeric:tabular-nums;margin-top:2px}
-  .stage.changed{outline:2px solid var(--ink);outline-offset:-1px}
-
-  .leg{
-    display:flex;align-items:center;gap:10px;padding:6px 12px;color:var(--muted);font-size:12px;
-    border-left:1px dashed var(--faint);border-right:1px dashed var(--faint);
-    background:var(--shade);
-  }
-  .leg .km{color:var(--ink)}
-  .leg .lem{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink)}
-
-  .resetwrap{margin-top:18px;text-align:right}
-  .reset.sm{width:auto;display:inline-block;padding:6px 14px}
-
-  @media (max-width:820px){
-    .cols{grid-template-columns:1fr}
-    .delta{grid-template-columns:1fr}
-    .delta .cell{border-right:0;border-bottom:1px dashed var(--faint);padding:0 0 12px}
-    .delta .cell:last-child{border-bottom:0}
-    .pinned{position:static}
-  }
+/* disclaimer */
 .labs-disclaimer-overlay{
-  position:fixed;inset:0;z-index:9999;
-  display:flex;align-items:center;justify-content:center;
-  padding:20px;
-  background:rgba(41,8,0,.6);
-  backdrop-filter:blur(4px);
-  -webkit-backdrop-filter:blur(4px);
-  animation:labs-disclaimer-fade .2s ease-out;
-  font-family:"Rethink Sans",system-ui,sans-serif;
+  position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  padding:20px;background:rgba(41,8,0,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  animation:labs-disclaimer-fade .2s ease-out;font-family:"Rethink Sans",system-ui,sans-serif;
 }
 .labs-disclaimer-overlay[hidden]{display:none}
 @keyframes labs-disclaimer-fade{from{opacity:0}to{opacity:1}}
 .labs-disclaimer-card{
-  background:#F5F3EF;color:#290800;border-radius:4px;
-  max-width:480px;width:100%;
-  padding:32px 32px 28px;position:relative;
-  box-shadow:0 20px 60px rgba(41,8,0,.25);
+  background:#F5F3EF;color:#290800;border-radius:4px;max-width:480px;width:100%;
+  padding:32px 32px 28px;box-shadow:0 20px 60px rgba(41,8,0,.25);
   animation:labs-disclaimer-rise .25s ease-out;
 }
-@keyframes labs-disclaimer-rise{
-  from{transform:translateY(8px);opacity:0}
-  to{transform:translateY(0);opacity:1}
-}
+@keyframes labs-disclaimer-rise{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
 .labs-disclaimer-mark{width:36px;height:36px;border-radius:50%;margin-bottom:18px;display:block}
 .labs-disclaimer-card h2{font-size:20px;font-weight:700;letter-spacing:-.2px;margin:0 0 12px;line-height:1.3}
 .labs-disclaimer-card p{font-size:14.5px;line-height:1.55;color:rgba(41,8,0,.7);margin:0 0 14px}
 .labs-disclaimer-card p:last-of-type{margin-bottom:22px}
-.labs-disclaimer-card a{color:#290800;text-decoration:none;border-bottom:0.5px solid rgba(41,8,0,.3)}
+.labs-disclaimer-card a{color:#290800;text-decoration:none;border-bottom:.5px solid rgba(41,8,0,.3)}
 .labs-disclaimer-card a:hover{color:#FF3300;border-bottom-color:#FF3300}
-.labs-disclaimer-actions{display:flex;justify-content:flex-end;align-items:center;gap:10px}
-.labs-disclaimer-dismiss{
-  font-family:inherit;font-size:13px;font-weight:500;
-  background:#290800;color:#F5F3EF;border:0;
-  padding:9px 18px;border-radius:4px;cursor:pointer;letter-spacing:.1px;
-}
+.labs-disclaimer-actions{display:flex;justify-content:flex-end}
+.labs-disclaimer-dismiss{font-family:inherit;font-size:13px;font-weight:500;background:#290800;color:#F5F3EF;border:0;padding:9px 18px;border-radius:4px;cursor:pointer}
 .labs-disclaimer-dismiss:hover{background:#FF3300}
-.labs-disclaimer-dismiss:focus-visible{outline:2px solid #FF3300;outline-offset:2px}
-@media (max-width:520px){
-  .labs-disclaimer-card{padding:26px 22px 22px}
-  .labs-disclaimer-card h2{font-size:18px}
+
+@media(max-width:820px){
+  .detail-layout,.detail-layout.panel-closed{grid-template-columns:1fr}
+  .detail-panel{border-left:0;border-top:2px solid var(--line)}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
-
-  <div class="stamp">Wireframe · concept only · dummy data</div>
-  <h1>AWARE™ supply chain emissions simulator</h1>
-  <p class="sub">A product has a baseline supply chain that runs in order, top to bottom. Swap a supplier, or define a conceptual one, and watch the product's emissions move against the baseline.</p>
-
-  <div class="pinned">
-    <div class="product">
-      <span class="prod-left">
-        <span class="prod-group"><span class="pl">Product</span>
-          <select id="prodSel"></select>
-        </span>
-        <span class="prod-group prod-vol"><span class="pl">Your order</span>
-          <input type="range" id="volSlider" min="1000" max="60000" step="500">
-          <span class="vol-readout" id="volReadout">18,000 units</span>
-        </span>
-      </span>
-      <span class="pm" id="prodMeta"></span>
-    </div>
-    <div class="delta">
-      <div class="cell">
-        <div class="lbl" id="baseLbl">Baseline</div>
-        <div class="big" id="baseTotal">0</div>
-        <div class="per"><b id="basePer">0</b> kg CO₂e / backpack</div>
-      </div>
-      <div class="cell">
-        <div class="lbl" id="scenLbl">Scenario (matches baseline)</div>
-        <div class="big" id="scenTotal">0</div>
-        <div class="per"><b id="scenPer">0</b> kg CO₂e / backpack</div>
-      </div>
-      <div class="cell" id="deltaCell">
-        <div class="lbl">Change vs baseline</div>
-        <div id="deltaContent"></div>
-      </div>
+  <div class="topbar">
+    <div class="topbar-title" id="topbarTitle" style="display:none">AWARE™ supply chain emissions simulator</div>
+    <div style="flex:1"></div>
+    <div class="topbar-right">
+      <div class="stamp">Wireframe · concept only · dummy data</div>
+      <button class="tbtn" id="backBtn" style="display:none" onclick="goBack()">← Catalogue</button>
     </div>
   </div>
 
-  <div class="scatter-wrap">
-    <h2>Where the emissions are</h2>
-    <div class="body">
-      <div class="legend">
-        <span class="k"><span class="sw base"></span>Baseline</span>
-        <span class="k"><span class="sw scen"></span>Scenario</span>
-        <span class="k">Right = more material · up = dirtier per kg · top-right = worth a procurement conversation</span>
-      </div>
-      <svg id="scatter" viewBox="0 0 700 300" preserveAspectRatio="xMidYMid meet" aria-label="Stage emissions versus volume, baseline and scenario"></svg>
+  <!-- CATALOGUE -->
+  <div class="view active" id="viewCatalogue">
+    <div class="cat-header">
+      <div class="stamp" style="margin-bottom:12px">Wireframe · concept only · dummy data</div>
+      <h1 class="cat-h1">AWARE™ supply chain emissions simulator</h1>
+      <p class="cat-sub">Browse your product catalogue by emissions per unit. Filter by material, compare across your range, and adjust supply chains to model what changes.</p>
     </div>
+    <div class="filter-row">
+      <span class="filter-label">Filter by material</span>
+      <button class="chip" id="fRecycled" onclick="toggleFilter('recycled')">Recycled polyester</button>
+      <button class="chip" id="fConventional" onclick="toggleFilter('conventional')">Conventional polyester</button>
+      <button class="chip" id="fOrganic" onclick="toggleFilter('organic')">Organic cotton</button>
+      <button class="chip" id="fCotton" onclick="toggleFilter('cotton')">Cotton</button>
+      <button class="chip" id="fNylon" onclick="toggleFilter('nylon')">Nylon</button>
+    </div>
+    <div class="compare-bar hidden" id="compareBar">
+      <span id="compareCount"></span>
+      <div style="display:flex;gap:8px">
+        <button class="tbtn" onclick="clearCompare()">Clear</button>
+        <button class="tbtn active" id="compareBtn" onclick="goCompare()">Compare →</button>
+      </div>
+    </div>
+    <div class="cat-list">
+      <div class="cat-list-head">
+        <div class="ch-cb"></div>
+        <div class="ch-product">Product</div>
+        <div class="ch-num" onclick="sortBy()" id="sortCo2">kg CO&#x2082;e / unit ↓</div>
+        <div class="ch-del"></div>
+      </div>
+      <div id="catBody"></div>
+    </div>
+    <div class="cat-note" id="catNote"></div>
   </div>
 
-  <div class="cols">
-
-    <div class="panel roster">
-      <h2><span>Modelling suppliers</span></h2>
-      <div class="body">
-        <p style="margin:0 0 10px;color:var(--muted);font-size:12px">Real suppliers come from the platform. Define conceptual ones for modelling - they become selectable in the matching process.</p>
-        <div id="rosterList"></div>
-        <button class="addbtn" id="addToggle">+ Define conceptual supplier</button>
-        <div class="form" id="custForm">
-          <label>Name</label>
-          <input id="cf_name" placeholder="e.g. Target best-in-class dyer">
-          <label>Process</label>
-          <select id="cf_proc"></select>
-          <label>Location (lat, long)</label>
-          <input id="cf_loc" placeholder="e.g. 23.0218, 113.1219">
-          <label>Process energy (kWh per kg)</label>
-          <input id="cf_energy" type="number" step="0.1" placeholder="e.g. 2.4">
-          <label>Materials this supplier can run</label>
-          <div id="cf_mats"></div>
-          <div class="matrow"><input id="cf_newmat" placeholder="Add a material by name"><button id="cf_addmat" type="button">+</button></div>
-          <div class="efnote">No emission factor needed - in a real build it's resolved automatically from material + process.</div>
-          <div class="actions">
-            <button class="addbtn" id="cf_save">Add</button>
-            <button class="addbtn" id="cf_cancel">Cancel</button>
+  <!-- DETAIL -->
+  <div class="view" id="viewDetail">
+    <div class="crumb">
+      <a onclick="goBack()">Catalogue</a>
+      <span class="sep">/</span>
+      <span class="cur" id="detailCrumb"></span>
+    </div>
+    <div class="detail-layout panel-closed" id="detailLayout">
+      <div class="detail-main" id="detailMain"></div>
+      <div class="detail-panel closed" id="detailPanel">
+        <div class="panel-inner">
+          <div class="panel-title">Adjust supply chain <button class="panel-close" onclick="closePanel()">Close</button></div>
+          <div class="panel-section" id="panelMaterials"></div>
+          <div class="panel-section" id="panelSuppliers"></div>
+          <div class="panel-section">
+            <div class="panel-section-label">Conceptual suppliers</div>
+            <div id="rosterList" style="margin-bottom:8px"></div>
+            <button class="addbtn" id="addToggle">+ Define conceptual supplier</button>
+            <div class="sup-form" id="custForm">
+              <label>Name</label><input id="cf_name" placeholder="e.g. Target best-in-class dyer">
+              <label>Process</label><select id="cf_proc"></select>
+              <label>Location (lat, long)</label><input id="cf_loc" placeholder="e.g. 23.0218, 113.1219">
+              <label>Process energy (kWh per kg)</label><input id="cf_energy" type="number" step="0.1" placeholder="e.g. 2.4">
+              <label>Materials this supplier can run</label>
+              <div id="cf_mats"></div>
+              <div class="matrow"><input id="cf_newmat" placeholder="Add a material"><button id="cf_addmat" type="button">+</button></div>
+              <div class="efnote">No emission factor needed - resolved automatically from material + process in a real build.</div>
+              <div class="actions">
+                <button class="addbtn" id="cf_save">Add</button>
+                <button class="addbtn" id="cf_cancel">Cancel</button>
+              </div>
+            </div>
           </div>
+          <div class="delta-hero" id="deltaHero"></div>
+          <button class="save-btn hidden" id="saveBtn" onclick="saveVariant()">Save to catalogue</button>
+          <div class="saved-note" id="savedNote"></div>
+          <button class="reset-btn" onclick="resetScenario()">Reset scenario</button>
         </div>
       </div>
     </div>
-
-    <div class="panel chain">
-      <h2><span>The chain - production order</span><span id="chainTotal" class="stepno"></span></h2>
-      <div class="body" id="chainBody"></div>
-    </div>
-
   </div>
 
-  <div class="resetwrap"><button class="reset sm" id="resetBtn">Reset scenario</button></div>
-
+  <!-- COMPARISON -->
+  <div class="view" id="viewCompare">
+    <div class="crumb">
+      <a onclick="goBack()">Catalogue</a>
+      <span class="sep">/</span>
+      <span class="cur">Comparison</span>
+    </div>
+    <div class="comp-grid" id="compGrid"></div>
+    <div class="comp-chart-wrap">
+      <div class="comp-chart-head">
+        <span>kg CO₂e / unit — ranked</span>
+        <span class="comp-chart-sub" id="compChartSub"></span>
+      </div>
+      <div style="padding:16px 16px 8px">
+        <svg id="compChart" aria-label="Product comparison bar chart"></svg>
+      </div>
+    </div>
+    <div class="comp-note">Dashed borders and bars indicate modelled variants - not real products. Select any product or variant in the catalogue to add it to a comparison.</div>
+  </div>
 </div>
 
-<script>
-const PROC_LABEL={ filament_extrusion:"Filament extrusion", spinning:"Yarn spinning",
-                   dyeing:"Fabric dyeing", knitting:"Circular knitting" };
-
-function resolveFactor(process,materialName){
-  const n=materialName.toLowerCase();
-  const base={filament_extrusion:5.0,spinning:4.2,dyeing:2.6,knitting:1.7}[process]||3.0;
-  let m=0.9;
-  if(n.includes("recycl"))m=0.6;
-  else if(n.includes("organic"))m=0.78;
-  else if(n.includes("low-impact")||n.includes("low impact"))m=0.72;
-  else if(n.includes("conventional")||n.includes("standard"))m=1.0;
-  return +(base*m).toFixed(2);
-}
-function gridFactor(loc){
-  const lat=parseFloat(loc.split(",")[0]);
-  return lat>35?1.15:lat>28?1.05:lat>20?0.95:0.85;
-}
-const KWH_CO2E=0.45, FREIGHT=0.000018;
-
-let SUPPLIERS=[
-  {id:"SUP-CN-014",name:"Jiangsu Hengtai",custom:false,process:"filament_extrusion",location:"31.2304,121.4737",energy_kwh_kg:9.8,materials:["Polyester filament, conventional","Polyester filament, recycled"]},
-  {id:"SUP-CN-009",name:"Zhejiang Rongsheng",custom:false,process:"filament_extrusion",location:"30.0123,120.1551",energy_kwh_kg:7.4,materials:["Polyester filament, recycled","Polyester filament, conventional"]},
-  {id:"SUP-PK-007",name:"Nishat Mills",custom:false,process:"spinning",location:"31.5204,74.3587",energy_kwh_kg:6.1,materials:["Cotton yarn, conventional","Cotton yarn, organic"]},
-  {id:"SUP-IN-031",name:"Vardhman Spinning",custom:false,process:"spinning",location:"30.9010,75.8573",energy_kwh_kg:4.9,materials:["Cotton yarn, conventional","Cotton yarn, organic"]},
-  {id:"SUP-BD-003",name:"Dhaka Dye House",custom:false,process:"dyeing",location:"23.8103,90.4125",energy_kwh_kg:3.6,materials:["Reactive dye, standard","Low-impact dye"]},
-  {id:"SUP-VN-011",name:"Saigon Finishing",custom:false,process:"dyeing",location:"10.8231,106.6297",energy_kwh_kg:2.8,materials:["Low-impact dye","Reactive dye, standard"]},
-  {id:"SUP-VN-005",name:"Hanoi Knit Co",custom:false,process:"knitting",location:"21.0278,105.8342",energy_kwh_kg:2.2,materials:["Circular knit, standard"]},
-  {id:"SUP-BD-014",name:"Chittagong Knitwear",custom:false,process:"knitting",location:"22.3569,91.7832",energy_kwh_kg:3.0,materials:["Circular knit, standard"]}
-];
-
-/* Two products, each with its own baseline chain and per-stage material default.
-   Premium uses cleaner suppliers + cleaner materials per stage, heavier per unit,
-   smaller order. Result: lower per-backpack, comparable/higher total. */
-const PRODUCTS={
-  "standard":{
-    name:"Goldstar backpack",
-    kg_per_unit:0.42, units:18000,
-    chain:[
-      {step:1,process:"filament_extrusion",mass_kg:8200,baseSupplier:"SUP-CN-014",baseMaterial:"Polyester filament, conventional"},
-      {step:2,process:"spinning",mass_kg:7900,baseSupplier:"SUP-PK-007",baseMaterial:"Cotton yarn, conventional"},
-      {step:3,process:"dyeing",mass_kg:9100,baseSupplier:"SUP-BD-003",baseMaterial:"Reactive dye, standard"},
-      {step:4,process:"knitting",mass_kg:6700,baseSupplier:"SUP-VN-005",baseMaterial:"Circular knit, standard"}
-    ]
-  },
-  "premium":{
-    name:"Goldstar premium backpack",
-    kg_per_unit:0.58, units:9000,
-    chain:[
-      {step:1,process:"filament_extrusion",mass_kg:5600,baseSupplier:"SUP-CN-009",baseMaterial:"Polyester filament, recycled"},
-      {step:2,process:"spinning",mass_kg:5400,baseSupplier:"SUP-IN-031",baseMaterial:"Cotton yarn, organic"},
-      {step:3,process:"dyeing",mass_kg:6200,baseSupplier:"SUP-VN-011",baseMaterial:"Low-impact dye"},
-      {step:4,process:"knitting",mass_kg:4900,baseSupplier:"SUP-VN-005",baseMaterial:"Circular knit, standard"}
-    ]
-  }
-};
-
-let activeProductId="standard";
-let PRODUCT=PRODUCTS[activeProductId];
-let CHAIN=PRODUCT.chain;
-/* baseline volume is fixed at the real order. scenario volume can vary. */
-let scenarioUnits=PRODUCT.units;
-/* scenario stores {supplier, material} per step */
-let scenario={};
-function resetScenarioToBaseline(){
-  scenario={};
-  CHAIN.forEach(s=>{scenario[s.step]={supplier:s.baseSupplier,material:s.baseMaterial};});
-  scenarioUnits=PRODUCT.units;
-}
-resetScenarioToBaseline();
-
-const fmt=n=>Math.round(n).toLocaleString("en-GB");
-const fmt2=n=>n.toFixed(2);
-const supById=id=>SUPPLIERS.find(s=>s.id===id);
-
-function distKm(a,b){
-  const [la1,lo1]=a.split(",").map(Number),[la2,lo2]=b.split(",").map(Number);
-  const R=6371,dLa=(la2-la1)*Math.PI/180,dLo=(lo2-lo1)*Math.PI/180;
-  const x=Math.sin(dLa/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dLo/2)**2;
-  return 2*R*Math.asin(Math.sqrt(x));
-}
-function stageIntensity(st,supId,materialName){
-  const s=supById(supId);
-  return resolveFactor(st.process,materialName)+s.energy_kwh_kg*KWH_CO2E*gridFactor(s.location);
-}
-const stageEm=(st,supId,materialName)=>st.mass_kg*stageIntensity(st,supId,materialName);
-function legEm(st,fromId,toId){
-  const km=distKm(supById(fromId).location,supById(toId).location);
-  return {km,em:st.mass_kg*km*FREIGHT};
-}
-function baselineTotals(){
-  let proc=0,trans=0;
-  for(let i=0;i<CHAIN.length;i++){
-    const st=CHAIN[i];
-    proc+=stageEm(st,st.baseSupplier,st.baseMaterial);
-    if(i<CHAIN.length-1) trans+=legEm(CHAIN[i+1],st.baseSupplier,CHAIN[i+1].baseSupplier).em;
-  }
-  return {proc,trans,total:proc+trans};
-}
-function scenarioTotals(){
-  let proc=0,trans=0;
-  const volScale = scenarioUnits / PRODUCT.units;
-  for(let i=0;i<CHAIN.length;i++){
-    const st=CHAIN[i], pick=scenario[st.step];
-    /* scale per-stage attributed mass by the user's order share */
-    const scaledStage = Object.assign({}, st, {mass_kg: st.mass_kg * volScale});
-    proc+=stageEm(scaledStage,pick.supplier,pick.material);
-    if(i<CHAIN.length-1){
-      const nx=CHAIN[i+1];
-      const scaledNx = Object.assign({}, nx, {mass_kg: nx.mass_kg * volScale});
-      trans+=legEm(scaledNx,pick.supplier,scenario[nx.step].supplier).em;
-    }
-  }
-  return {proc,trans,total:proc+trans};
-}
-
-function renderProductSelect(){
-  const sel=document.getElementById("prodSel");
-  sel.innerHTML=Object.entries(PRODUCTS).map(([id,p])=>
-    '<option value="'+id+'"'+(id===activeProductId?' selected':'')+'>'+p.name+'</option>').join("");
-  document.getElementById("prodMeta").textContent=
-    PRODUCT.kg_per_unit+" kg/unit · baseline order "+fmt(PRODUCT.units)+" units";
-  /* slider range: from a sensible floor to ~3x the baseline so scaling up is visible */
-  const slider=document.getElementById("volSlider");
-  slider.min=1000;
-  slider.max=Math.max(60000, PRODUCT.units*3);
-  slider.step=500;
-  slider.value=scenarioUnits;
-  updateVolReadout();
-  updateBaseLabel();
-  updateScenLabel();
-}
-function updateVolReadout(){
-  document.getElementById("volReadout").textContent=fmt(scenarioUnits)+" units";
-}
-function updateBaseLabel(){
-  document.getElementById("baseLbl").textContent=
-    PRODUCT.name+" baseline · "+fmt(PRODUCT.units)+" units";
-}
-function updateScenLabel(){
-  const matchesBaseline = scenarioUnits===PRODUCT.units && Object.values(scenario).every((p,i)=>
-    p.supplier===CHAIN[i].baseSupplier && p.material===CHAIN[i].baseMaterial);
-  document.getElementById("scenLbl").textContent = matchesBaseline
-    ? "Scenario (matches baseline)"
-    : "Scenario · "+fmt(scenarioUnits)+" units";
-}
-document.addEventListener("change",e=>{
-  if(e.target.id==="prodSel"){
-    activeProductId=e.target.value;
-    PRODUCT=PRODUCTS[activeProductId];
-    CHAIN=PRODUCT.chain;
-    resetScenarioToBaseline();
-    renderProductSelect();
-    renderAll();
-  }
-});
-document.addEventListener("input",e=>{
-  if(e.target.id==="volSlider"){
-    scenarioUnits=parseInt(e.target.value,10);
-    updateVolReadout();
-    updateScenLabel();
-    renderAll();
-  }
-});
-
-function renderRoster(){
-  const L=document.getElementById("rosterList");L.innerHTML="";
-  SUPPLIERS.forEach(s=>{
-    const d=document.createElement("div");
-    d.className="item"+(s.custom?" custom":"");
-    d.innerHTML='<span class="tag">'+(s.custom?"Conceptual":"Platform")+'</span>'+
-      '<div class="nm">'+s.name+'</div>'+
-      '<div class="mt">'+PROC_LABEL[s.process]+' · '+s.energy_kwh_kg+' kWh/kg</div>'+
-      '<div class="mt">'+s.materials.length+' material'+(s.materials.length>1?'s':'')+' · '+s.location+'</div>';
-    L.appendChild(d);
-  });
-}
-
-function renderChain(){
-  const B=document.getElementById("chainBody");B.innerHTML="";
-  const volScale = scenarioUnits / PRODUCT.units;
-  CHAIN.forEach((st,i)=>{
-    const pick=scenario[st.step];
-    const chosenSup=supById(pick.supplier);
-    const supplierChanged=pick.supplier!==st.baseSupplier;
-    const materialChanged=pick.material!==st.baseMaterial;
-    const volChanged=volScale!==1;
-    const changed=supplierChanged||materialChanged||volChanged;
-
-    const supOpts=SUPPLIERS.filter(s=>s.process===st.process).map(s=>
-      '<option value="'+s.id+'"'+(s.id===pick.supplier?' selected':'')+'>'+s.name+(s.custom?' (conceptual)':'')+'</option>').join("");
-    const matOpts=chosenSup.materials.map(m=>
-      '<option value="'+m.replace(/"/g,'&quot;')+'"'+(m===pick.material?' selected':'')+'>'+m+'</option>').join("");
-
-    /* scenario shows attributed mass + emissions for the user's order; baseline shows the real order */
-    const scaledStage = Object.assign({}, st, {mass_kg: st.mass_kg * volScale});
-    const em=stageEm(scaledStage,pick.supplier,pick.material);
-    const baseEm=stageEm(st,st.baseSupplier,st.baseMaterial);
-    const scaledMass = st.mass_kg * volScale;
-
-    const d=document.createElement("div");
-    d.className="stage"+(changed?" changed":"");
-    d.innerHTML='<div class="shead"><span><span class="stepno">Step '+st.step+'</span> &nbsp; <span class="proc">'+PROC_LABEL[st.process]+'</span></span><span class="stepno">'+fmt(scaledMass)+' kg</span></div>'+
-      '<div class="sbody"><div class="controls">'+
-        '<div><label>Supplier</label><select data-step="'+st.step+'" data-kind="supplier">'+supOpts+'</select></div>'+
-        '<div><label>Material</label><select data-step="'+st.step+'" data-kind="material">'+matOpts+'</select></div>'+
-        '<div class="loc-sub">'+chosenSup.location+'</div>'+
-      '</div>'+
-      '<div class="num"><div class="em">'+fmt(em)+'</div><div class="embase">baseline '+fmt(baseEm)+'</div></div></div>';
-    B.appendChild(d);
-
-    if(i<CHAIN.length-1){
-      const nx=CHAIN[i+1];
-      const scaledNx = Object.assign({}, nx, {mass_kg: nx.mass_kg * volScale});
-      const lg=legEm(scaledNx,pick.supplier,scenario[nx.step].supplier);
-      const e=document.createElement("div");e.className="leg";
-      e.innerHTML='<span>↓ transport</span><span class="km">'+fmt(lg.km)+' km</span><span class="lem">'+fmt(lg.em)+' kg CO₂e</span>';
-      B.appendChild(e);
-    }
-  });
-  B.querySelectorAll("select").forEach(s=>s.addEventListener("change",e=>{
-    const step=+e.target.dataset.step, kind=e.target.dataset.kind;
-    if(kind==="supplier"){
-      scenario[step].supplier=e.target.value;
-      scenario[step].material=supById(e.target.value).materials[0];
-    } else {
-      scenario[step].material=e.target.value;
-    }
-    renderAll();
-  }));
-}
-
-function renderDelta(){
-  const b=baselineTotals(),s=scenarioTotals();
-  const ab=s.total-b.total,pct=b.total?ab/b.total*100:0;
-  const bp=b.total/PRODUCT.units, sp=s.total/scenarioUnits;
-  document.getElementById("baseTotal").textContent=fmt(b.total)+" kg CO₂e";
-  document.getElementById("scenTotal").textContent=fmt(s.total)+" kg CO₂e";
-  document.getElementById("basePer").textContent=fmt2(bp);
-  document.getElementById("scenPer").textContent=fmt2(sp);
-  document.getElementById("chainTotal").textContent=ab===0?"":"Scenario "+fmt(s.total)+" kg CO₂e";
-  updateScenLabel();
-
-  const dc=document.getElementById("deltaContent");
-
-  if(ab===0){
-    dc.innerHTML=
-      '<div class="empty">'+
-        '<b>No changes yet</b>'+
-        'Below is the '+PRODUCT.name+"'s current supply chain. Swap a supplier or material at any stage, or change your order volume, and the percentage difference of CO₂e emissions will appear here."+
-      '</div>';
-  } else {
-    const word = ab<0
-      ? "Lower than baseline - the case to take to procurement."
-      : "Higher than baseline - this change makes it worse.";
-    dc.innerHTML =
-      '<div class="big">'+(ab>0?"+":"")+pct.toFixed(1)+'%</div>'+
-      '<div class="per">'+(ab>0?"+":"")+fmt(ab)+' kg CO₂e · '+(sp-bp>0?"+":"")+fmt2(sp-bp)+' kg CO₂e per backpack</div>'+
-      '<div class="meter"><span style="width:'+Math.min(Math.abs(pct)*2,100)+'%"></span></div>'+
-      '<div class="deltaword">'+word+'</div>';
-  }
-}
-
-function renderScatter(){
-  const svg=document.getElementById("scatter"),W=700,H=300,P={l:54,r:20,t:22,b:46};
-  const volScale = scenarioUnits / PRODUCT.units;
-  const rows=CHAIN.map(st=>{
-    const pick=scenario[st.step];
-    return {
-      label:"S"+st.step,
-      xb:st.mass_kg, xs:st.mass_kg*volScale,
-      yb:stageIntensity(st,st.baseSupplier,st.baseMaterial),
-      ys:stageIntensity(st,pick.supplier,pick.material),
-      moved:(pick.supplier!==st.baseSupplier)||(pick.material!==st.baseMaterial)||(volScale!==1)
-    };
-  });
-  const allx=rows.flatMap(r=>[r.xb,r.xs]);
-  const ally=rows.flatMap(r=>[r.yb,r.ys]);
-  const xmin=Math.min(...allx)*0.9,xmax=Math.max(...allx)*1.05;
-  const ymin=Math.min(...ally)*0.85,ymax=Math.max(...ally)*1.1;
-  const sx=v=>P.l+(v-xmin)/(xmax-xmin)*(W-P.l-P.r);
-  const sy=v=>H-P.b-(v-ymin)/(ymax-ymin)*(H-P.t-P.b);
-  const mx=sx((xmin+xmax)/2),my=sy((ymin+ymax)/2);
-  let g='';
-  g+='<rect class="quad" x="'+mx+'" y="'+P.t+'" width="'+(W-P.r-mx)+'" height="'+(my-P.t)+'" rx="4"/>';
-  g+='<line class="axis" x1="'+P.l+'" y1="'+(H-P.b)+'" x2="'+(W-P.r)+'" y2="'+(H-P.b)+'"/>';
-  g+='<line class="axis" x1="'+P.l+'" y1="'+P.t+'" x2="'+P.l+'" y2="'+(H-P.b)+'"/>';
-  g+='<line class="grid" x1="'+mx+'" y1="'+P.t+'" x2="'+mx+'" y2="'+(H-P.b)+'"/>';
-  g+='<line class="grid" x1="'+P.l+'" y1="'+my+'" x2="'+(W-P.r)+'" y2="'+my+'"/>';
-  g+='<text x="'+((P.l+W-P.r)/2)+'" y="'+(H-10)+'" text-anchor="middle">Material through the stage (kg) →</text>';
-  g+='<text transform="rotate(-90)" x="'+(-(P.t+H-P.b)/2)+'" y="16" text-anchor="middle">↑ kg CO₂e per kg</text>';
-  rows.forEach(r=>{
-    if(r.moved){
-      g+='<line class="movelink" x1="'+sx(r.xb)+'" y1="'+sy(r.yb)+'" x2="'+sx(r.xs)+'" y2="'+sy(r.ys)+'"/>';
-      g+='<circle class="scendot" cx="'+sx(r.xs)+'" cy="'+sy(r.ys)+'" r="7"/>';
-    }
-    g+='<circle class="basedot" cx="'+sx(r.xb)+'" cy="'+sy(r.yb)+'" r="7"/>';
-    const lx = r.moved ? Math.max(sx(r.xb),sx(r.xs)) : sx(r.xb);
-    const ly = r.moved ? sy(Math.min(r.yb,r.ys)) : sy(r.yb);
-    g+='<text class="dlabel" x="'+(lx+11)+'" y="'+(ly+4)+'">'+r.label+'</text>';
-  });
-  svg.innerHTML=g;
-}
-
-function renderAll(){renderChain();renderDelta();renderScatter();}
-
-const form=document.getElementById("custForm"),procSel=document.getElementById("cf_proc");
-Object.keys(PROC_LABEL).forEach(k=>{const o=document.createElement("option");o.value=k;o.textContent=PROC_LABEL[k];procSel.appendChild(o);});
-let cfMats=[];
-function renderCfMats(){
-  const c=document.getElementById("cf_mats");
-  c.innerHTML=cfMats.length
-    ? cfMats.map((m,i)=>'<div class="matrow"><input value="'+m.replace(/"/g,'&quot;')+'" readonly><button type="button" data-i="'+i+'">×</button></div>').join("")
-    : '<div class="efnote" style="border:0;padding:0;margin:2px 0">No materials yet - add at least one.</div>';
-  c.querySelectorAll('button').forEach(b=>b.addEventListener("click",()=>{cfMats.splice(+b.dataset.i,1);renderCfMats();}));
-}
-renderCfMats();
-document.getElementById("cf_addmat").addEventListener("click",()=>{
-  const v=document.getElementById("cf_newmat").value.trim();
-  if(v){cfMats.push(v);document.getElementById("cf_newmat").value="";renderCfMats();}
-});
-document.getElementById("addToggle").addEventListener("click",()=>form.classList.toggle("open"));
-document.getElementById("cf_cancel").addEventListener("click",()=>form.classList.remove("open"));
-document.getElementById("cf_save").addEventListener("click",()=>{
-  SUPPLIERS.push({
-    id:"CUSTOM-"+Date.now(),
-    name:document.getElementById("cf_name").value.trim()||"Conceptual supplier",
-    custom:true, process:procSel.value,
-    location:document.getElementById("cf_loc").value.trim()||"23.0218,113.1219",
-    energy_kwh_kg:parseFloat(document.getElementById("cf_energy").value)||3.0,
-    materials:cfMats.length?cfMats.slice():["Conceptual material, conventional"]
-  });
-  cfMats=[];renderCfMats();form.classList.remove("open");
-  document.getElementById("cf_name").value="";document.getElementById("cf_energy").value="";
-  renderRoster();renderChain();renderScatter();
-});
-document.getElementById("resetBtn").addEventListener("click",()=>{
-  resetScenarioToBaseline();
-  document.getElementById("volSlider").value=scenarioUnits;
-  updateVolReadout();
-  renderAll();
-});
-
-renderProductSelect();renderRoster();renderAll();
-</script>
 <div class="labs-disclaimer-overlay" role="dialog" aria-modal="true" aria-labelledby="labsDisclaimerTitle">
   <div class="labs-disclaimer-card">
     <svg class="labs-disclaimer-mark" viewBox="0 0 259 259" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -666,5 +372,578 @@ renderProductSelect();renderRoster();renderAll();
     </div>
   </div>
 </div>
+
+<script>
+const PROC_LABEL={
+  filament_extrusion:"Filament extrusion",spinning:"Yarn spinning",
+  dyeing:"Fabric dyeing",knitting:"Circular knitting"
+};
+function resolveFactor(process,mat){
+  const n=mat.toLowerCase();
+  const base={filament_extrusion:5.0,spinning:4.2,dyeing:2.6,knitting:1.7}[process]||3.0;
+  let m=0.9;
+  if(n.includes("recycl"))m=0.6;
+  else if(n.includes("organic"))m=0.78;
+  else if(n.includes("low-impact")||n.includes("low impact"))m=0.72;
+  else if(n.includes("conventional")||n.includes("standard"))m=1.0;
+  return+(base*m).toFixed(2);
+}
+function gridFactor(loc){
+  const lat=parseFloat(loc.split(",")[0]);
+  return lat>35?1.15:lat>28?1.05:lat>20?0.95:0.85;
+}
+const KWH_CO2E=0.45,FREIGHT=0.000018;
+
+let SUPPLIERS=[
+  {id:"SUP-CN-014",name:"Jiangsu Hengtai",custom:false,process:"filament_extrusion",location:"31.2304,121.4737",energy_kwh_kg:9.8,materials:["Polyester filament, conventional","Polyester filament, recycled"]},
+  {id:"SUP-CN-009",name:"Zhejiang Rongsheng",custom:false,process:"filament_extrusion",location:"30.0123,120.1551",energy_kwh_kg:7.4,materials:["Polyester filament, recycled","Polyester filament, conventional"]},
+  {id:"SUP-IN-005",name:"Reliance Textiles",custom:false,process:"filament_extrusion",location:"22.3072,73.1812",energy_kwh_kg:8.6,materials:["Polyester filament, conventional","Polyester filament, recycled"]},
+  {id:"SUP-PK-007",name:"Nishat Mills",custom:false,process:"spinning",location:"31.5204,74.3587",energy_kwh_kg:6.1,materials:["Cotton yarn, conventional","Cotton yarn, organic"]},
+  {id:"SUP-IN-031",name:"Vardhman Spinning",custom:false,process:"spinning",location:"30.9010,75.8573",energy_kwh_kg:4.9,materials:["Cotton yarn, conventional","Cotton yarn, organic"]},
+  {id:"SUP-CN-018",name:"Weiqiao Textile",custom:false,process:"spinning",location:"37.3829,118.0150",energy_kwh_kg:5.8,materials:["Cotton yarn, conventional"]},
+  {id:"SUP-BD-003",name:"Dhaka Dye House",custom:false,process:"dyeing",location:"23.8103,90.4125",energy_kwh_kg:3.6,materials:["Reactive dye, standard","Low-impact dye"]},
+  {id:"SUP-VN-011",name:"Saigon Finishing",custom:false,process:"dyeing",location:"10.8231,106.6297",energy_kwh_kg:2.8,materials:["Low-impact dye","Reactive dye, standard"]},
+  {id:"SUP-CN-027",name:"Foshan Colourtech",custom:false,process:"dyeing",location:"23.0218,113.1219",energy_kwh_kg:2.2,materials:["Low-impact dye","Reactive dye, standard"]},
+  {id:"SUP-VN-005",name:"Hanoi Knit Co",custom:false,process:"knitting",location:"21.0278,105.8342",energy_kwh_kg:2.2,materials:["Circular knit, standard"]},
+  {id:"SUP-BD-014",name:"Chittagong Knitwear",custom:false,process:"knitting",location:"22.3569,91.7832",energy_kwh_kg:3.0,materials:["Circular knit, standard"]},
+  {id:"SUP-CN-033",name:"Dongguan Knitting",custom:false,process:"knitting",location:"23.0489,113.7447",energy_kwh_kg:3.4,materials:["Circular knit, standard"]}
+];
+
+function mkChain(s1,m1,s2,m2,s3,m3,s4,m4,ms){
+  const[a,b,c,d]=ms;
+  return[
+    {step:1,process:"filament_extrusion",mass_kg:a,baseSupplier:s1,baseMaterial:m1},
+    {step:2,process:"spinning",mass_kg:b,baseSupplier:s2,baseMaterial:m2},
+    {step:3,process:"dyeing",mass_kg:c,baseSupplier:s3,baseMaterial:m3},
+    {step:4,process:"knitting",mass_kg:d,baseSupplier:s4,baseMaterial:m4}
+  ];
+}
+
+/* CATALOGUE - real products + saved variants */
+const REAL_PRODUCTS={
+  bp_std:{id:"bp_std",name:"Goldstar backpack",kg_per_unit:0.42,units:18000,materials:["Conventional polyester","Cotton"],
+    chain:mkChain("SUP-CN-014","Polyester filament, conventional","SUP-PK-007","Cotton yarn, conventional","SUP-BD-003","Reactive dye, standard","SUP-VN-005","Circular knit, standard",[8200,7900,9100,6700])},
+  bp_prem:{id:"bp_prem",name:"Goldstar premium backpack",kg_per_unit:0.58,units:9000,materials:["Recycled polyester","Organic cotton"],
+    chain:mkChain("SUP-CN-009","Polyester filament, recycled","SUP-IN-031","Cotton yarn, organic","SUP-VN-011","Low-impact dye","SUP-VN-005","Circular knit, standard",[5600,5400,6200,4900])},
+  dp_lite:{id:"dp_lite",name:"Goldstar daypack lite",kg_per_unit:0.31,units:24000,materials:["Conventional polyester"],
+    chain:mkChain("SUP-CN-014","Polyester filament, conventional","SUP-PK-007","Cotton yarn, conventional","SUP-BD-003","Reactive dye, standard","SUP-BD-014","Circular knit, standard",[6800,6500,7200,5800])},
+  duf_trail:{id:"duf_trail",name:"Trail duffel 40L",kg_per_unit:0.74,units:12000,materials:["Recycled polyester","Nylon"],
+    chain:mkChain("SUP-CN-009","Polyester filament, recycled","SUP-PK-007","Cotton yarn, conventional","SUP-BD-003","Reactive dye, standard","SUP-VN-005","Circular knit, standard",[9400,9100,10200,8700])},
+  tote_org:{id:"tote_org",name:"Organic tote bag",kg_per_unit:0.19,units:35000,materials:["Organic cotton"],
+    chain:mkChain("SUP-CN-009","Polyester filament, recycled","SUP-IN-031","Cotton yarn, organic","SUP-VN-011","Low-impact dye","SUP-VN-005","Circular knit, standard",[2800,3100,3400,2600])},
+  tote_std:{id:"tote_std",name:"Canvas tote bag",kg_per_unit:0.22,units:42000,materials:["Conventional polyester","Cotton"],
+    chain:mkChain("SUP-CN-014","Polyester filament, conventional","SUP-CN-018","Cotton yarn, conventional","SUP-BD-003","Reactive dye, standard","SUP-VN-005","Circular knit, standard",[3200,3500,3900,3100])},
+  jkt_rec:{id:"jkt_rec",name:"Recycled shell jacket",kg_per_unit:0.36,units:8500,materials:["Recycled polyester"],
+    chain:mkChain("SUP-CN-009","Polyester filament, recycled","SUP-IN-031","Cotton yarn, organic","SUP-CN-027","Low-impact dye","SUP-VN-005","Circular knit, standard",[6200,5900,6800,5400])},
+  jkt_std:{id:"jkt_std",name:"Windbreaker jacket",kg_per_unit:0.41,units:7200,materials:["Conventional polyester","Nylon"],
+    chain:mkChain("SUP-IN-005","Polyester filament, conventional","SUP-PK-007","Cotton yarn, conventional","SUP-BD-003","Reactive dye, standard","SUP-CN-033","Circular knit, standard",[7100,6800,7800,6400])},
+  hat_rec:{id:"hat_rec",name:"5-panel cap (recycled)",kg_per_unit:0.09,units:52000,materials:["Recycled polyester"],
+    chain:mkChain("SUP-CN-009","Polyester filament, recycled","SUP-IN-031","Cotton yarn, organic","SUP-VN-011","Low-impact dye","SUP-BD-014","Circular knit, standard",[1800,1700,1900,1600])},
+  hat_std:{id:"hat_std",name:"5-panel cap (conventional)",kg_per_unit:0.09,units:48000,materials:["Conventional polyester","Cotton"],
+    chain:mkChain("SUP-CN-014","Polyester filament, conventional","SUP-CN-018","Cotton yarn, conventional","SUP-BD-003","Reactive dye, standard","SUP-BD-014","Circular knit, standard",[1900,1800,2000,1700])},
+  bp_kids:{id:"bp_kids",name:"Kids backpack",kg_per_unit:0.28,units:15000,materials:["Conventional polyester","Cotton"],
+    chain:mkChain("SUP-IN-005","Polyester filament, conventional","SUP-PK-007","Cotton yarn, conventional","SUP-BD-003","Reactive dye, standard","SUP-VN-005","Circular knit, standard",[5400,5200,5800,4900])},
+  bp_rec_kids:{id:"bp_rec_kids",name:"Kids backpack (recycled)",kg_per_unit:0.28,units:11000,materials:["Recycled polyester","Organic cotton"],
+    chain:mkChain("SUP-CN-009","Polyester filament, recycled","SUP-IN-031","Cotton yarn, organic","SUP-VN-011","Low-impact dye","SUP-VN-005","Circular knit, standard",[4800,4600,5200,4400])}
+};
+
+/* variant rows saved from the modelling panel */
+let variantCounter={};
+let VARIANTS={};   /* id -> variant object */
+
+/* scenario state per real product */
+const scenarioMap={};
+Object.keys(REAL_PRODUCTS).forEach(id=>{
+  scenarioMap[id]={};
+  REAL_PRODUCTS[id].chain.forEach(s=>{scenarioMap[id][s.step]={supplier:s.baseSupplier,material:s.baseMaterial};});
+});
+
+const fmt=n=>Math.round(n).toLocaleString("en-GB");
+const fmt2=n=>n.toFixed(2);
+const supById=id=>SUPPLIERS.find(s=>s.id===id);
+
+function distKm(a,b){
+  const[la1,lo1]=a.split(",").map(Number),[la2,lo2]=b.split(",").map(Number);
+  const R=6371,dLa=(la2-la1)*Math.PI/180,dLo=(lo2-lo1)*Math.PI/180;
+  const x=Math.sin(dLa/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dLo/2)**2;
+  return 2*R*Math.asin(Math.sqrt(x));
+}
+function stageIntensity(st,supId,mat){
+  const s=supById(supId);
+  return resolveFactor(st.process,mat)+s.energy_kwh_kg*KWH_CO2E*gridFactor(s.location);
+}
+const stageEm=(st,supId,mat)=>st.mass_kg*stageIntensity(st,supId,mat);
+function legEm(st,fromId,toId){
+  const km=distKm(supById(fromId).location,supById(toId).location);
+  return{km,em:st.mass_kg*km*FREIGHT};
+}
+function chainTotalsFromSteps(product,steps){
+  /* steps: array of {supplier,material} indexed by step number */
+  let proc=0,trans=0;
+  for(let i=0;i<product.chain.length;i++){
+    const st=product.chain[i];
+    const pick=steps[st.step];
+    proc+=stageEm(st,pick.supplier,pick.material);
+    if(i<product.chain.length-1){
+      const nx=product.chain[i+1];
+      trans+=legEm(nx,pick.supplier,steps[nx.step].supplier).em;
+    }
+  }
+  return{proc,trans,total:proc+trans};
+}
+function baselineSteps(product){
+  const s={};
+  product.chain.forEach(st=>{s[st.step]={supplier:st.baseSupplier,material:st.baseMaterial};});
+  return s;
+}
+function isModelled(productId){
+  const p=REAL_PRODUCTS[productId];
+  return p.chain.some(st=>{
+    const sc=scenarioMap[productId][st.step];
+    return sc.supplier!==st.baseSupplier||sc.material!==st.baseMaterial;
+  });
+}
+function effectivePu(productId){
+  const p=REAL_PRODUCTS[productId];
+  const mod=isModelled(productId);
+  const steps=mod?scenarioMap[productId]:baselineSteps(p);
+  return chainTotalsFromSteps(p,steps).total/p.units;
+}
+function variantPu(variant){
+  return chainTotalsFromSteps(variant.sourceProduct,variant.steps).total/variant.sourceProduct.units;
+}
+
+/* catalogue entry = real product or variant */
+function allCatalogueEntries(){
+  const real=Object.values(REAL_PRODUCTS).map(p=>({type:"real",id:p.id,p}));
+  const vars=Object.values(VARIANTS).map(v=>({type:"variant",id:v.id,v}));
+  return [...real,...vars];
+}
+function entryPu(entry){
+  return entry.type==="real"?effectivePu(entry.id):variantPu(entry.v);
+}
+function entryMaterials(entry){
+  return entry.type==="real"?entry.p.materials:entry.v.materials;
+}
+function entryName(entry){
+  return entry.type==="real"?entry.p.name:entry.v.name;
+}
+
+/* navigation */
+let currentView="catalogue",activeProductId="bp_std";
+let compareSet=new Set(),activeFilters=new Set(),sortDir=1;
+const VIEW_IDS={catalogue:"viewCatalogue",detail:"viewDetail",compare:"viewCompare"};
+function showView(v){
+  document.querySelectorAll(".view").forEach(el=>el.classList.remove("active"));
+  const el=document.getElementById(VIEW_IDS[v]);
+  if(el)el.classList.add("active");
+  const isCat=v==="catalogue";
+  document.getElementById("backBtn").style.display=isCat?"none":"";
+  document.getElementById("topbarTitle").style.display=isCat?"none":"";
+  currentView=v;
+}
+function goBack(){showView("catalogue");renderCatalogue();}
+function goDetail(id){
+  activeProductId=id;showView("detail");
+  document.getElementById("detailCrumb").textContent=REAL_PRODUCTS[id].name;
+  renderDetail();
+}
+function goCompare(){if(compareSet.size>=2){showView("compare");renderCompare();}}
+function clearCompare(){compareSet.clear();renderCatalogue();}
+
+/* catalogue */
+const FILTER_MAP={
+  recycled:m=>m.toLowerCase().includes("recycled"),
+  conventional:m=>m.toLowerCase().includes("conventional"),
+  organic:m=>m.toLowerCase().includes("organic"),
+  cotton:m=>m.toLowerCase().includes("cotton"),
+  nylon:m=>m.toLowerCase().includes("nylon")
+};
+function toggleFilter(f){
+  if(activeFilters.has(f))activeFilters.delete(f);else activeFilters.add(f);
+  ["recycled","conventional","organic","cotton","nylon"].forEach(k=>{
+    document.getElementById("f"+k.charAt(0).toUpperCase()+k.slice(1)).className="chip"+(activeFilters.has(k)?" set":"");
+  });
+  renderCatalogue();
+}
+function sortBy(){sortDir*=-1;document.getElementById("sortCo2").textContent="kg CO\u2082e / unit "+(sortDir<0?"\u2193":"\u2191");renderCatalogue();}
+function toggleCompare(id){
+  if(compareSet.has(id))compareSet.delete(id);
+  else if(compareSet.size<5)compareSet.add(id);
+  renderCatalogue();
+}
+function deleteVariant(id){
+  delete VARIANTS[id];
+  compareSet.delete(id);
+  renderCatalogue();
+}
+
+function renderCatalogue(){
+  let entries=allCatalogueEntries().filter(e=>{
+    if(activeFilters.size===0)return true;
+    const mats=entryMaterials(e);
+    for(const f of activeFilters){if(mats.some(m=>FILTER_MAP[f](m)))return true;}
+    return false;
+  });
+  entries.sort((a,b)=>sortDir*(entryPu(a)-entryPu(b)));
+
+  const bar=document.getElementById("compareBar");
+  bar.className="compare-bar"+(compareSet.size>0?"":" hidden");
+  document.getElementById("compareCount").textContent=
+    compareSet.size+" selected (max 5) - variants flagged as modelled";
+  document.getElementById("compareBtn").className=
+    "tbtn"+(compareSet.size>=2?" active":"");
+
+  const tbody=document.getElementById("catBody");
+  tbody.innerHTML="";
+  entries.forEach(e=>{
+    const pu=entryPu(e);
+    const sel=compareSet.has(e.id);
+    const isVariant=e.type==="variant";
+    const name=entryName(e);
+    const mats=entryMaterials(e);
+    const row=document.createElement("div");
+    row.className="cat-row"+(sel?" sel":"");
+    row.onclick=()=>goDetail(isVariant?e.v.sourceProductId:e.id);
+    const nameTag=isVariant
+      ?'<span class="variant-tag">modelled</span>'
+      :(isModelled(e.id)?'<span class="modelled-tag">modelled</span>':'');
+    const meta=isVariant
+      ?'Variant of '+e.v.sourceProduct.name
+      :'Goldstar';
+    const delBtn=isVariant
+      ?'<button class="del-btn" onclick="event.stopPropagation();deleteVariant(\''+e.id+'\')" title="Remove variant">\u00d7</button>'
+      :'';
+    row.innerHTML=
+      '<div class="cb-col" onclick="event.stopPropagation()">'+
+        '<div class="cb'+(sel?' on':'')+'" onclick="toggleCompare(\''+e.id+'\')" title="Select to compare"></div>'+
+      '</div>'+
+      '<div class="product-col">'+
+        '<div class="pname">'+name+nameTag+'</div>'+
+        '<div class="pmeta">'+
+          (isVariant?meta:mats.map(m=>'<span class="mtag">'+m+'</span>').join(""))+
+        '</div>'+
+      '</div>'+
+      '<div class="num-col">'+
+        '<span class="num-big'+(isVariant?' muted':'')+'">'+fmt2(pu)+'</span>'+
+        '<span class="num-unit">kg CO\u2082e</span>'+
+      '</div>'+
+      '<div class="del-col">'+delBtn+'</div>';
+    tbody.appendChild(row);
+  });
+
+  const totalEntries=allCatalogueEntries().length;
+  const varCount=Object.keys(VARIANTS).length;
+  const varSuffix=varCount>1?"s":"";
+  const varNote=varCount>0?" (inc. "+varCount+" modelled variant"+varSuffix+")":"";
+  const filterNote=activeFilters.size>0?" \u00b7 filter active":"";
+  document.getElementById("catNote").textContent=
+    entries.length+" of "+totalEntries+" entries"+varNote+filterNote+" \u00b7 sorted by kg CO\u2082e / unit";
+}
+
+/* detail */
+let panelOpen=false;
+function openPanel(){
+  panelOpen=true;
+  document.getElementById("detailLayout").classList.remove("panel-closed");
+  document.getElementById("detailPanel").classList.remove("closed");
+  renderPanel();
+}
+function closePanel(){
+  panelOpen=false;
+  document.getElementById("detailLayout").classList.add("panel-closed");
+  document.getElementById("detailPanel").classList.add("closed");
+}
+function resetScenario(){
+  const p=REAL_PRODUCTS[activeProductId];
+  p.chain.forEach(s=>{scenarioMap[p.id][s.step]={supplier:s.baseSupplier,material:s.baseMaterial};});
+  document.getElementById("savedNote").className="saved-note";
+  renderPanel();renderDetail();
+}
+
+function saveVariant(){
+  const p=REAL_PRODUCTS[activeProductId];
+  const sc=scenarioMap[p.id];
+  /* snapshot the current scenario steps */
+  const steps={};
+  p.chain.forEach(st=>{steps[st.step]={supplier:sc[st.step].supplier,material:sc[st.step].material};});
+  /* derive materials list from scenario */
+  const mats=[...new Set(p.chain.map(st=>steps[st.step].material.split(",")[0].trim()))];
+  /* numbering */
+  variantCounter[p.id]=(variantCounter[p.id]||0)+1;
+  const n=variantCounter[p.id];
+  const vid="VAR-"+p.id+"-"+n;
+  VARIANTS[vid]={
+    id:vid,
+    name:p.name+" - modelled"+(n>1?" "+n:""),
+    sourceProductId:p.id,
+    sourceProduct:p,
+    steps,
+    materials:mats,
+    kg_per_unit:p.kg_per_unit,
+    units:p.units
+  };
+  /* show confirmation */
+  const note=document.getElementById("savedNote");
+  note.textContent="Saved as '"+VARIANTS[vid].name+"' in catalogue.";
+  note.className="saved-note visible";
+}
+
+function renderDetail(){
+  const p=REAL_PRODUCTS[activeProductId];
+  const sc=scenarioMap[p.id];
+  const mod=isModelled(p.id);
+  const pu=effectivePu(p.id);
+  let html=
+    '<div class="hero">'+
+      '<div class="hero-label">'+p.name+(mod?' <span style="font-size:10px;border:1px solid var(--line);padding:1px 5px;border-radius:3px">adjusted</span>':'')+'</div>'+
+      '<span class="hero-num">'+fmt2(pu)+'</span>'+
+      '<span class="hero-unit">kg CO\u2082e / unit</span>'+
+    '</div>';
+  p.chain.forEach((st,i)=>{
+    const supId=mod?sc[st.step].supplier:st.baseSupplier;
+    const mat=mod?sc[st.step].material:st.baseMaterial;
+    const em=stageEm(st,supId,mat)/p.units;
+    html+=
+      '<div class="chain-stage">'+
+        '<div class="stage-head">'+
+          '<span><span class="stage-step">Step '+st.step+'</span> &nbsp; <span class="stage-proc">'+PROC_LABEL[st.process]+'</span></span>'+
+          '<span class="stage-em">'+em.toFixed(3)+' kg CO\u2082e / unit</span>'+
+        '</div>'+
+        '<div class="stage-body">'+
+          '<span>'+supById(supId).name+' \u00b7 '+mat+'</span>'+
+          '<span style="color:var(--muted)">'+supById(supId).location.split(",")[0].trim()+'°</span>'+
+        '</div>'+
+      '</div>';
+    if(i<p.chain.length-1){
+      const lg=legEm(p.chain[i+1],supId,mod?sc[p.chain[i+1].step].supplier:p.chain[i+1].baseSupplier);
+      html+=
+        '<div class="leg">'+
+          '<span>↓ transport</span><span class="km">'+fmt(lg.km)+' km</span>'+
+          '<span class="lem">'+(lg.em/p.units).toFixed(4)+' kg CO\u2082e / unit</span>'+
+        '</div>';
+    }
+  });
+  html+=
+    '<div class="detail-cta-row">'+
+      '<button class="tbtn active" onclick="openPanel()">Adjust supply chain →</button>'+
+    '</div>';
+  html+=
+    '<div class="scatter-wrap">'+
+      '<div class="scatter-head"><span>Stage emissions</span>'+
+        '<span class="scatter-legend">hollow = baseline \u00b7 filled = adjusted</span></div>'+
+      '<div class="scatter-body"><svg id="scatter" viewBox="0 0 660 220" preserveAspectRatio="xMidYMid meet"></svg></div>'+
+    '</div>';
+  document.getElementById("detailMain").innerHTML=html;
+  renderScatter();
+}
+
+function renderScatter(){
+  const svgEl=document.getElementById("scatter");
+  if(!svgEl)return;
+  const p=REAL_PRODUCTS[activeProductId];
+  const sc=scenarioMap[p.id];
+  const W=660,H=220,P2={l:50,r:16,t:18,b:40};
+  const rows=p.chain.map(st=>({
+    label:"S"+st.step,x:st.mass_kg,
+    yb:stageIntensity(st,st.baseSupplier,st.baseMaterial),
+    ys:stageIntensity(st,sc[st.step].supplier,sc[st.step].material),
+    moved:sc[st.step].supplier!==st.baseSupplier||sc[st.step].material!==st.baseMaterial
+  }));
+  const allx=rows.map(r=>r.x),ally=rows.flatMap(r=>[r.yb,r.ys]);
+  const xmin=Math.min(...allx)*0.88,xmax=Math.max(...allx)*1.06;
+  const ymin=Math.min(...ally)*0.82,ymax=Math.max(...ally)*1.1;
+  const sx=v=>P2.l+(v-xmin)/(xmax-xmin)*(W-P2.l-P2.r);
+  const sy=v=>H-P2.b-(v-ymin)/(ymax-ymin)*(H-P2.t-P2.b);
+  const mx=sx((xmin+xmax)/2),my=sy((ymin+ymax)/2);
+  let g=
+    '<rect class="quad" x="'+mx+'" y="'+P2.t+'" width="'+(W-P2.r-mx)+'" height="'+(my-P2.t)+'" rx="3"/>'+
+    '<line class="axis" x1="'+P2.l+'" y1="'+(H-P2.b)+'" x2="'+(W-P2.r)+'" y2="'+(H-P2.b)+'"/>'+
+    '<line class="axis" x1="'+P2.l+'" y1="'+P2.t+'" x2="'+P2.l+'" y2="'+(H-P2.b)+'"/>'+
+    '<line class="grid" x1="'+mx+'" y1="'+P2.t+'" x2="'+mx+'" y2="'+(H-P2.b)+'"/>'+
+    '<line class="grid" x1="'+P2.l+'" y1="'+my+'" x2="'+(W-P2.r)+'" y2="'+my+'"/>'+
+    '<text x="'+((P2.l+W-P2.r)/2)+'" y="'+(H-8)+'" text-anchor="middle">Material through stage (kg) →</text>'+
+    '<text transform="rotate(-90)" x="'+(-(P2.t+H-P2.b)/2)+'" y="14" text-anchor="middle">↑ kg CO\u2082e / kg</text>';
+  rows.forEach(r=>{
+    if(r.moved){
+      g+='<line class="movelink" x1="'+sx(r.x)+'" y1="'+sy(r.yb)+'" x2="'+sx(r.x)+'" y2="'+sy(r.ys)+'"/>';
+      g+='<circle class="scendot" cx="'+sx(r.x)+'" cy="'+sy(r.ys)+'" r="6"/>';
+    }
+    g+='<circle class="basedot" cx="'+sx(r.x)+'" cy="'+sy(r.yb)+'" r="6"/>';
+    const ly=r.moved?sy(Math.min(r.yb,r.ys)):sy(r.yb);
+    g+='<text class="dlabel" x="'+(sx(r.x)+9)+'" y="'+(ly+4)+'">'+r.label+'</text>';
+  });
+  svgEl.innerHTML=g;
+}
+
+function renderPanel(){
+  const p=REAL_PRODUCTS[activeProductId];
+  const sc=scenarioMap[p.id];
+  let matHtml='<div class="panel-section-label">Material</div>';
+  p.chain.forEach(st=>{
+    const pick=sc[st.step];
+    const opts=supById(pick.supplier).materials.map(m=>
+      '<option value="'+m.replace(/"/g,'&quot;')+'"'+(m===pick.material?' selected':'')+'>'+m+'</option>').join("");
+    matHtml+='<div class="model-stage"><div class="model-stage-name">'+PROC_LABEL[st.process]+'</div>'+
+      '<select class="model-sel" data-step="'+st.step+'" data-kind="material">'+opts+'</select></div>';
+  });
+  document.getElementById("panelMaterials").innerHTML=matHtml;
+  let supHtml='<div class="panel-section-label">Supplier</div>';
+  p.chain.forEach(st=>{
+    const pick=sc[st.step];
+    const opts=SUPPLIERS.filter(s=>s.process===st.process).map(s=>
+      '<option value="'+s.id+'"'+(s.id===pick.supplier?' selected':'')+'>'+s.name+(s.custom?' (conceptual)':'')+'</option>').join("");
+    supHtml+='<div class="model-stage"><div class="model-stage-name">'+PROC_LABEL[st.process]+'</div>'+
+      '<select class="model-sel" data-step="'+st.step+'" data-kind="supplier">'+opts+'</select></div>';
+  });
+  document.getElementById("panelSuppliers").innerHTML=supHtml;
+  document.querySelectorAll(".model-sel").forEach(sel=>sel.addEventListener("change",e=>{
+    const step=+e.target.dataset.step,kind=e.target.dataset.kind;
+    if(kind==="supplier"){
+      scenarioMap[activeProductId][step].supplier=e.target.value;
+      scenarioMap[activeProductId][step].material=supById(e.target.value).materials[0];
+    } else {
+      scenarioMap[activeProductId][step].material=e.target.value;
+    }
+    renderPanelDelta();renderScatter();renderDetail();
+  }));
+  renderPanelDelta();renderRoster();
+}
+
+function renderPanelDelta(){
+  const p=REAL_PRODUCTS[activeProductId];
+  const mod=isModelled(p.id);
+  const baseSteps=baselineSteps(p);
+  const baseTotal=chainTotalsFromSteps(p,baseSteps).total;
+  const scenTotal=chainTotalsFromSteps(p,scenarioMap[p.id]).total;
+  const basePu=baseTotal/p.units,scenPu=scenTotal/p.units;
+  const ab=scenTotal-baseTotal,pct=baseTotal?ab/baseTotal*100:0;
+  const dh=document.getElementById("deltaHero");
+  const saveBtn=document.getElementById("saveBtn");
+  const savedNote=document.getElementById("savedNote");
+  if(!mod){
+    dh.innerHTML='<div class="delta-empty"><b>No changes yet</b>Swap a material or supplier above to see the impact.</div>';
+    saveBtn.className="save-btn hidden";
+    savedNote.className="saved-note";
+  } else {
+    dh.innerHTML=
+      '<div class="delta-row"><span style="color:var(--muted)">Baseline</span><span>'+fmt2(basePu)+' kg CO\u2082e / unit</span></div>'+
+      '<div class="delta-row"><span style="color:var(--muted)">Adjusted</span><span>'+fmt2(scenPu)+' kg CO\u2082e / unit</span></div>'+
+      '<div class="delta-pct">'+(pct>0?"+":"")+pct.toFixed(1)+'%</div>'+
+      '<div class="meter"><span style="width:'+Math.min(Math.abs(pct)*2,100)+'%"></span></div>'+
+      '<div class="delta-word">'+(ab<0?"Lower than baseline.":"Higher than baseline.")+'</div>';
+    saveBtn.className="save-btn";
+  }
+}
+
+/* comparison */
+function renderCompare(){
+  const ids=[...compareSet];
+  const entries=ids.map(id=>{
+    const isVariant=!!VARIANTS[id];
+    const pu=isVariant?variantPu(VARIANTS[id]):effectivePu(id);
+    const name=isVariant?VARIANTS[id].name:REAL_PRODUCTS[id].name;
+    const mats=isVariant?VARIANTS[id].materials:REAL_PRODUCTS[id].materials;
+    const sourceId=isVariant?VARIANTS[id].sourceProductId:id;
+    return{id,name,pu,isVariant,mats,sourceId};
+  });
+  entries.sort((a,b)=>a.pu-b.pu);
+
+  const anyVariant=entries.some(e=>e.isVariant);
+  document.getElementById("compChartSub").textContent=anyVariant?"dashed = modelled variant":"all real products";
+
+  /* cards */
+  const grid=document.getElementById("compGrid");
+  grid.innerHTML="";
+  entries.forEach(e=>{
+    const card=document.createElement("div");
+    card.className="comp-card"+(e.isVariant?" variant-card":"");
+    const p=REAL_PRODUCTS[e.sourceId];
+    const topStage=p.chain.reduce((best,st)=>{
+      const em=stageEm(st,st.baseSupplier,st.baseMaterial)/p.units;
+      return em>best.em?{em,name:PROC_LABEL[st.process]}:best;
+    },{em:0,name:""});
+    card.innerHTML=
+      '<div class="comp-name">'+e.name+(e.isVariant?'<span class="variant-tag" style="margin-left:6px">modelled</span>':'')+'</div>'+
+      '<div class="comp-meta">'+(e.isVariant?'Variant of '+p.name:'Goldstar')+'</div>'+
+      '<div class="comp-num">'+fmt2(e.pu)+'</div>'+
+      '<div class="comp-unit">kg CO\u2082e / unit</div>'+
+      '<hr class="comp-divider">'+
+      '<div class="comp-row"><span class="comp-lbl">Highest-impact stage</span><span>'+topStage.name+'</span></div>'+
+      '<div class="comp-row"><span class="comp-lbl">Materials</span><span>'+e.mats.join(", ")+'</span></div>'+
+      '<div class="comp-row"><span class="comp-lbl">kg per unit</span><span>'+p.kg_per_unit+'</span></div>'+
+      '<div style="margin-top:10px"><button class="tbtn" onclick="goDetail(\''+e.sourceId+'\')">More details →</button></div>';
+    grid.appendChild(card);
+  });
+
+  /* bar chart */
+  const maxPu=Math.max(...entries.map(e=>e.pu));
+  const rowH=38,labelW=200,barAreaW=420,padR=60,chartH=entries.length*rowH+20;
+  const svgEl=document.getElementById("compChart");
+  svgEl.setAttribute("viewBox","0 0 "+(labelW+barAreaW+padR)+" "+chartH);
+  svgEl.style.height=chartH+"px";
+  let g='<line class="axis" x1="'+labelW+'" y1="0" x2="'+labelW+'" y2="'+(chartH-16)+'"/>';
+  entries.forEach((e,i)=>{
+    const y=i*rowH+10;
+    const barW=Math.max(2,e.pu/maxPu*barAreaW);
+    const fillClass=e.isVariant?"bar-fill variant":"bar-fill";
+    const nameShort=e.name.length>28?e.name.slice(0,26)+"…":e.name;
+    g+=
+      '<text x="'+(labelW-8)+'" y="'+(y+rowH/2+4)+'" text-anchor="end" style="font-size:11px">'+nameShort+'</text>'+
+      '<rect class="bar-bg" x="'+labelW+'" y="'+(y+6)+'" width="'+barAreaW+'" height="'+(rowH-14)+'" rx="2"/>'+
+      '<rect class="'+fillClass+'" x="'+labelW+'" y="'+(y+6)+'" width="'+barW+'" height="'+(rowH-14)+'" rx="2"/>'+
+      '<text class="bar-val" x="'+(labelW+barW+6)+'" y="'+(y+rowH/2+4)+'">'+fmt2(e.pu)+'</text>';
+  });
+  g+='<text x="'+(labelW+barAreaW/2)+'" y="'+(chartH-2)+'" text-anchor="middle" style="font-size:10px;fill:var(--muted)">kg CO\u2082e / unit →</text>';
+  svgEl.innerHTML=g;
+}
+
+/* roster + form */
+function renderRoster(){
+  const L=document.getElementById("rosterList");if(!L)return;
+  L.innerHTML="";
+  SUPPLIERS.filter(s=>s.custom).forEach(s=>{
+    const d=document.createElement("div");
+    d.className="roster-item custom";
+    d.innerHTML='<span class="roster-tag">Conceptual</span><div class="rnm">'+s.name+'</div>'+
+      '<div class="rmt">'+PROC_LABEL[s.process]+' \u00b7 '+s.materials.length+' material'+(s.materials.length>1?'s':'')+'</div>';
+    L.appendChild(d);
+  });
+}
+const form=document.getElementById("custForm"),procSel=document.getElementById("cf_proc");
+Object.keys(PROC_LABEL).forEach(k=>{const o=document.createElement("option");o.value=k;o.textContent=PROC_LABEL[k];procSel.appendChild(o);});
+let cfMats=[];
+function renderCfMats(){
+  const c=document.getElementById("cf_mats");
+  c.innerHTML=cfMats.length
+    ? cfMats.map((m,i)=>'<div class="matrow"><input value="'+m.replace(/"/g,"&quot;")+'" readonly><button type="button" data-i="'+i+'">×</button></div>').join("")
+    : '<div class="efnote" style="border:0;padding:0;margin:2px 0">No materials yet.</div>';
+  c.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{cfMats.splice(+b.dataset.i,1);renderCfMats();}));
+}
+renderCfMats();
+document.getElementById("cf_addmat").addEventListener("click",()=>{
+  const v=document.getElementById("cf_newmat").value.trim();
+  if(v){cfMats.push(v);document.getElementById("cf_newmat").value="";renderCfMats();}
+});
+document.getElementById("addToggle").addEventListener("click",()=>form.classList.toggle("open"));
+document.getElementById("cf_cancel").addEventListener("click",()=>form.classList.remove("open"));
+document.getElementById("cf_save").addEventListener("click",()=>{
+  SUPPLIERS.push({
+    id:"CUSTOM-"+Date.now(),name:document.getElementById("cf_name").value.trim()||"Conceptual supplier",
+    custom:true,process:procSel.value,
+    location:document.getElementById("cf_loc").value.trim()||"23.0218,113.1219",
+    energy_kwh_kg:parseFloat(document.getElementById("cf_energy").value)||3.0,
+    materials:cfMats.length?cfMats.slice():["Conceptual material, conventional"]
+  });
+  cfMats=[];renderCfMats();form.classList.remove("open");
+  document.getElementById("cf_name").value="";document.getElementById("cf_energy").value="";
+  renderRoster();renderPanel();
+});
+
+console.log("Script reached init");
+renderCatalogue();
+console.log("renderCatalogue done, rows:",document.getElementById("catBody").children.length);
+</script>
+<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 </body>
 </html>
