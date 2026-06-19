@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --snow: #F5F5F5;
+  --earth: #290800;
+  --scarlet: #FF3300;
+  --earth-muted: #6B4A40;
+  --border: rgba(41, 8, 0, 0.12);
+  --border-strong: rgba(41, 8, 0, 0.24);
+  --font: 'Inter', 'Söhne', system-ui, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--snow);
+  color: var(--earth);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--snow);
+  color: var(--earth);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

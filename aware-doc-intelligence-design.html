@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWARE™ Document Intelligence</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --snow: #F5F5F5;
+    --earth: #290800;
+    --scarlet: #FF3300;
+    --earth-muted: #6B4A40;
+    --border: rgba(41,8,0,0.12);
+    --border-strong: rgba(41,8,0,0.24);
+    --font: 'Inter', 'Söhne', system-ui, sans-serif;
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--snow);
+    color: var(--earth);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 56px;
+    border-bottom: 0.5px solid var(--border);
+    background: var(--snow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .wordmark {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--earth);
+    text-decoration: none;
+  }
+
+  .wordmark-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .wordmark-divider {
+    width: 1px;
+    height: 14px;
+    background: var(--border-strong);
+  }
+
+  .wordmark-product {
+    font-weight: 400;
+    color: var(--earth-muted);
+    font-size: 13px;
+  }
+
+  nav-links {
+    display: flex;
+    gap: 32px;
+  }
+
+  .nav-link {
+    font-size: 13px;
+    color: var(--earth-muted);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .nav-link:hover { color: var(--earth); }
+
+  .nav-cta {
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--earth);
+    color: var(--snow);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  /* PAGE SWITCHER */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* TAB BAR (for this prototype) */
+  .proto-tabs {
+    display: flex;
+    gap: 0;
+    background: var(--earth);
+    padding: 0 48px;
+  }
+
+  .proto-tab {
+    font-size: 12px;
+    color: rgba(245,245,245,0.5);
+    padding: 8px 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    font-family: var(--font);
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .proto-tab.active {
+    color: var(--snow);
+    border-bottom-color: var(--scarlet);
+  }
+
+  /* ===================== LANDING PAGE ===================== */
+
+  .landing-hero {
+    padding: 96px 48px 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-circle {
+    position: absolute;
+    right: -120px;
+    top: -80px;
+    width: 560px;
+    height: 560px;
+    pointer-events: none;
+    opacity: 0.18;
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--scarlet);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .hero-headline {
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1.08;
+    color: var(--earth);
+    max-width: 800px;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-headline em {
+    font-style: normal;
+    color: var(--scarlet);
+  }
+
+  .hero-body {
+    font-size: 17px;
+    color: var(--earth-muted);
+    max-width: 680px;
+    line-height: 1.65;
+    margin-bottom: 40px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .btn-primary {
+    background: var(--scarlet);
+    color: var(--snow);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: var(--font);
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-secondary {
+    background: none;
+    color: var(--earth);
+    border: 0.5px solid var(--border-strong);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: var(--font);
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover { background: rgba(41,8,0,0.04); }
+
+  /* VALUE PROPS */
+  .value-section {
+    padding: 48px 48px 80px;
+    border-top: 0.5px solid var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--scarlet);
+    margin-bottom: 48px;
+  }
+
+  .value-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+  }
+
+  .value-item {
+    padding: 32px 40px 32px 0;
+    border-right: 0.5px solid var(--border);
+    padding-right: 40px;
+  }
+
+  .value-item:last-child {
+    border-right: none;
+    padding-left: 40px;
+    padding-right: 0;
+  }
+
+  .value-item:nth-child(2) {
+    padding-left: 40px;
+  }
+
+  .value-number {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--scarlet);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .value-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--earth);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .value-body {
+    font-size: 14px;
+    color: var(--earth-muted);
+    line-height: 1.65;
+  }
+
+  /* HOW IT WORKS */
+  .how-section {
+    padding: 80px 48px;
+    border-top: 0.5px solid var(--border);
+    background: var(--earth);
+    color: var(--snow);
+  }
+
+  .how-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .how-section .section-label {
+    color: rgba(245,245,245,0.4);
+  }
+
+  .how-section .section-label-text {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(245,245,245,0.4);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    display: block;
+  }
+
+  .how-headline {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--snow);
+    margin-bottom: 48px;
+    line-height: 1.2;
+  }
+
+  .how-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 32px;
+  }
+
+  .how-step {
+    position: relative;
+  }
+
+  .how-step-num {
+    font-size: 11px;
+    color: rgba(245,245,245,0.3);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .how-step-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--snow);
+    margin-bottom: 8px;
+  }
+
+  .how-step-body {
+    font-size: 13px;
+    color: rgba(245,245,245,0.5);
+    line-height: 1.6;
+  }
+
+  .how-step-connector {
+    position: absolute;
+    top: 6px;
+    right: -16px;
+    color: rgba(245,245,245,0.2);
+    font-size: 12px;
+  }
+
+  /* API REFERENCE */
+  .api-section {
+    padding: 80px 48px;
+    border-top: 0.5px solid var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .api-endpoint {
+    margin-top: 40px;
+    background: var(--earth);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .api-endpoint + .api-endpoint {
+    margin-top: 24px;
+  }
+
+  .api-endpoint-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 24px;
+    border-bottom: 0.5px solid rgba(245,245,245,0.08);
+  }
+
+  .api-method {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #1a1a1a;
+    background: var(--scarlet);
+    padding: 3px 7px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .api-method.get {
+    background: #66CC99;
+    color: #0a2e1a;
+  }
+
+  .api-path {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--snow);
+    font-family: 'Courier New', monospace;
+    flex: 1;
+  }
+
+  .api-desc {
+    font-size: 13px;
+    color: rgba(245,245,245,0.55);
+    line-height: 1.5;
+  }
+
+  .api-endpoint-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .api-params {
+    padding: 20px 24px;
+    border-right: 0.5px solid rgba(245,245,245,0.08);
+  }
+
+  .api-params-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(245,245,245,0.3);
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+
+  .api-param-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 0;
+    border-bottom: 0.5px solid rgba(245,245,245,0.06);
+  }
+
+  .api-param-row:last-child {
+    border-bottom: none;
+  }
+
+  .api-param-name {
+    font-size: 12px;
+    font-family: 'Courier New', monospace;
+    color: #FF9980;
+  }
+
+  .api-param-meta {
+    font-size: 11px;
+    color: rgba(245,245,245,0.3);
+  }
+
+  .api-param-desc {
+    font-size: 12px;
+    color: rgba(245,245,245,0.55);
+    line-height: 1.5;
+    margin-top: 2px;
+  }
+
+  .api-code {
+    padding: 20px 24px;
+  }
+
+  .api-code-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(245,245,245,0.3);
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+
+  .code-block {
+    background: rgba(245,245,245,0.05);
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-size: 12px;
+    font-family: 'Courier New', monospace;
+    color: rgba(245,245,245,0.7);
+    line-height: 1.75;
+    overflow-x: auto;
+  }
+
+  .code-key { color: rgba(245,245,245,0.4); }
+  .code-string { color: #FF9980; }
+  .code-bool-true { color: #66CC99; }
+  .code-bool-false { color: #FF6B6B; }
+  .code-comment { color: rgba(245,245,245,0.22); font-style: italic; }
+  .code-required { color: var(--scarlet); font-size: 10px; vertical-align: middle; }
+
+  /* FOOTER */
+  .landing-footer {
+    padding: 48px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .footer-note {
+    font-size: 13px;
+    color: var(--earth-muted);
+  }
+
+  .footer-cta {
+    font-size: 13px;
+    color: var(--scarlet);
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  /* ===================== DEMO PAGE ===================== */
+
+  .demo-wrap {
+    min-height: calc(100vh - 112px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .demo-header {
+    padding: 32px 48px 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .demo-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,51,0,0.08);
+    color: var(--scarlet);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 0.04em;
+  }
+
+  .demo-pill-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--scarlet);
+  }
+
+  .demo-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--earth);
+    margin-bottom: 6px;
+  }
+
+  .demo-subtitle {
+    font-size: 14px;
+    color: var(--earth-muted);
+    margin-bottom: 32px;
+  }
+
+  /* DEMO MAIN LAYOUT */
+  .demo-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 0;
+    border-top: 0.5px solid var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 48px 48px;
+    padding-top: 32px;
+  }
+
+  /* LEFT: INPUT PANEL */
+  .input-panel {
+    padding-right: 40px;
+    border-right: 0.5px solid var(--border);
+  }
+
+  .panel-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--earth-muted);
+    letter-spacing: 0.02em;
+    margin-bottom: 16px;
+  }
+
+  /* UPLOAD ZONE */
+  .upload-zone {
+    border: 1.5px dashed var(--border-strong);
+    border-radius: 10px;
+    padding: 32px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .upload-zone:hover {
+    border-color: var(--scarlet);
+    background: rgba(255,51,0,0.02);
+  }
+
+  .upload-zone.has-file {
+    border-style: solid;
+    border-color: var(--earth);
+    background: rgba(41,8,0,0.03);
+  }
+
+  .upload-icon {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 12px;
+    color: var(--earth-muted);
+  }
+
+  .upload-main {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--earth);
+    margin-bottom: 4px;
+  }
+
+  .upload-sub {
+    font-size: 12px;
+    color: var(--earth-muted);
+  }
+
+  .upload-file-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--earth);
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .file-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--scarlet);
+    flex-shrink: 0;
+  }
+
+  /* EXPECTATION */
+  .expectation-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--earth);
+    margin-bottom: 10px;
+  }
+
+  .expectation-hint {
+    font-size: 12px;
+    color: var(--earth-muted);
+    margin-bottom: 14px;
+  }
+
+  .cert-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .cert-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s;
+    position: relative;
+  }
+
+  .cert-option:hover {
+    border-color: var(--border-strong);
+    background: rgba(41,8,0,0.02);
+  }
+
+  .cert-option.selected {
+    border-color: var(--earth);
+    background: rgba(41,8,0,0.03);
+  }
+
+  .cert-option input[type="radio"] {
+    display: none;
+  }
+
+  .cert-radio {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-strong);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.12s;
+  }
+
+  .cert-option.selected .cert-radio {
+    border-color: var(--earth);
+  }
+
+  .cert-radio-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--earth);
+    display: none;
+  }
+
+  .cert-option.selected .cert-radio-dot {
+    display: block;
+  }
+
+  .cert-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .cert-logo-placeholder {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    background: rgba(41,8,0,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .cert-logo-placeholder svg {
+    width: 14px;
+    height: 14px;
+    color: var(--earth-muted);
+  }
+
+  .cert-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--earth);
+    flex: 1;
+  }
+
+  .cert-type {
+    font-size: 11px;
+    color: var(--earth-muted);
+    display: block;
+    margin-top: 1px;
+    font-weight: 400;
+  }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--earth);
+    color: var(--snow);
+    border: none;
+    padding: 13px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: var(--font);
+    transition: opacity 0.15s;
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .submit-btn.loading {
+    opacity: 0.7;
+    cursor: wait;
+  }
+
+  /* RIGHT: RESULT PANEL */
+  .result-panel {
+    padding-left: 40px;
+    min-height: 400px;
+  }
+
+  .result-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 320px;
+    text-align: center;
+  }
+
+  .result-empty-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 0.5px dashed var(--border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .result-empty-text {
+    font-size: 13px;
+    color: var(--earth-muted);
+    max-width: 220px;
+    line-height: 1.6;
+  }
+
+  /* RESULT FIELDS */
+  .result-fields {
+    display: none;
+  }
+
+  .result-fields.visible {
+    display: block;
+  }
+
+  .result-doc-type {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--earth-muted);
+    letter-spacing: 0.01em;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .field-row {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 0;
+    border-bottom: 0.5px solid var(--border);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .field-row.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .field-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--earth-muted);
+    letter-spacing: 0.02em;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .confidence-dot {
+    display: none;
+  }
+
+  .confidence-dot.high { background: #2D7D46; }
+  .confidence-dot.medium { background: #B45309; }
+  .confidence-dot.low { background: #B91C1C; }
+
+  .field-value {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--earth);
+  }
+
+  .field-value.expired {
+    color: #B91C1C;
+  }
+
+  .field-value.expiring {
+    color: #B45309;
+  }
+
+  /* VERDICT */
+  .verdict-block {
+    margin-top: 28px;
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .verdict-block.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .verdict-block.match {
+    background: rgba(45,125,70,0.08);
+    border: 0.5px solid rgba(45,125,70,0.2);
+  }
+
+  .verdict-block.mismatch {
+    background: rgba(185,28,28,0.06);
+    border: 0.5px solid rgba(185,28,28,0.18);
+  }
+
+  .verdict-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .verdict-block.match .verdict-icon { background: rgba(45,125,70,0.12); }
+  .verdict-block.mismatch .verdict-icon { background: rgba(185,28,28,0.1); }
+
+  .verdict-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .verdict-block.match .verdict-title { color: #1A5C2E; }
+  .verdict-block.mismatch .verdict-title { color: #991B1B; }
+
+  .verdict-body {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .verdict-block.match .verdict-body { color: #2D7D46; }
+  .verdict-block.mismatch .verdict-body { color: #B91C1C; }
+
+  .verdict-timing {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--earth-muted);
+    opacity: 0;
+    transition: opacity 0.4s ease 0.3s;
+  }
+
+  .verdict-timing.visible {
+    opacity: 1;
+  }
+
+  .verdict-timing-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #2D7D46;
+    flex-shrink: 0;
+  }
+
+  .verdict-confidence {
+    margin-top: 8px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .verdict-block.match .verdict-confidence { color: #2D7D46; }
+  .verdict-block.mismatch .verdict-confidence { color: #991B1B; }
+
+  .confidence-bar {
+    flex: 1;
+    max-width: 120px;
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+
+  .confidence-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.6s ease;
+  }
+
+  .verdict-block.match .confidence-fill { background: #2D7D46; }
+  .verdict-block.mismatch .confidence-fill { background: #B91C1C; }
+
+  /* DEMO FOOTER NOTE */
+  .demo-context {
+    background: rgba(41,8,0,0.04);
+    border-top: 0.5px solid var(--border);
+    padding: 14px 48px;
+    font-size: 12px;
+    color: var(--earth-muted);
+    line-height: 1.5;
+  }
+
+  .demo-context strong {
+    color: var(--earth);
+    font-weight: 500;
+  }
+
+  /* LOADING DOTS */
+  .loading-dots {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 0;
+  }
+
+  .loading-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--earth-muted);
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+
+  .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes pulse {
+    0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV (shared) -->
+<nav>
+  <a class="wordmark" href="#" onclick="showPage('landing');return false;">
+    <svg width="89" height="16" viewBox="0 0 134 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.0882 17.0087C19.4968 14.1407 21.3964 10.9889 21.3964 7.02353C21.3964 3.5703 19.2337 0 15.6136 0C14.1563 0 12.1468 0.573589 10.6982 3.25131C9.24962 0.573589 7.24009 0 5.78282 0C2.16277 0 0 3.5703 0 7.02353C0 10.9889 1.90544 14.1349 4.31109 16.9999L1.8852 22.2412H4.4412L5.99389 18.8904C6.45362 19.3879 6.92203 19.8795 7.38755 20.3712C8.20582 21.2345 9.053 22.1271 9.83657 23.0196L10.6982 24L11.5627 23.0226C12.3348 22.1505 13.1646 21.2755 13.9713 20.4297C14.4513 19.9234 14.937 19.4142 15.4141 18.9021L16.961 22.2441H19.517L17.094 17.0116L17.0882 17.0087ZM5.39826 14.6558C3.59113 12.3468 2.31313 9.91489 2.31313 7.02353C2.31313 4.72333 3.61137 2.34118 5.78282 2.34118C7.0666 2.34118 8.02366 3.06109 8.78988 4.60627L9.42021 5.97L5.39826 14.6558ZM12.3001 18.8055C11.7709 19.3615 11.2302 19.9293 10.6982 20.5058C10.1517 19.9117 9.59369 19.3235 9.05011 18.7499C8.36774 18.03 7.69115 17.3189 7.04636 16.6048L10.6953 8.72674L14.3472 16.6107C13.6879 17.3393 12.9969 18.068 12.2972 18.8026L12.3001 18.8055ZM16.0011 14.6646L11.9762 5.97L12.6065 4.60627C13.3728 3.06109 14.3298 2.34118 15.6136 2.34118C17.7851 2.34118 19.0833 4.72333 19.0833 7.02353C19.0833 9.91782 17.8082 12.3526 16.0011 14.6646Z" fill="#FF3300"/>
+      <g clip-path="url(#clip0_156_358)">
+        <path d="M129.738 1.59816H130.386V3.51208H130.817V1.59816H131.464V1.1709H129.738V1.59816Z" fill="#FF3300"/>
+        <path d="M133.395 1.1709L132.878 2.8068L132.375 1.21772L132.36 1.1709H131.762V3.51208H132.187V1.95227L132.681 3.51208H133.077L133.575 1.95227V3.51208H133.997V1.1709H133.395Z" fill="#FF3300"/>
+        <path d="M70.4367 1.1709L64.8794 13.2894L61.2825 1.1709H56.5146L52.8888 13.2894L47.3633 1.1709H42.4219L51.0498 22.2415H54.4415L58.8884 7.59158L63.3643 22.2415H66.756L75.3839 1.1709H70.4396H70.4367Z" fill="#FF3300"/>
+        <path d="M33.973 1.1709L25.0703 22.2415H29.9655L31.8796 17.6938L33.6202 13.5616L36.2138 7.44233L38.7814 13.5616L40.5191 17.6938L42.4361 22.2415H47.3313L38.4315 1.1709H33.9759H33.973Z" fill="#FF3300"/>
+        <path d="M79.3675 1.1709L70.4648 22.2415H75.36L77.2741 17.6938L79.0147 13.5616L81.6112 7.44233L84.1759 13.5616L85.9136 17.6938L87.8335 22.2415H92.7258L83.8203 1.1709H79.3646H79.3675Z" fill="#FF3300"/>
+        <path d="M106.62 14.6853C109.223 13.705 110.524 11.5277 110.524 8.15639V8.15053C110.524 5.69815 109.844 3.92178 108.485 2.82143C107.124 1.72108 104.851 1.1709 101.662 1.1709H93.8867V22.2415H98.513V15.4989H101.639L106.181 22.2122H111.813L106.623 14.6824L106.62 14.6853ZM105.007 10.6556C104.44 11.1765 103.373 11.4399 101.806 11.4399H98.5101V5.2065H101.89C103.359 5.2065 104.385 5.41721 104.972 5.84155C105.556 6.26296 105.848 7.0414 105.848 8.17394C105.848 9.30649 105.568 10.1347 105.001 10.6585H105.007V10.6556Z" fill="#FF3300"/>
+        <path d="M129.16 5.85325V1.1709H118.173H113.547V5.85325V9.65767V13.7547V17.5591V22.2415H118.173H129.16V17.5591H118.173V13.7547H127.426V9.65767H118.173V5.85325H129.16Z" fill="#FF3300"/>
+      </g>
+      <defs>
+        <clipPath id="clip0_156_358">
+          <rect width="108.931" height="23.8627" fill="white" transform="translate(25.0703)"/>
+        </clipPath>
+      </defs>
+    </svg>
+    <span class="wordmark-divider"></span>
+    <span class="wordmark-product">Document intelligence</span>
+  </a>
+  <div style="display:flex;gap:24px;align-items:center;">
+    <span class="nav-link" onclick="showPage('demo')">Try the demo</span>
+    <span class="nav-link" onclick="showPage('landing')">How it works</span>
+    <a class="nav-cta" href="mailto:rhys@wearaware.co" onclick="window.location.href='mailto:rhys@wearaware.co';return false;">Get in touch</a>
+  </div>
+</nav>
+
+<!-- ===================== LANDING PAGE ===================== -->
+<div id="page-landing" class="page active">
+
+  <!-- HERO -->
+  <section class="landing-hero">
+
+    <h1 class="hero-headline">Check supplier documentation auto-magically.</h1>
+    <p class="hero-body">Suppliers upload wrong documents, and most systems don't notice until it's too late. AWARE™ Document Intelligence reads every document, tells you what it is, checks it against what it should be, and flags expired certificates and mistakes before they become someone else's problem.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="showPage('demo')">Try the demo</button>
+      <a class="btn-secondary" href="#api-section">See how it works</a>
+    </div>
+  </section>
+
+  <!-- VALUE PROPS -->
+  <section class="value-section">
+    <h2 style="font-size:28px;font-weight:600;color:var(--earth);margin-bottom:36px;">Why it matters</h2>
+    <div class="value-grid">
+      <div class="value-item">
+        <span class="value-number">01</span>
+        <h3 class="value-title">We can tell you what your users upload</h3>
+        <p class="value-body">Suppliers upload the wrong documents all the time. They're busy, under pressure. By the time anyone notices, it can be too late and workflows have to start over. We read the document and tell you what it actually is - before it becomes a problem.</p>
+      </div>
+      <div class="value-item">
+        <span class="value-number">02</span>
+        <h3 class="value-title">We can check if it's what you need</h3>
+        <p class="value-body">Most compliance systems don't care if the document is correct - if there's a file, a box is ticked. We care. Send us a document and an expectation - a GRS scope certificate, a GOTS certificate, a transaction certificate - and we'll tell you whether it matches.</p>
+      </div>
+      <div class="value-item">
+        <span class="value-number">03</span>
+        <h3 class="value-title">We can spot expired documents immediately</h3>
+        <p class="value-body">A certificate that expired six months ago is not evidence of anything useful - but it has a similar file name to the new one. We check expiry dates as part of every read and flag documents that are past their expiration or approaching it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section">
+    <div class="how-inner">
+      <h2 class="how-headline">How it works</h2>
+      <p style="font-size:15px;color:rgba(245,245,245,0.55);margin-top:-16px;margin-bottom:48px;max-width:520px;line-height:1.6;">An API service built for machines - this is a demo.</p>
+      <div class="how-steps">
+        <div class="how-step">
+          <p class="how-step-num">01</p>
+          <p class="how-step-title">Send a document</p>
+          <p class="how-step-body">POST a document - PDF, scan, photo - to our API along with what you expect it to be.</p>
+          <span class="how-step-connector">→</span>
+        </div>
+        <div class="how-step">
+          <p class="how-step-num">02</p>
+          <p class="how-step-title">We read it</p>
+          <p class="how-step-body">Our service reads the document, identifies what it is, and extracts the key details.</p>
+          <span class="how-step-connector">→</span>
+        </div>
+        <div class="how-step">
+          <p class="how-step-num">03</p>
+          <p class="how-step-title">We check your expectation</p>
+          <p class="how-step-body">We compare what we found against what you said the document should be - including whether it's expired.</p>
+          <span class="how-step-connector">→</span>
+        </div>
+        <div class="how-step">
+          <p class="how-step-num">04</p>
+          <p class="how-step-title">You get a verdict</p>
+          <p class="how-step-body">Match or mismatch. Your system decides what happens next.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- API REFERENCE -->
+  <section class="api-section" id="api-section">
+    <h2 style="font-size:20px;font-weight:600;color:var(--earth);margin-bottom:8px;">One endpoint with one job</h2>
+    <p style="font-size:14px;color:var(--earth-muted);margin-bottom:0;max-width:480px;">Send a document and an expectation. Get back what the document is, its key details, and whether it matches.</p>
+
+    <!-- POST /api/v1/extract -->
+    <div class="api-endpoint">
+      <div class="api-endpoint-header">
+        <span class="api-method">POST</span>
+        <span class="api-path">/api/v1/extract</span>
+        <span class="api-desc">Submit a document for extraction and verification.</span>
+      </div>
+      <div class="api-endpoint-body">
+        <div class="api-params">
+          <p class="api-params-title">REQUEST BODY &nbsp;·&nbsp; multipart/form-data</p>
+          <div class="api-param-row">
+            <span class="api-param-name">file <span class="code-required">required</span></span>
+            <span class="api-param-meta">file &nbsp;·&nbsp; PDF</span>
+            <span class="api-param-desc">The document to extract. PDF only. Max 10 MB.</span>
+          </div>
+          <div class="api-param-row">
+            <span class="api-param-name">document_type <span class="code-required">required</span></span>
+            <span class="api-param-meta">string</span>
+            <span class="api-param-desc">What the document is expected to be. One of: <code style="font-size:11px;color:#FF9980;">grs-scope-certificate</code>, <code style="font-size:11px;color:#FF9980;">gots-certificate</code>, <code style="font-size:11px;color:#FF9980;">transaction-certificate</code></span>
+          </div>
+          <div class="api-param-row">
+            <span class="api-param-name">session_id</span>
+            <span class="api-param-meta">string &nbsp;·&nbsp; optional</span>
+            <span class="api-param-desc">Group multiple extractions into a named session for retrieval.</span>
+          </div>
+        </div>
+        <div class="api-code">
+          <p class="api-code-title">RESPONSE &nbsp;·&nbsp; 200 OK</p>
+          <div class="code-block">{
+  <span class="code-key">"status"</span>: <span class="code-string">"success"</span>,
+  <span class="code-key">"document_verified"</span>: <span class="code-bool-true">true</span>,
+  <span class="code-key">"match"</span>: <span class="code-bool-true">true</span>,
+  <span class="code-key">"fields"</span>: {
+    <span class="code-key">"certified_entity"</span>: <span class="code-string">"Shenzhen Textile Co."</span>,
+    <span class="code-key">"certificate_number"</span>: <span class="code-string">"GRS-2024-CN-00421"</span>,
+    <span class="code-key">"certification_body"</span>: <span class="code-string">"Control Union"</span>,
+    <span class="code-key">"certified_scope"</span>: <span class="code-string">"Recycled polyester yarn"</span>,
+    <span class="code-key">"issue_date"</span>: <span class="code-string">"2024-03-01"</span>,
+    <span class="code-key">"expiry_date"</span>: <span class="code-string">"2025-02-28"</span>,
+    <span class="code-key">"expired"</span>: <span class="code-bool-false">false</span>
+  }
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GET /api/v1/session/:id -->
+    <div class="api-endpoint">
+      <div class="api-endpoint-header">
+        <span class="api-method get">GET</span>
+        <span class="api-path">/api/v1/session/:id</span>
+        <span class="api-desc">Retrieve previous extraction results by session ID.</span>
+      </div>
+      <div class="api-endpoint-body">
+        <div class="api-params">
+          <p class="api-params-title">PATH PARAMETERS</p>
+          <div class="api-param-row">
+            <span class="api-param-name">id <span class="code-required">required</span></span>
+            <span class="api-param-meta">string</span>
+            <span class="api-param-desc">The session ID returned from a previous <code style="font-size:11px;color:#FF9980;">POST /extract</code> call, or one you provided at submission time.</span>
+          </div>
+        </div>
+        <div class="api-code">
+          <p class="api-code-title">RESPONSE &nbsp;·&nbsp; 200 OK &nbsp;<span style="color:rgba(245,245,245,0.25);font-weight:400;">coming in v1.1</span></p>
+          <div class="code-block">{
+  <span class="code-key">"session_id"</span>: <span class="code-string">"sess_abc123"</span>,
+  <span class="code-key">"created_at"</span>: <span class="code-string">"2026-06-01T09:14:00Z"</span>,
+  <span class="code-key">"documents"</span>: [
+    {
+      <span class="code-key">"document_verified"</span>: <span class="code-bool-true">true</span>,
+      <span class="code-key">"match"</span>: <span class="code-bool-true">true</span>,
+      <span class="code-key">"fields"</span>: { <span class="code-comment">...</span> }
+    }
+  ]
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;">
+      <a class="btn-primary" href="mailto:rhys@wearaware.co" onclick="window.location.href='mailto:rhys@wearaware.co';return false;" style="display:inline-block;">Get in touch about API access</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="landing-footer">
+    <p class="footer-note">AWARE™ Document Intelligence is part of the AWARE™ platform by The Movement B.V., Amsterdam.</p>
+    <span class="footer-cta" onclick="showPage('demo')">Try the demo →</span>
+  </div>
+
+</div>
+
+<!-- ===================== DEMO PAGE ===================== -->
+<div id="page-demo" class="page">
+
+  <div class="demo-wrap">
+    <div class="demo-header">
+      <h1 class="demo-title">What our API does</h1>
+      <p class="demo-subtitle">Upload a certificate and set your expectation. Your system sends us a document, we read it and get you a verdict in 1.1s.</p>
+    </div>
+
+    <div class="demo-body">
+
+      <!-- LEFT: INPUT -->
+      <div class="input-panel">
+        <p class="panel-label">1. Upload a document</p>
+
+        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+          <input type="file" id="fileInput" accept=".pdf" style="display:none" onchange="handleFile(this)">
+          <svg class="upload-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M18 4v20M10 12l8-8 8 8"/>
+            <path d="M6 28h24" stroke-width="1.5"/>
+          </svg>
+          <p class="upload-main" id="uploadMain">Drop a PDF here</p>
+          <p class="upload-sub" id="uploadSub">or click to choose a file</p>
+          <div class="upload-file-name" id="fileName" style="display:none;"></div>
+        </div>
+
+        <p class="panel-label" style="margin-top:8px;">2. What do you expect it to be?</p>
+        <p class="expectation-hint">Select the document type your system expected the user to upload.</p>
+
+        <div class="cert-options">
+          <label class="cert-option" id="opt-grs">
+            <input type="radio" name="certType" value="grs-scope-certificate" onchange="selectCert(this.closest('.cert-option'))">
+            <div class="cert-radio"><div class="cert-radio-dot"></div></div>
+            <div class="cert-logo-placeholder">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="7" cy="7" r="6"/><path d="M4 7l2 2 4-4"/></svg>
+            </div>
+            <div>
+              <span class="cert-name">GRS scope certificate</span>
+              <span class="cert-type">Global Recycled Standard</span>
+            </div>
+          </label>
+
+          <label class="cert-option" id="opt-gots">
+            <input type="radio" name="certType" value="gots-certificate" onchange="selectCert(this.closest('.cert-option'))">
+            <div class="cert-radio"><div class="cert-radio-dot"></div></div>
+            <div class="cert-logo-placeholder">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="7" cy="7" r="6"/><path d="M4 7l2 2 4-4"/></svg>
+            </div>
+            <div>
+              <span class="cert-name">GOTS certificate</span>
+              <span class="cert-type">Global Organic Textile Standard</span>
+            </div>
+          </label>
+
+          <label class="cert-option" id="opt-tc">
+            <input type="radio" name="certType" value="transaction-certificate" onchange="selectCert(this.closest('.cert-option'))">
+            <div class="cert-radio"><div class="cert-radio-dot"></div></div>
+            <div class="cert-logo-placeholder">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="10" height="10" rx="1.5"/><path d="M4.5 7h5M4.5 5h5M4.5 9h3"/></svg>
+            </div>
+            <div>
+              <span class="cert-name">Transaction certificate</span>
+              <span class="cert-type">TC - any standard body</span>
+            </div>
+          </label>
+        </div>
+
+        <button class="submit-btn" id="submitBtn" disabled onclick="runDemo()">Read document</button>
+      </div>
+
+      <!-- RIGHT: RESULT -->
+      <div class="result-panel" id="resultPanel">
+
+        <div class="result-empty" id="resultEmpty">
+          <div class="result-empty-circle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9A7060" stroke-width="1.2">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+              <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+            </svg>
+          </div>
+          <p class="result-empty-text">Upload a document and set an expectation to see what we'd return to your system.</p>
+        </div>
+
+        <div class="result-fields" id="resultFields">
+          <p class="result-doc-type" id="resultDocType">
+            <span id="docTypeLabel">Reading document...</span>
+          </p>
+
+          <!-- VERDICT - appears first, above fields -->
+          <div class="verdict-block match" id="verdictBlock" style="margin-top:0;margin-bottom:20px;">
+            <div class="verdict-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8l3.5 3.5L13 5" stroke="#1A5C2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div style="flex:1;">
+              <p class="verdict-title" id="verdictTitle">Document matches</p>
+              <p class="verdict-body" id="verdictBody">This is a valid GRS scope certificate. It matches your expectation and is not expired.</p>
+              <div class="verdict-timing" id="verdictTiming">
+                <span class="verdict-timing-dot"></span>
+                Processed in 1.1s
+              </div>
+            </div>
+          </div>
+
+          <div class="field-row" id="field-entity">
+            <span class="field-label">
+              <span class="confidence-dot high"></span>
+              Certified entity
+            </span>
+            <span class="field-value" id="val-entity">Shenzhen Textile Manufacturing Co. Ltd</span>
+          </div>
+
+          <div class="field-row" id="field-cert-num">
+            <span class="field-label">
+              <span class="confidence-dot high"></span>
+              Certificate number
+            </span>
+            <span class="field-value" id="val-cert-num">GRS-2024-CN-00421</span>
+          </div>
+
+          <div class="field-row" id="field-body">
+            <span class="field-label">
+              <span class="confidence-dot high"></span>
+              Certification body
+            </span>
+            <span class="field-value" id="val-body">Control Union Certifications</span>
+          </div>
+
+          <div class="field-row" id="field-scope">
+            <span class="field-label">
+              <span class="confidence-dot medium"></span>
+              Certified scope
+            </span>
+            <span class="field-value" id="val-scope">Recycled polyester yarn - GRS v4.0</span>
+          </div>
+
+          <div class="field-row" id="field-issue">
+            <span class="field-label">
+              <span class="confidence-dot high"></span>
+              Issue date
+            </span>
+            <span class="field-value" id="val-issue">1 March 2024</span>
+          </div>
+
+          <div class="field-row" id="field-expiry">
+            <span class="field-label">
+              <span class="confidence-dot high"></span>
+              Expiry date
+            </span>
+            <span class="field-value" id="val-expiry">28 February 2026</span>
+          </div>
+
+        </div>
+
+        <div id="loadingState" style="display:none;">
+          <p class="result-doc-type" style="opacity:0.5;">Reading document</p>
+          <div class="loading-dots">
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="demo-context">
+      <strong>This is a demo.</strong> In production, your system sends a document and an expectation via API - no interface needed. The result you see here is exactly what your system receives as JSON. <span style="color:var(--scarlet);cursor:pointer;" onclick="showPage('landing')">See the API reference →</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.proto-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    const tabs = document.querySelectorAll('.proto-tab');
+    if (name === 'landing') tabs[0].classList.add('active');
+    if (name === 'demo') tabs[1].classList.add('active');
+  }
+
+  let hasFile = false;
+  let hasCert = false;
+
+  function handleFile(input) {
+    if (input.files && input.files[0]) {
+      hasFile = true;
+      const zone = document.getElementById('uploadZone');
+      zone.classList.add('has-file');
+      document.getElementById('uploadMain').style.display = 'none';
+      document.getElementById('uploadSub').style.display = 'none';
+      const fn = document.getElementById('fileName');
+      fn.style.display = 'flex';
+      fn.innerHTML = '<span class="file-dot"></span>' + input.files[0].name;
+      checkReady();
+    }
+  }
+
+  function selectCert(el) {
+    document.querySelectorAll('.cert-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    hasCert = true;
+    checkReady();
+  }
+
+  function checkReady() {
+    document.getElementById('submitBtn').disabled = !(hasFile && hasCert);
+  }
+
+  function runDemo() {
+    const btn = document.getElementById('submitBtn');
+    btn.classList.add('loading');
+    btn.disabled = true;
+    btn.textContent = 'Reading...';
+
+    document.getElementById('resultEmpty').style.display = 'none';
+    document.getElementById('resultFields').style.display = 'none';
+    document.getElementById('loadingState').style.display = 'block';
+
+    const fields = ['field-entity','field-cert-num','field-body','field-scope','field-issue','field-expiry'];
+    fields.forEach(id => {
+      document.getElementById(id).classList.remove('revealed');
+    });
+    document.getElementById('verdictBlock').classList.remove('revealed');
+    document.getElementById('resultFields').classList.remove('visible');
+
+    setTimeout(() => {
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('resultFields').classList.add('visible');
+      document.getElementById('resultFields').style.display = 'block';
+
+      document.getElementById('docTypeLabel').textContent = 'GRS scope certificate - detected';
+
+      fields.forEach((id, i) => {
+        setTimeout(() => {
+          document.getElementById(id).classList.add('revealed');
+        }, i * 200);
+      });
+
+      setTimeout(() => {
+        document.getElementById('verdictBlock').classList.add('revealed');
+        setTimeout(() => {
+          document.getElementById('verdictTiming').classList.add('visible');
+        }, 200);
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        btn.textContent = 'Reset';
+        btn.onclick = resetDemo;
+      }, fields.length * 200 + 300);
+
+    }, 2000);
+  }
+
+  function resetDemo() {
+    // Reset file state
+    hasFile = false;
+    hasCert = false;
+    const fileInput = document.getElementById('fileInput');
+    fileInput.value = '';
+    const zone = document.getElementById('uploadZone');
+    zone.classList.remove('has-file');
+    document.getElementById('uploadMain').style.display = '';
+    document.getElementById('uploadSub').style.display = '';
+    const fn = document.getElementById('fileName');
+    fn.style.display = 'none';
+    fn.innerHTML = '';
+
+    // Reset cert selection
+    document.querySelectorAll('.cert-option').forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('input[name="certType"]').forEach(r => r.checked = false);
+
+    // Reset result panel
+    document.getElementById('resultEmpty').style.display = '';
+    document.getElementById('resultFields').style.display = 'none';
+    document.getElementById('resultFields').classList.remove('visible');
+    const fields = ['field-entity','field-cert-num','field-body','field-scope','field-issue','field-expiry'];
+    fields.forEach(id => document.getElementById(id).classList.remove('revealed'));
+    document.getElementById('verdictBlock').classList.remove('revealed');
+    document.getElementById('verdictTiming').classList.remove('visible');
+
+    // Reset button
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Read document';
+    btn.disabled = true;
+    btn.onclick = runDemo;
+  }
+</script>
+
+</body>
+</html>
