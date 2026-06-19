@@ -17,6 +17,9 @@ function utcDate(): string {
   return new Date().toISOString().slice(0, 10)
 }
 
+// Falls back to 'unknown' when x-forwarded-for is absent (direct connections, local dev).
+// All such requests share one rate-limit bucket, which is intentionally conservative
+// for a demo that's always expected to run behind a proxy in production.
 function getIp(req: NextRequest): string {
   return req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
 }
@@ -48,6 +51,8 @@ function checkDailyCap(): boolean {
 export async function POST(request: NextRequest) {
   const ip = getIp(request)
 
+  // Rate limit is checked before parsing the body — cheap rejection for abusive callers.
+  // Daily cap runs later (after file validation) so the slot is only consumed by valid requests.
   if (!checkRateLimit(ip)) {
     console.log(`[extract] rejected reason=rate_limited ip=${ip}`)
     return NextResponse.json(
@@ -91,6 +96,8 @@ export async function POST(request: NextRequest) {
     )
   }
 
+  // Reject only when both checks fail — browsers vary in what MIME type they report for PDFs,
+  // so accepting on either extension or MIME prevents spurious rejections.
   if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
     return NextResponse.json(
       { status: 'error', code: 'unreadable_document', message: 'Only PDF files are accepted.' },

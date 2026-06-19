@@ -59,6 +59,7 @@ export default function Nav() {
         </Link>
         <a
           href="mailto:rhys@wearaware.co"
+          title="rhys@wearaware.co"
           style={{
             fontSize: '13px',
             fontWeight: 500,

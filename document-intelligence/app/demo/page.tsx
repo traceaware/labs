@@ -134,13 +134,12 @@ export default function DemoPage() {
         if (data.error === 'file_too_large') {
           setFileError(data.message ?? 'File too large. Maximum size is 5MB.')
         } else if (data.error) {
+          // Top-level errors (rate_limited, daily_cap_reached, limit_reached) use data.error.
           setSystemError({ code: data.error, message: data.message ?? 'Something went wrong. Please try again.' })
+        } else if (data.code) {
+          // Extraction errors from extractDocument use data.code, not data.error.
+          setSystemError({ code: data.code, message: data.message ?? 'Something went wrong. Please try again.' })
         }
-        setStatus('idle')
-        return
-      }
-
-      if (data.status === 'error') {
         setStatus('idle')
         return
       }
@@ -160,6 +159,7 @@ export default function DemoPage() {
       timeouts.current.push(tt)
 
     } catch {
+      setSystemError({ code: 'network_error', message: 'Could not reach the server. Please check your connection and try again.' })
       setStatus('idle')
     }
   }
@@ -363,7 +363,9 @@ export default function DemoPage() {
             </div>
           )}
 
-          {/* System error block — limit_reached, rate_limited, daily_cap_reached */}
+          {/* System error block — covers limit_reached, rate_limited, daily_cap_reached,
+               and extraction errors (unreadable_document, extraction_failed, etc.).
+               limit_reached gets a bespoke CTA because the generic message lacks context. */}
           {status === 'idle' && systemError && (
             <div className={`${s.verdictBlock} ${s.verdictBlockMismatch} ${s.verdictBlockRevealed}`} style={{ marginTop: '16px' }}>
               <div style={{ width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px', background: 'rgba(185,28,28,0.1)' }}>
@@ -466,6 +468,7 @@ export default function DemoPage() {
                   <div style={{ flex: 1 }}>
                     <p style={{ fontSize: '15px', fontWeight: 600, marginBottom: '4px', color: '#991B1B' }}>Certificate expired</p>
                     <p style={{ fontSize: '13px', lineHeight: 1.5, color: '#B91C1C' }}>
+                      {/* Safe: isExpired returns true only when value is a non-null date string */}
                       This certificate expired on {formatDate(result.fields!.expiry_date!.value!)}.
                     </p>
                   </div>

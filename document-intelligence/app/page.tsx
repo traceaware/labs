@@ -141,7 +141,7 @@ export default function LandingPage() {
         color: '#F5F5F5',
       }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '32px', fontWeight: 600, color: '#F5F5F5', marginBottom: '0', lineHeight: 1.2 }}>
+          <h2 style={{ fontSize: '32px', fontWeight: 600, color: '#F5F5F5', marginBottom: '48px', lineHeight: 1.2 }}>
             How it works
           </h2>
           <p style={{ fontSize: '15px', color: 'rgba(245,245,245,0.55)', marginTop: '-16px', marginBottom: '48px', maxWidth: '520px', lineHeight: 1.6 }}>

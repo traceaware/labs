@@ -55,15 +55,7 @@ export async function extractDocument(
   const apiKey = process.env.ANTHROPIC_API_KEY
   const model = process.env.ANTHROPIC_MODEL
 
-  if (!apiKey) {
-    return {
-      status: 'error',
-      code: 'extraction_failed',
-      message: 'Service configuration error. Please contact support.',
-    }
-  }
-
-  if (!model) {
+  if (!apiKey || !model) {
     return {
       status: 'error',
       code: 'extraction_failed',
@@ -75,7 +67,10 @@ export async function extractDocument(
   let extractionPath: 'text' | 'base64' = 'base64'
 
   try {
-    // Dynamic import so bundler doesn't inline pdf-parse (serverExternalPackages handles the rest)
+    // Dynamic import so bundler doesn't inline pdf-parse (serverExternalPackages handles the rest).
+    // We prefer the text path: it costs fewer tokens and is more reliable for digital PDFs.
+    // The 100-char floor filters out metadata-only or image-only parses that contain no usable
+    // content — those need the base64 path so Claude can process the visual layer instead.
     const mod = await import('pdf-parse')
     const pdfParse = (mod.default ?? mod) as (buf: Buffer) => Promise<{ text: string }>
     const parsed = await pdfParse(buffer)
@@ -104,8 +99,10 @@ export async function extractDocument(
   let messageContent: ContentBlock[]
 
   if (extractionPath === 'text') {
+    // Inline the extracted text with the prompt — a single text block is sufficient.
     messageContent = [{ type: 'text', text: `${prompt}\n\n---\n\n${extractedText}` }]
   } else {
+    // Claude's document API requires the document block to appear before the prompt text.
     const base64Pdf = buffer.toString('base64')
     messageContent = [
       {
@@ -130,6 +127,8 @@ export async function extractDocument(
     extracted_text_chars: extractedText.length,
   }
 
+  // Two attempts: capacity errors bail immediately (retrying under load won't help);
+  // parse or transient network errors get one retry before we give up.
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
       const response = await client.messages.create({
@@ -179,6 +178,7 @@ export async function extractDocument(
     }
   }
 
+  // TypeScript guard — the loop always either sets parsed and breaks, or returns early.
   if (!parsed) {
     await writeLog({ ...logBase, document_verified: null, fields_extracted: 0, success: false })
     return {
