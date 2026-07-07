@@ -24,27 +24,26 @@ body { font-family: 'Inter', -apple-system, sans-serif; color: var(--text); back
 a { color: inherit; text-decoration: none; }
 .container { max-width: 960px; margin: 0 auto; padding: 0 48px; }
 
-/* ── Nav ── */
+/* Nav */
 nav { padding: 20px 0; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; }
 .nav-logo { display: flex; align-items: center; gap: 7px; }
-
 .nav-wordmark { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; }
 .nav-sup { font-size: 9px; vertical-align: super; font-weight: 400; }
 
-/* ── Hero ── */
-.hero { padding: 80px 0 72px; border-bottom: 0.5px solid var(--border); text-align: center; }
+/* Hero */
+.hero { padding: 80px 0 72px; border-bottom: 0.5px solid var(--border); text-align: left; }
 .hero h1 { font-size: 52px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 20px; }
 .hero h1 .sc { color: var(--sc); }
-.hero-sub { font-size: 15px; color: var(--text-sec); line-height: 1.7; max-width: 460px; margin: 0 auto; }
+.hero-sub { font-size: 15px; color: var(--text-sec); line-height: 1.7; max-width: 560px; }
 
-/* ── Section ── */
+/* Section */
 .section { padding: 52px 0; border-bottom: 0.5px solid var(--border); }
 .section:last-child { border-bottom: none; padding-bottom: 72px; }
 .sec-eyebrow { font-size: 11px; color: var(--text-sec); margin-bottom: 10px; letter-spacing: 0.01em; }
 .sec-heading { font-size: 22px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.25; margin-bottom: 24px; color: var(--text); }
 .sec-heading .sc { color: var(--sc); }
 
-/* ── 1. Roles ── */
+/* 1. Roles */
 .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-med); border-radius: 6px; overflow: hidden; border: 0.5px solid var(--border-med); }
 .role-card { background: var(--bg); padding: 32px 36px; }
 .role-badge { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-sec); border: 0.5px solid var(--border-med); border-radius: 20px; padding: 3px 10px; margin-bottom: 16px; }
@@ -54,7 +53,7 @@ nav { padding: 20px 0; border-bottom: 0.5px solid var(--border); display: flex; 
 .kw { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 0.5px solid var(--border-med); color: var(--text-sec); background: var(--snow); }
 .role-both { margin-top: 0; font-size: 12px; color: var(--text-sec); padding: 13px 20px; border: 0.5px solid var(--border-med); border-top: none; border-radius: 0 0 6px 6px; background: var(--snow); line-height: 1.65; }
 
-/* ── 2. Features ── */
+/* 2. Features */
 .feat-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; }
 .feat-col-head { font-size: 13px; font-weight: 600; padding-bottom: 14px; border-bottom: 0.5px solid var(--border-med); margin-bottom: 4px; letter-spacing: -0.01em; }
 .feat-list { list-style: none; }
@@ -68,12 +67,12 @@ nav { padding: 20px 0; border-bottom: 0.5px solid var(--border); display: flex; 
 .shared-name { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
 .shared-desc { font-size: 12px; color: var(--text-sec); line-height: 1.55; }
 
-/* ── 3. Membership ── */
+/* 3. Membership */
 .mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 .mem-name { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
 .mem-desc { font-size: 12px; color: var(--text-sec); line-height: 1.55; }
 
-/* ── 4. Estimator ── */
+/* 4. Estimator */
 .est-layout { display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start; }
 .est-config { }
 .est-config-label { font-size: 12px; color: var(--text-sec); margin-bottom: 9px; }
@@ -139,7 +138,7 @@ nav { padding: 20px 0; border-bottom: 0.5px solid var(--border); display: flex; 
 .curve-note { font-size: 11px; color: var(--text-sec); margin-bottom: 12px; line-height: 1.6; opacity: 0.8; }
 .curve-wrap { position: relative; width: 100%; height: 180px; }
 
-/* ── 5. Conditions ── */
+/* 5. Conditions */
 .cond-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 36px; }
 .cond-item { font-size: 12px; color: var(--text-sec); line-height: 1.65; padding: 14px 0; border-bottom: 0.5px solid var(--border); }
 .cond-item:nth-last-child(-n+3) { border-bottom: none; }
@@ -216,8 +215,8 @@ nav { padding: 20px 0; border-bottom: 0.5px solid var(--border); display: flex; 
 
   <!-- Hero -->
   <div class="hero">
-    <h1>Pricing for every part<br>of the <span class="sc">supply chain.</span></h1>
-    <p class="hero-sub">Two roles, one platform. Whether you make materials or manage them, you pay only for what you produce - EU compliance and blockchain-secured proof included.</p>
+    <h1>Your <span class="sc">data,</span> our <span class="sc">infrastructure.</span></h1>
+    <p class="hero-sub">One platform, with two roles. Whether you produce products or manage them, you only pay to secure the data of what you produce. Compliance reports, digital product passports, data tracking and insights come free.</p>
   </div>
 
   <!-- 1. Roles -->
@@ -226,8 +225,8 @@ nav { padding: 20px 0; border-bottom: 0.5px solid var(--border); display: flex; 
     <div class="role-grid">
       <div class="role-card">
         <div class="role-badge">Producer</div>
-        <div class="role-title">You make materials or products.</div>
-        <div class="role-desc">You need to prove what you made, how you made it, and what impact it had.</div>
+        <div class="role-title">I make materials or products.</div>
+        <div class="role-desc">I want to secure my data to verifiably prove what I made and how I made it.</div>
         <div class="role-kws">
           <span class="kw">Raw material suppliers</span>
           <span class="kw">Fibre &amp; yarn producers</span>
@@ -237,8 +236,8 @@ nav { padding: 20px 0; border-bottom: 0.5px solid var(--border); display: flex; 
       </div>
       <div class="role-card">
         <div class="role-badge">Product owner</div>
-        <div class="role-title">You receive goods and report on them.</div>
-        <div class="role-desc">You need to verify where your materials came from and meet buyer and regulatory requirements.</div>
+        <div class="role-title">I receive, I assemble, I bring products to market.</div>
+        <div class="role-desc">I want to verify the products and materials I received to meet buyer and regulatory requirements.</div>
         <div class="role-kws">
           <span class="kw">Product manufacturers</span>
           <span class="kw">Trading companies</span>
@@ -303,8 +302,6 @@ nav { padding: 20px 0; border-bottom: 0.5px solid var(--border); display: flex; 
   <div class="section">
     <h2 class="sec-heading">What would you pay?</h2>
     <div class="est-layout">
-
-      <!-- Config panel -->
       <div class="est-config">
         <div class="est-config-label" id="lbl-cat">What best describes you?</div>
         <div class="cat-grid">
@@ -329,7 +326,6 @@ nav { padding: 20px 0; border-bottom: 0.5px solid var(--border); display: flex; 
         </div>
       </div>
 
-      <!-- Display panel -->
       <div class="est-display">
         <table class="tier-table" id="tier-table">
           <thead>
@@ -366,7 +362,6 @@ nav { padding: 20px 0; border-bottom: 0.5px solid var(--border); display: flex; 
   </div>
 
 </div>
-
 
 <div class="labs-disclaimer-overlay" id="labs-disclaimer" role="dialog" aria-modal="true" aria-labelledby="labs-disclaimer-title">
   <div class="labs-disclaimer-card">
@@ -406,11 +401,10 @@ let cat=null,pVol=null,oVol=null,yr=0,curveInst=null;
 function fe(n){return'€'+Math.round(n).toLocaleString();}
 function fk(n){return n>=10000?'€'+Math.round(n/1000)+'k':'€'+Math.round(n).toLocaleString();}
 
-// Determine active tiers based on cat selection
 function activeTiers(){
   if(cat===null||!CATS[cat].o&&CATS[cat].p) return PT;
   if(!CATS[cat].p&&CATS[cat].o) return OT;
-  return PT; // both: show producer tiers, note PO separately
+  return PT;
 }
 
 function pickCat(i){
@@ -470,7 +464,6 @@ function hasSales(){
 function renderTable(){
   const tiers=cat!==null&&CATS[cat].o&&!CATS[cat].p ? OT : PT;
   const mem=MEM[yr];
-  // determine highlighted index
   const hiIdx=cat!==null&&CATS[cat].p?pVol:(cat!==null&&CATS[cat].o?oVol:null);
 
   const rows=tiers.map((t,i)=>{
@@ -488,7 +481,6 @@ function renderTable(){
       memCell=`<td>${fe(mem)}</td>`;
       annualCell=`<td>${isFree?fe(mem):fe(t.m*12+mem)}</td>`;
     }
-    let markerCell='';
     if(isHi&&!isSales){
       volCell=`<td><span class="tier-name">${t.l}</span>${isFree?'<span class="tier-free-tag">FREE</span>':''} <span class="your-marker"><span class="your-dot"></span>yours</span></td>`;
     }
@@ -565,7 +557,6 @@ function drawCurve(selVol,selAnnual){
   },80);}
 }
 
-// Init: default to raw material supplier (cat 0) + free tier (pVol 0)
 cat = 0;
 pVol = 0;
 document.querySelector('[data-i="0"]').classList.add('on');
