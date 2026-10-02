@@ -111,7 +111,8 @@ h2{font-size:15px;font-weight:600;letter-spacing:-.01em}
 .line-top{width:2px;height:3px;background:#DDDFE4}
 .gap-line{height:18px;width:12px;display:flex;justify-content:center}
 .gap-line .line{margin:0;height:100%;flex-grow:0;width:2px}
-.step-body{display:flex;flex-direction:column;gap:3px;padding-bottom:4px}
+.step-body{flex-grow:1;min-width:0;display:flex;flex-direction:column;gap:3px;padding-bottom:4px}
+.step-logo{flex-shrink:0;width:auto;height:30px;max-width:64px;object-fit:contain;align-self:flex-start;margin-top:2px}
 
 .cert{font-size:15px;font-weight:500}
 .row-center{display:flex;align-items:center;justify-content:space-between;gap:14px}
@@ -163,8 +164,8 @@ html[lang="zh-Hans"] .powered-by{font-size:11.5px}
 
   <section class="producer">
     <div class="badge"><span data-i18n="badge">Verifiable production record</span></div>
-    <!-- Producer logo: images/producer-logo.png. The box hides itself while the file is missing. -->
-    <div class="logo" id="logoBox"><img src="images/producer-logo.png" alt="Wujiang Fuhua Weaving Co., Ltd. logo" onerror="document.getElementById('logoBox').style.display='none'"></div>
+    <!-- Producer logo: images/producer-logo.png. Logos hide themselves if their file is missing. -->
+    <div class="logo" id="logoBox"><img src="images/producer-logo.png" alt="Wujiang Fuhua Weaving Co., Ltd. logo" data-hide="#logoBox"></div>
     <div class="stack-5">
       <h1>Wujiang Fuhua Weaving Co., Ltd.</h1>
       <div class="muted">No.2288, The 3rd Nanhuan Road, Wujiang, Suzhou, Jiangsu, China</div>
@@ -211,9 +212,8 @@ html[lang="zh-Hans"] .powered-by{font-size:11.5px}
           <div class="node"><div class="line-top"></div><div class="dot"></div></div>
           <div class="step-body">
             <div class="eyebrow"><span data-i18n="yarn_producer">Yarn producer</span></div>
-            <!-- YARN SUPPLIER: replace the two placeholders below on Monday -->
-            <div class="name">[Yarn producer name]</div>
-            <div class="muted">[Yarn producer location]</div>
+            <div class="name">Jiangsu Shenghong Technology Trading Co., Ltd.</div>
+            <div class="muted">First Floor, South of Sichang Road, Shengze Town, Wujiang District, Suzhou City, Jiangsu Province, China</div>
           </div>
         </div>
       </div>
@@ -234,9 +234,6 @@ html[lang="zh-Hans"] .powered-by{font-size:11.5px}
 
         <section class="card card-tight">
           <div class="eyebrow"><span data-i18n="chemical">Chemical</span></div>
-          <div class="row-center"><span class="cert">Oeko-Tex</span><a href="https://production-aware-bucket.s3.us-east-1.amazonaws.com/uploads/2026OEKO100pdf_xtaj4x67.pdf" target="_blank" rel="noopener"><span data-i18n="view">View</span></a></div>
-          <div class="row-center"><span class="cert">Oeko-Tex</span><a href="https://production-aware-bucket.s3.us-east-1.amazonaws.com/uploads/2026OEKO100pdf_ucch89o3.pdf" target="_blank" rel="noopener"><span data-i18n="view">View</span></a></div>
-          <div class="row-center"><span class="cert">Oeko-Tex</span><a href="https://production-aware-bucket.s3.us-east-1.amazonaws.com/uploads/_STEP20265pdf_cewsvier.pdf" target="_blank" rel="noopener"><span data-i18n="view">View</span></a></div>
           <div class="row-center"><span class="cert">ZDHC</span><a href="https://production-aware-bucket.s3.us-east-1.amazonaws.com/uploads/25_FH_ZDHC_assessmentreportv3pdf_i2vmq4pp.pdf" target="_blank" rel="noopener"><span data-i18n="view">View</span></a></div>
         </section>
 
@@ -315,6 +312,16 @@ html[lang="zh-Hans"] .powered-by{font-size:11.5px}
     if (b) { apply(b.getAttribute('data-lang')); close(); }
   });
   document.addEventListener('click', close);
+
+  // Logos hide themselves (or the box named in data-hide) while their file is missing
+  var imgs = document.querySelectorAll('.logo img, .step-logo');
+  for (var k = 0; k < imgs.length; k++) {
+    (function (im) {
+      var target = im.getAttribute('data-hide') ? document.querySelector(im.getAttribute('data-hide')) : im;
+      function hide() { target.style.display = 'none'; }
+      if (im.complete && !im.naturalWidth) hide(); else im.addEventListener('error', hide);
+    })(imgs[k]);
+  }
 
   apply(pick());
 })();
