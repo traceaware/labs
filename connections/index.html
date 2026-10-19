@@ -64,6 +64,46 @@ button,select,input{font:inherit;color:inherit}
 .key .ls{display:block;width:30px;border-top:2px solid var(--edge-hot)} .key .ls.d{border-top:2px dashed var(--ink2)} .key .ls.r{border-top:3px solid var(--scarlet)}
 @media (max-width:900px){.hcard{padding:20px 18px 24px}.steps{grid-template-columns:90px 1fr}}
 
+
+/* data issues view */
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;padding:2px;background:var(--soft);margin-left:4px}
+.seg button{height:30px;padding:0 12px;border:0;background:none;border-radius:8px;cursor:pointer;font-weight:500;font-size:13px;color:var(--ink2)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(62,26,4,.14);font-weight:600}
+.cnt{display:inline-block;min-width:20px;margin-left:6px;padding:0 6px;border-radius:10px;background:var(--ink);color:var(--surface);font-size:11.5px;line-height:18px;font-variant-numeric:tabular-nums}
+.body.issues{display:block}
+.body.issues .side,.body.issues .canvas,.body.issues .panel{display:none}
+body.in-issues .search{visibility:hidden}
+.issuesv{height:100%;overflow:auto;padding:28px max(16px,env(safe-area-inset-right,0px)) 40px}
+.issuesv[hidden]{display:none}
+.iwrap{max-width:980px;margin:0 auto}
+.ihead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.ihead h1{margin:0;font-size:24px;line-height:1.2;letter-spacing:-.01em}
+.ihead p{margin:6px 0 0;color:var(--ink2);max-width:640px}
+.itiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0 18px}
+.itile{text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:14px 16px;cursor:pointer}
+.itile:hover{border-color:var(--mute)}
+.itile b{display:block;font-size:26px;line-height:1.1;font-weight:700;font-variant-numeric:tabular-nums}
+.itile span{font-size:13px;color:var(--ink2)}
+.itile[aria-selected="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.explain{color:var(--ink2);margin:0 0 12px;max-width:720px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table.it{width:100%;border-collapse:collapse;font-size:14px}
+.it th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);font-weight:700;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+.it td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.it tr:last-child td{border-bottom:0}
+.it tr.go{cursor:pointer}
+.it tr.go:hover td{background:var(--soft)}
+.it tr.go:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.it small{display:block;color:var(--ink2);font-size:12px}
+.it .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.it .mute{color:var(--mute)}
+.rep{margin-top:24px;font-size:14px}
+.rep ul{margin:8px 0 0;padding-left:20px;color:var(--ink2)}
+.rep li{margin:0 0 6px}
+.dl{height:36px;padding:0 14px;border:1px solid var(--line);background:var(--surface);border-radius:10px;cursor:pointer;font-weight:500}
+.dl:hover{border-color:var(--mute)}
+@media (max-width:900px){.itiles{grid-template-columns:1fr 1fr}.issuesv{height:auto;padding-top:20px}.seg{order:4}}
+
 /* body */
 .body{display:grid;grid-template-columns:268px minmax(0,1fr);min-height:0}
 .body.has-panel{grid-template-columns:268px minmax(0,1fr) 360px}
@@ -196,6 +236,7 @@ details p{margin:8px 0 0}
   <header class="bar">
     <svg class="logo" viewBox="72 995 130 24" width="130" height="24" fill="#FF3300" overflow="visible" role="img" aria-label="AWARE™"><path d="M 88.81 1011.92 C 91.04 1009.39 92.80 1006.60 92.80 1003.09 C 92.80 1000.04 90.79 996.88 87.44 996.88 C 86.10 996.88 84.24 997.39 82.89 999.76 C 81.55 997.39 79.69 996.88 78.35 996.88 C 75 996.88 73 1000.04 73 1003.09 C 73 1006.60 74.76 1009.38 76.98 1011.92 L 74.74 1016.55 L 77.10 1016.55 L 78.54 1013.59 C 78.97 1014.03 79.40 1014.46 79.83 1014.90 C 80.59 1015.66 81.37 1016.45 82.10 1017.24 L 82.89 1018.11 L 83.69 1017.24 C 84.41 1016.47 85.18 1015.70 85.92 1014.95 C 86.37 1014.50 86.82 1014.05 87.26 1013.60 L 88.69 1016.55 L 91.05 1016.55 L 88.81 1011.92 Z M 77.99 1009.84 C 76.32 1007.80 75.14 1005.65 75.14 1003.09 C 75.14 1001.06 76.34 998.95 78.35 998.95 C 79.53 998.95 80.42 999.59 81.13 1000.96 L 81.71 1002.16 Z M 84.38 1013.51 C 83.89 1014.01 83.39 1014.51 82.89 1015.02 C 82.39 1014.49 81.87 1013.97 81.37 1013.46 C 80.74 1012.83 80.11 1012.20 79.51 1011.57 L 82.89 1004.60 L 86.27 1011.57 C 85.66 1012.22 85.02 1012.86 84.37 1013.51 Z M 87.80 1009.85 L 84.08 1002.16 L 84.66 1000.96 C 85.37 999.59 86.26 998.95 87.44 998.95 C 89.45 998.95 90.66 1001.06 90.66 1003.09 C 90.66 1005.65 89.48 1007.81 87.80 1009.85 Z M 87.80 1009.85 "/><path d="M 193.05 998.30 L 193.65 998.30 L 193.65 999.99 L 194.05 999.99 L 194.05 998.30 L 194.65 998.30 L 194.65 997.92 L 193.05 997.92 Z M 193.05 998.30 "/><path d="M 196.44 997.92 L 195.96 999.36 L 195.49 997.96 L 195.48 997.92 L 194.92 997.92 L 194.92 999.99 L 195.32 999.99 L 195.32 998.61 L 195.78 999.99 L 196.14 999.99 L 196.60 998.61 L 196.60 999.99 L 196.99 999.99 L 196.99 997.92 Z M 196.44 997.92 "/><path d="M 138.17 997.92 L 133.03 1008.64 L 129.70 997.92 L 125.29 997.92 L 121.94 1008.64 L 116.82 997.92 L 112.25 997.92 L 120.23 1016.55 L 123.37 1016.55 L 127.49 1003.60 L 131.63 1016.55 L 134.77 1016.55 L 142.75 997.92 Z M 138.17 997.92 "/><path d="M 104.43 997.92 L 96.19 1016.55 L 100.72 1016.55 L 102.5 1012.53 L 104.10 1008.87 L 106.51 1003.46 L 108.88 1008.87 L 110.49 1012.53 L 112.26 1016.55 L 116.79 1016.55 L 108.56 997.92 Z M 104.43 997.92 "/><path d="M 146.44 997.92 L 138.20 1016.55 L 142.73 1016.55 L 144.50 1012.53 L 146.11 1008.87 L 148.51 1003.46 L 150.89 1008.87 L 152.5 1012.53 L 154.27 1016.55 L 158.80 1016.55 L 150.56 997.92 L 146.44 997.92 Z M 146.44 997.92 "/><path d="M 171.66 1009.87 C 174.07 1009.00 175.27 1007.08 175.27 1004.10 L 175.27 1004.09 C 175.27 1001.92 174.64 1000.35 173.39 999.38 C 172.12 998.41 170.02 997.92 167.07 997.92 L 159.87 997.92 L 159.87 1016.55 L 164.16 1016.55 L 164.16 1010.59 L 167.05 1010.59 L 171.25 1016.53 L 176.46 1016.53 L 171.66 1009.87 Z M 170.17 1006.30 C 169.64 1006.76 168.66 1007.00 167.21 1007.00 L 164.16 1007.00 L 164.16 1001.49 L 167.28 1001.49 C 168.64 1001.49 169.59 1001.67 170.14 1002.05 C 170.67 1002.42 170.94 1003.11 170.94 1004.11 C 170.94 1005.11 170.69 1005.84 170.16 1006.31 L 170.17 1006.31 Z M 170.17 1006.30 "/><path d="M 192.51 1002.06 L 192.51 997.92 L 178.07 997.92 L 178.07 1016.55 L 192.51 1016.55 L 192.51 1012.41 L 182.35 1012.41 L 182.35 1009.05 L 190.91 1009.05 L 190.91 1005.42 L 182.35 1005.42 L 182.35 1002.06 Z M 192.51 1002.06 "/></svg>
     <div class="title">Connections map<small>Labs</small></div>
+    <div class="seg" id="seg" role="group" aria-label="View"><button type="button" id="vMap" aria-pressed="true">Map</button><button type="button" id="vIssues" aria-pressed="false">Data issues<span class="cnt" id="icnt"></span></button></div>
     <div class="search">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
       <input id="q" type="search" placeholder="Find an organisation" autocomplete="off" aria-label="Find an organisation">
@@ -290,6 +331,7 @@ details p{margin:8px 0 0}
       <div class="hint">Click an organisation to trace it</div>
       <div class="zoom"><button id="zin" type="button" aria-label="Zoom in">+</button><button id="zout" type="button" aria-label="Zoom out">−</button><button id="fit" class="fit" type="button">Fit</button></div>
     </main>
+    <section class="issuesv" id="issuesv" hidden aria-label="Data issues"></section>
     <aside class="panel" id="panel" hidden aria-live="polite"></aside>
   </div>
 </div>
@@ -527,6 +569,72 @@ $('zin').addEventListener('click', () => { const r = svg.getBoundingClientRect()
 $('zout').addEventListener('click', () => { const r = svg.getBoundingClientRect(); zoomAt(1 / 1.3, r.width / 2, r.height / 2); });
 $('fit').addEventListener('click', fit);
 addEventListener('resize', fit);
+
+/* data issues view */
+const IS = D.issues;
+if (!IS) { $('seg').hidden = true; }
+else {
+  let view = 'map', saved = null, cat = 'trades';
+  const nm = id => byId[id] ? byId[id].n : id;
+  const T = [
+    { key: 'trades', label: 'Trades without a connection', n: pairs.length,
+      text: 'Two organisations moved tokens to each other and the connections data has no accepted connection between them. A connection may be missing from the export, or they may have traded without connecting. Click a row to see the pair on the map.',
+      head: ['Organisation', 'Traded with', 'Tokens', 'Transfers'],
+      rows: pairs.slice().sort((a, b) => b.k - a.k).map(p => ({ go: p.a, cells: [org(p.a), org(p.b), num(p.k), num(p.t)], csv: ['Trade without a connection', nm(p.a), p.a, nm(p.b), p.b, p.k, p.t, ''] })) },
+    { key: 'dups', label: 'Possible duplicates', n: IS.dups.length,
+      text: 'Two Aware IDs that look like the same company. They are flagged and not merged, because we have no confirmation. Each pair needs a decision from someone who knows the accounts. Click a row to find the first one on the map.',
+      head: ['Organisation', 'Possible match'],
+      rows: IS.dups.map(p => ({ go: p.a, cells: [org(p.a), org(p.b)], csv: ['Possible duplicate', nm(p.a), p.a, nm(p.b), p.b, '', '', 'Unconfirmed'] })) },
+    { key: 'missing', label: 'Missing from Organisations', n: IS.missing.length,
+      text: 'These Aware IDs appear in the connections data and have no entry in the Organisations table. The page shows the name from the connections data where there is one.',
+      head: ['Organisation', 'Note'],
+      rows: IS.missing.map(m => ({ go: m.id, cells: [org(m.id), esc(m.note)], csv: ['Missing from Organisations', nm(m.id), m.id, '', '', '', '', m.note] })) },
+    { key: 'outside', label: 'Not on the map', n: IS.outside.length,
+      text: 'These organisations appear in Transfer History and have no connection at all, so they cannot be placed on the map. Most have no entry in Organisations. They are listed by tokens moved.',
+      head: ['Organisation', 'Aware ID', 'In Organisations', 'Tokens', 'Transfers'],
+      rows: IS.outside.map(o => ({ go: null, cells: [o.n ? esc(o.n) : '<span class="mute">No name on record</span>', esc(o.id), o.inOrg ? 'Yes' : 'No', num(o.k), num(o.t)], csv: ['Not on the map', o.n, o.id, '', '', o.k, o.t, o.inOrg ? 'In Organisations' : 'Not in Organisations'] })) }
+  ];
+  function org(id) { const n = byId[id]; return n ? esc(n.n) + '<small>' + esc(id) + (n.c ? ' · ' + esc(n.c) : '') + '</small>' : esc(id); }
+  function num(v) { return fmt(v); }
+  const total = T.reduce((s, c) => s + c.n, 0);
+  $('icnt').textContent = total;
+  const csvCell = v => { const s = String(v == null ? '' : v); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  function download() {
+    const head = ['Type', 'Organisation', 'Aware ID', 'Other organisation', 'Other Aware ID', 'Tokens', 'Transfers', 'Note'];
+    const lines = [head].concat(...T.map(c => c.rows.map(r => r.csv))).map(r => r.map(csvCell).join(','));
+    const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'aware-data-issues.csv';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }
+  function renderIssues() {
+    const c = T.find(x => x.key === cat);
+    $('issuesv').innerHTML = '<div class="iwrap"><div class="ihead"><div><h1>Data issues</h1><p>Things in the data that look wrong or incomplete. Take these to the developers, or use them to check the map.</p></div><button class="dl" id="dl" type="button">Download all as CSV</button></div>'
+      + '<div class="itiles" role="tablist">' + T.map(x => '<button class="itile" role="tab" type="button" data-cat="' + x.key + '" aria-selected="' + (x.key === cat) + '"><b>' + x.n + '</b><span>' + x.label + '</span></button>').join('') + '</div>'
+      + '<p class="explain">' + esc(c.text) + '</p>'
+      + '<div class="tw"><table class="it"><thead><tr>' + c.head.map((h, i) => '<th' + (/Tokens|Transfers/.test(h) ? ' class="num"' : '') + '>' + h + '</th>').join('') + '</tr></thead><tbody>'
+      + c.rows.map(r => '<tr' + (r.go ? ' class="go" tabindex="0" data-go="' + esc(r.go) + '"' : '') + '>' + r.cells.map((x, i) => '<td' + (/Tokens|Transfers/.test(c.head[i]) ? ' class="num"' : '') + '>' + x + '</td>').join('') + '</tr>').join('')
+      + '</tbody></table></div>'
+      + '<details class="rep"><summary>Repairs applied to this data</summary><ul>' + IS.repairs.map(r => '<li>' + esc(r) + '</li>').join('') + '</ul></details></div>';
+  }
+  function setView(v) {
+    if (v === view) return;
+    if (v === 'issues') { saved = { k, tx, ty }; renderIssues(); $('issuesv').scrollTop = 0; }
+    view = v;
+    $('body').classList.toggle('issues', v === 'issues'); document.body.classList.toggle('in-issues', v === 'issues');
+    $('issuesv').hidden = v !== 'issues';
+    $('vMap').setAttribute('aria-pressed', String(v === 'map')); $('vIssues').setAttribute('aria-pressed', String(v === 'issues'));
+    if (v === 'map' && saved) { k = saved.k; tx = saved.tx; ty = saved.ty; apply(); }
+  }
+  $('vMap').addEventListener('click', () => setView('map'));
+  $('vIssues').addEventListener('click', () => setView('issues'));
+  $('issuesv').addEventListener('click', e => {
+    if (e.target.closest('#dl')) { download(); return; }
+    const t = e.target.closest('.itile'); if (t) { cat = t.dataset.cat; renderIssues(); return; }
+    const r = e.target.closest('tr[data-go]'); if (r) { setView('map'); select(r.dataset.go); focusNode(r.dataset.go, true); }
+  });
+  $('issuesv').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches('tr[data-go]')) e.target.click(); });
+}
+
 paint(); fit();
 }
 </script>
