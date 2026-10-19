@@ -1,0 +1,532 @@
+<title>AWARE™ Connections Map</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout concept: a one-screen data tool. Slim top bar, filter sidebar, full-height canvas, detail drawer that opens on selection.
+   Scarlet only marks Final Brands, the selected organisation and its route. Everything else is Soil on Snow. Rethink Sans, Helvetica fallback. */
+:root{
+  --scarlet:#FF3300;
+  --bg:#F5F5F5; --surface:#FFFFFF; --ink:#3E1A04; --ink2:#6F5849; --mute:#9A887C; --line:#E6E0DB; --soft:#F3EFEC;
+  --edge:rgba(62,26,4,.26); --edge-hot:rgba(62,26,4,.85); --node-stroke:#3E1A04;
+  --r-prod:#3E1A04; --r-fab:#85695A; --r-yarn:#BBA89D; --r-oth:#FFFFFF;
+  --font:"Rethink Sans",Helvetica,Arial,"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#2E1203; --surface:#3E1A04; --ink:#F5F5F5; --ink2:#D3C2B8; --mute:#A89485; --line:#5C3520; --soft:#4A2308;
+  --edge:rgba(245,245,245,.26); --edge-hot:rgba(245,245,245,.9); --node-stroke:#F5F5F5;
+  --r-prod:#F5F5F5; --r-fab:#CDB9AD; --r-yarn:#9C8171; --r-oth:#3E1A04; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#2E1203; --surface:#3E1A04; --ink:#F5F5F5; --ink2:#D3C2B8; --mute:#A89485; --line:#5C3520; --soft:#4A2308;
+  --edge:rgba(245,245,245,.26); --edge-hot:rgba(245,245,245,.9); --node-stroke:#F5F5F5;
+  --r-prod:#F5F5F5; --r-fab:#CDB9AD; --r-yarn:#9C8171; --r-oth:#3E1A04; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.45}
+.app{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr)}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+/* top bar */
+.bar{display:flex;align-items:center;gap:16px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));background:var(--surface);border-bottom:1px solid var(--line)}
+.logo{height:24px;width:130px;display:block;flex:none;overflow:visible}
+.title{font-weight:600;font-size:15px;white-space:nowrap;padding-left:16px;border-left:1px solid var(--line)}
+.title small{font-weight:500;color:var(--mute);margin-left:6px}
+.search{position:relative;flex:0 1 380px;margin-left:12px}
+.search input{width:100%;height:36px;border:1px solid var(--line);background:var(--soft);border-radius:10px;padding:0 12px 0 34px;font-size:14px}
+.search input:focus{background:var(--surface);border-color:var(--ink)}
+.search svg{position:absolute;left:11px;top:10px;width:16px;height:16px;stroke:var(--mute);fill:none;stroke-width:2;pointer-events:none}
+.results{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;max-height:320px;overflow:auto;z-index:30;box-shadow:0 10px 30px rgba(62,26,4,.16);padding:4px}
+.results[hidden]{display:none}
+.results button{display:block;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:8px 10px;cursor:pointer}
+.results button:hover,.results button:focus-visible{background:var(--soft)}
+.results small{display:block;color:var(--ink2);font-size:12px}
+.sp{flex:1}
+.ibtn{height:34px;min-width:34px;padding:0 12px;border:1px solid var(--line);background:var(--surface);border-radius:10px;cursor:pointer;font-weight:500;font-size:13px}
+.ibtn:hover{border-color:var(--mute)}
+
+
+.help{position:fixed;inset:0;z-index:50;background:rgba(62,26,4,.5);display:flex;align-items:flex-start;justify-content:center;padding:48px 16px 16px;overflow:auto}
+.help[hidden]{display:none}
+.hcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;max-width:720px;width:100%;padding:24px 28px 28px;font-size:14.5px;line-height:1.55}
+.hhead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.hhead h2{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.hlede{font-size:15.5px;color:var(--ink2);margin:10px 0 4px}
+.hcard h3{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:26px 0 10px;padding-top:18px;border-top:1px solid var(--line)}
+.hcard p{margin:0 0 10px} .hcard ul{margin:0 0 10px;padding-left:20px} .hcard li{margin:0 0 6px}
+.steps{display:grid;grid-template-columns:110px 1fr;gap:8px 16px;margin:0 0 12px} .steps dt{font-weight:700} .steps dd{margin:0}
+.key{display:grid;gap:10px}
+.key>div{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+.key .sw,.key .ls{margin-top:5px;justify-self:center}
+.key .sw{display:block;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--node-stroke)}
+.key .sw.sq{border-radius:4px;background:var(--scarlet);border-color:var(--scarlet)}
+.key .ringsw{background:transparent;border:1.5px dashed var(--ink2)}
+.key .ls{display:block;width:30px;border-top:2px solid var(--edge-hot)} .key .ls.d{border-top:2px dashed var(--ink2)} .key .ls.r{border-top:3px solid var(--scarlet)}
+@media (max-width:900px){.hcard{padding:20px 18px 24px}.steps{grid-template-columns:90px 1fr}}
+
+/* body */
+.body{display:grid;grid-template-columns:268px minmax(0,1fr);min-height:0}
+.body.has-panel{grid-template-columns:268px minmax(0,1fr) 360px}
+.side{background:var(--surface);border-right:1px solid var(--line);overflow:auto;padding:4px 0}
+.sec{padding:14px 16px;border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:0}
+.sec h2{margin:0 0 10px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px 8px}
+.kpis b{display:block;font-size:22px;line-height:1.1;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.kpis span{font-size:12px;color:var(--ink2)}
+.fld{display:block;margin:0 0 10px;font-size:12px;font-weight:600;color:var(--ink2)}
+.fld:last-child{margin:0}
+.fld select{display:block;width:100%;margin-top:4px;height:36px;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:0 10px;font-size:14px;font-weight:400;color:var(--ink)}
+.fld select:hover{border-color:var(--mute)}
+.row{display:flex;align-items:center;gap:10px;padding:5px 0;cursor:pointer;font-size:14px;user-select:none}
+.row input{position:absolute;opacity:0;pointer-events:none}
+.row .sw{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--node-stroke);flex:none}
+.row .sw.sq{border-radius:4px;background:var(--scarlet);border-color:var(--scarlet)}
+.row .ls{width:22px;flex:none;border-top:2px solid var(--edge-hot)}
+.row .ls.d{border-top:2px dashed var(--ink2)}
+.row .n{margin-left:auto;color:var(--mute);font-size:12.5px;font-variant-numeric:tabular-nums}
+.row:has(input:focus-visible){outline:2px solid var(--ink);outline-offset:2px;border-radius:6px}
+.row:has(input:not(:checked)){opacity:.4} .row:has(input:not(:checked)) .t{text-decoration:line-through}
+.row.static{cursor:default}
+.hr{height:1px;background:var(--line);margin:8px 0}
+.reset{width:100%;height:36px;border:1px solid var(--line);background:var(--surface);border-radius:10px;cursor:pointer;font-weight:500}
+.reset:hover{border-color:var(--mute)}
+details{font-size:13px;color:var(--ink2);margin-bottom:12px}
+summary{cursor:pointer;font-weight:600;color:var(--ink)}
+details p{margin:8px 0 0}
+.fresh{font-size:12px;color:var(--mute);margin:0 0 12px}
+
+/* canvas */
+.canvas{--gut:112px;position:relative;min-width:0;min-height:0;overflow:hidden}
+#map{position:absolute;top:0;bottom:0;left:var(--gut);width:calc(100% - var(--gut));height:100%;display:block;touch-action:none;cursor:grab}
+#map.drag{cursor:grabbing}
+#steps{position:absolute;top:0;bottom:0;left:0;width:var(--gut);overflow:hidden;background:var(--bg);border-right:1px solid var(--line);z-index:2}
+.st{position:absolute;left:14px;right:8px;font-size:12px;color:var(--ink2);line-height:1.25}
+.st b{display:block;font-size:13px;color:var(--ink);font-weight:600}
+.zoom{position:absolute;right:14px;bottom:14px;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.zoom button{width:36px;height:34px;border:0;background:none;cursor:pointer;font-size:17px}
+.zoom button+button{border-top:1px solid var(--line)}
+.zoom button:hover{background:var(--soft)} .zoom .fit{font-size:11.5px;font-weight:600}
+.hint{position:absolute;left:calc(var(--gut) + 14px);bottom:14px;font-size:12.5px;color:var(--mute);background:color-mix(in srgb,var(--bg) 85%,transparent);padding:2px 8px;border-radius:6px;pointer-events:none}
+
+/* drawer */
+.panel{background:var(--surface);border-left:1px solid var(--line);overflow:auto;padding:16px 18px 24px;min-width:0}
+.panel[hidden]{display:none}
+.ph{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.panel h2{font-size:18px;line-height:1.2;font-weight:700;letter-spacing:-.01em;margin:0 0 8px;text-wrap:balance}
+.close{flex:none;width:30px;height:30px;border:1px solid var(--line);background:var(--surface);border-radius:8px;cursor:pointer;font-size:16px;line-height:1}
+.close:hover{border-color:var(--mute)}
+.panel h3{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:18px 0 6px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;font-weight:500;background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:1px 8px}
+.idl{font-size:12.5px;color:var(--ink2);margin:10px 0 0;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.idl code{font-family:inherit;font-weight:600;color:var(--ink);overflow-wrap:anywhere}
+.idl button{height:24px;font-size:12px;padding:0 8px;border:1px solid var(--line);background:var(--surface);border-radius:6px;cursor:pointer}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.stat{border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.stat b{display:block;font-size:20px;line-height:1.15;font-weight:700;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--ink2)}
+.route{margin:0;padding:0;list-style:none}
+.route li{display:flex;gap:10px;cursor:pointer}
+.route .rail{width:14px;display:flex;flex-direction:column;align-items:center}
+.route .rail i{width:11px;height:11px;border-radius:50%;background:var(--ink);flex:none;margin-top:5px}
+.route .rail i.b{border-radius:3px;background:var(--scarlet)}
+.route .rail i.me{background:var(--surface);border:2px solid var(--scarlet);width:13px;height:13px;margin-top:4px}
+.route .rail u{flex:1;width:2px;background:var(--line)}
+.route li:last-child .rail u{display:none}
+.route .t{padding:0 0 10px;font-size:13.5px} .route small{display:block;color:var(--ink2);font-size:12px}
+.route li:hover .t b{text-decoration:underline}
+.list{list-style:none;margin:0;padding:0}
+.list li{padding:7px 0;border-top:1px solid var(--line);cursor:pointer;font-size:13.5px}
+.list li:hover .nm{text-decoration:underline}
+.list small{display:block;color:var(--ink2);font-size:12px;overflow-wrap:anywhere}
+.flag{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;margin-top:14px}
+.empty{color:var(--ink2);font-size:13.5px;margin:0 0 10px}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--surface);font-size:12.5px;padding:5px 10px;border-radius:8px;z-index:60;max-width:280px;display:none}
+
+/* graph */
+.e{fill:none;stroke:var(--edge);stroke-linecap:round}
+.e.hot{stroke:var(--edge-hot);stroke-opacity:1!important}
+.e.route{stroke:var(--scarlet);stroke-opacity:1!important;stroke-width:3.4px}
+.p{fill:none;stroke:var(--ink2);stroke-dasharray:5 5;stroke-linecap:round;stroke-width:1.4;opacity:.8}
+.e.dim,.p.dim{opacity:.07}
+.nd{cursor:pointer} .nd .sh{stroke:var(--node-stroke);stroke-width:1.5}
+.nd.dim{opacity:.16}
+.ring{display:none;fill:none;stroke:var(--scarlet);stroke-width:3}
+.nd.sel .ring{display:block}
+.fring{fill:none;stroke:var(--ink2);stroke-width:1.4;stroke-dasharray:3 3}
+.lbl{font-size:11.5px;fill:var(--ink);paint-order:stroke;stroke:var(--bg);stroke-width:4px;stroke-linejoin:round;pointer-events:none;font-family:var(--font)}
+.lbl.b{font-weight:700;font-size:12px}
+.blk{fill:var(--surface);stroke:var(--line);stroke-width:1}
+
+@media (max-width:900px){
+  html,body{height:auto} .app{height:auto;display:block}
+  .bar{flex-wrap:wrap;gap:10px} .title{border:0;padding:0} .search{order:5;flex:1 1 100%;margin:0}
+  .body,.body.has-panel{display:flex;flex-direction:column}
+  .side{border-right:0;border-bottom:1px solid var(--line);max-height:none}
+  .canvas{height:62vh;min-height:360px}
+  .panel{border-left:0;border-top:1px solid var(--line)}
+  .hint{display:none} .canvas{--gut:76px} .st{left:8px;right:4px;font-size:11px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+#gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:16px}
+#gate[hidden]{display:none}
+.gcard{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px 24px}
+.gcard .logo{margin-bottom:20px}
+.gcard h1{font-size:20px;line-height:1.2;margin:0 0 6px;font-weight:700;letter-spacing:-.01em}
+.gcard p{margin:0 0 16px;color:var(--ink2);font-size:14px}
+.gcard input{width:100%;height:40px;border:1px solid var(--line);border-radius:10px;padding:0 12px;background:var(--soft);font-size:15px}
+.gcard input:focus{background:var(--surface);border-color:var(--ink)}
+.gcard button{width:100%;height:40px;margin-top:10px;border:0;border-radius:10px;background:var(--ink);color:var(--surface);font-weight:600;font-size:14px;cursor:pointer}
+.gcard button:disabled{opacity:.6;cursor:default}
+.gerr{min-height:20px;margin:8px 0 0!important;font-size:13px!important;color:var(--ink)!important;font-weight:500}
+</style>
+
+<div id="gate">
+  <form class="gcard" id="gform">
+    <svg class="logo" viewBox="72 995 130 24" width="130" height="24" fill="#FF3300" overflow="visible" role="img" aria-label="AWARE™"><path d="M 88.81 1011.92 C 91.04 1009.39 92.80 1006.60 92.80 1003.09 C 92.80 1000.04 90.79 996.88 87.44 996.88 C 86.10 996.88 84.24 997.39 82.89 999.76 C 81.55 997.39 79.69 996.88 78.35 996.88 C 75 996.88 73 1000.04 73 1003.09 C 73 1006.60 74.76 1009.38 76.98 1011.92 L 74.74 1016.55 L 77.10 1016.55 L 78.54 1013.59 C 78.97 1014.03 79.40 1014.46 79.83 1014.90 C 80.59 1015.66 81.37 1016.45 82.10 1017.24 L 82.89 1018.11 L 83.69 1017.24 C 84.41 1016.47 85.18 1015.70 85.92 1014.95 C 86.37 1014.50 86.82 1014.05 87.26 1013.60 L 88.69 1016.55 L 91.05 1016.55 L 88.81 1011.92 Z M 77.99 1009.84 C 76.32 1007.80 75.14 1005.65 75.14 1003.09 C 75.14 1001.06 76.34 998.95 78.35 998.95 C 79.53 998.95 80.42 999.59 81.13 1000.96 L 81.71 1002.16 Z M 84.38 1013.51 C 83.89 1014.01 83.39 1014.51 82.89 1015.02 C 82.39 1014.49 81.87 1013.97 81.37 1013.46 C 80.74 1012.83 80.11 1012.20 79.51 1011.57 L 82.89 1004.60 L 86.27 1011.57 C 85.66 1012.22 85.02 1012.86 84.37 1013.51 Z M 87.80 1009.85 L 84.08 1002.16 L 84.66 1000.96 C 85.37 999.59 86.26 998.95 87.44 998.95 C 89.45 998.95 90.66 1001.06 90.66 1003.09 C 90.66 1005.65 89.48 1007.81 87.80 1009.85 Z M 87.80 1009.85 "/><path d="M 193.05 998.30 L 193.65 998.30 L 193.65 999.99 L 194.05 999.99 L 194.05 998.30 L 194.65 998.30 L 194.65 997.92 L 193.05 997.92 Z M 193.05 998.30 "/><path d="M 196.44 997.92 L 195.96 999.36 L 195.49 997.96 L 195.48 997.92 L 194.92 997.92 L 194.92 999.99 L 195.32 999.99 L 195.32 998.61 L 195.78 999.99 L 196.14 999.99 L 196.60 998.61 L 196.60 999.99 L 196.99 999.99 L 196.99 997.92 Z M 196.44 997.92 "/><path d="M 138.17 997.92 L 133.03 1008.64 L 129.70 997.92 L 125.29 997.92 L 121.94 1008.64 L 116.82 997.92 L 112.25 997.92 L 120.23 1016.55 L 123.37 1016.55 L 127.49 1003.60 L 131.63 1016.55 L 134.77 1016.55 L 142.75 997.92 Z M 138.17 997.92 "/><path d="M 104.43 997.92 L 96.19 1016.55 L 100.72 1016.55 L 102.5 1012.53 L 104.10 1008.87 L 106.51 1003.46 L 108.88 1008.87 L 110.49 1012.53 L 112.26 1016.55 L 116.79 1016.55 L 108.56 997.92 Z M 104.43 997.92 "/><path d="M 146.44 997.92 L 138.20 1016.55 L 142.73 1016.55 L 144.50 1012.53 L 146.11 1008.87 L 148.51 1003.46 L 150.89 1008.87 L 152.5 1012.53 L 154.27 1016.55 L 158.80 1016.55 L 150.56 997.92 L 146.44 997.92 Z M 146.44 997.92 "/><path d="M 171.66 1009.87 C 174.07 1009.00 175.27 1007.08 175.27 1004.10 L 175.27 1004.09 C 175.27 1001.92 174.64 1000.35 173.39 999.38 C 172.12 998.41 170.02 997.92 167.07 997.92 L 159.87 997.92 L 159.87 1016.55 L 164.16 1016.55 L 164.16 1010.59 L 167.05 1010.59 L 171.25 1016.53 L 176.46 1016.53 L 171.66 1009.87 Z M 170.17 1006.30 C 169.64 1006.76 168.66 1007.00 167.21 1007.00 L 164.16 1007.00 L 164.16 1001.49 L 167.28 1001.49 C 168.64 1001.49 169.59 1001.67 170.14 1002.05 C 170.67 1002.42 170.94 1003.11 170.94 1004.11 C 170.94 1005.11 170.69 1005.84 170.16 1006.31 L 170.17 1006.31 Z M 170.17 1006.30 "/><path d="M 192.51 1002.06 L 192.51 997.92 L 178.07 997.92 L 178.07 1016.55 L 192.51 1016.55 L 192.51 1012.41 L 182.35 1012.41 L 182.35 1009.05 L 190.91 1009.05 L 190.91 1005.42 L 182.35 1005.42 L 182.35 1002.06 Z M 192.51 1002.06 "/></svg>
+    <h1>Connections map</h1>
+    <p>Enter the Labs password to open this page.</p>
+    <input id="gpw" type="password" autocomplete="current-password" placeholder="Password" aria-label="Password" required>
+    <button type="submit" id="gbtn">Open</button>
+    <p class="gerr" id="gerr" role="alert"></p>
+  </form>
+</div>
+<div class="app">
+  <header class="bar">
+    <svg class="logo" viewBox="72 995 130 24" width="130" height="24" fill="#FF3300" overflow="visible" role="img" aria-label="AWARE™"><path d="M 88.81 1011.92 C 91.04 1009.39 92.80 1006.60 92.80 1003.09 C 92.80 1000.04 90.79 996.88 87.44 996.88 C 86.10 996.88 84.24 997.39 82.89 999.76 C 81.55 997.39 79.69 996.88 78.35 996.88 C 75 996.88 73 1000.04 73 1003.09 C 73 1006.60 74.76 1009.38 76.98 1011.92 L 74.74 1016.55 L 77.10 1016.55 L 78.54 1013.59 C 78.97 1014.03 79.40 1014.46 79.83 1014.90 C 80.59 1015.66 81.37 1016.45 82.10 1017.24 L 82.89 1018.11 L 83.69 1017.24 C 84.41 1016.47 85.18 1015.70 85.92 1014.95 C 86.37 1014.50 86.82 1014.05 87.26 1013.60 L 88.69 1016.55 L 91.05 1016.55 L 88.81 1011.92 Z M 77.99 1009.84 C 76.32 1007.80 75.14 1005.65 75.14 1003.09 C 75.14 1001.06 76.34 998.95 78.35 998.95 C 79.53 998.95 80.42 999.59 81.13 1000.96 L 81.71 1002.16 Z M 84.38 1013.51 C 83.89 1014.01 83.39 1014.51 82.89 1015.02 C 82.39 1014.49 81.87 1013.97 81.37 1013.46 C 80.74 1012.83 80.11 1012.20 79.51 1011.57 L 82.89 1004.60 L 86.27 1011.57 C 85.66 1012.22 85.02 1012.86 84.37 1013.51 Z M 87.80 1009.85 L 84.08 1002.16 L 84.66 1000.96 C 85.37 999.59 86.26 998.95 87.44 998.95 C 89.45 998.95 90.66 1001.06 90.66 1003.09 C 90.66 1005.65 89.48 1007.81 87.80 1009.85 Z M 87.80 1009.85 "/><path d="M 193.05 998.30 L 193.65 998.30 L 193.65 999.99 L 194.05 999.99 L 194.05 998.30 L 194.65 998.30 L 194.65 997.92 L 193.05 997.92 Z M 193.05 998.30 "/><path d="M 196.44 997.92 L 195.96 999.36 L 195.49 997.96 L 195.48 997.92 L 194.92 997.92 L 194.92 999.99 L 195.32 999.99 L 195.32 998.61 L 195.78 999.99 L 196.14 999.99 L 196.60 998.61 L 196.60 999.99 L 196.99 999.99 L 196.99 997.92 Z M 196.44 997.92 "/><path d="M 138.17 997.92 L 133.03 1008.64 L 129.70 997.92 L 125.29 997.92 L 121.94 1008.64 L 116.82 997.92 L 112.25 997.92 L 120.23 1016.55 L 123.37 1016.55 L 127.49 1003.60 L 131.63 1016.55 L 134.77 1016.55 L 142.75 997.92 Z M 138.17 997.92 "/><path d="M 104.43 997.92 L 96.19 1016.55 L 100.72 1016.55 L 102.5 1012.53 L 104.10 1008.87 L 106.51 1003.46 L 108.88 1008.87 L 110.49 1012.53 L 112.26 1016.55 L 116.79 1016.55 L 108.56 997.92 Z M 104.43 997.92 "/><path d="M 146.44 997.92 L 138.20 1016.55 L 142.73 1016.55 L 144.50 1012.53 L 146.11 1008.87 L 148.51 1003.46 L 150.89 1008.87 L 152.5 1012.53 L 154.27 1016.55 L 158.80 1016.55 L 150.56 997.92 L 146.44 997.92 Z M 146.44 997.92 "/><path d="M 171.66 1009.87 C 174.07 1009.00 175.27 1007.08 175.27 1004.10 L 175.27 1004.09 C 175.27 1001.92 174.64 1000.35 173.39 999.38 C 172.12 998.41 170.02 997.92 167.07 997.92 L 159.87 997.92 L 159.87 1016.55 L 164.16 1016.55 L 164.16 1010.59 L 167.05 1010.59 L 171.25 1016.53 L 176.46 1016.53 L 171.66 1009.87 Z M 170.17 1006.30 C 169.64 1006.76 168.66 1007.00 167.21 1007.00 L 164.16 1007.00 L 164.16 1001.49 L 167.28 1001.49 C 168.64 1001.49 169.59 1001.67 170.14 1002.05 C 170.67 1002.42 170.94 1003.11 170.94 1004.11 C 170.94 1005.11 170.69 1005.84 170.16 1006.31 L 170.17 1006.31 Z M 170.17 1006.30 "/><path d="M 192.51 1002.06 L 192.51 997.92 L 178.07 997.92 L 178.07 1016.55 L 192.51 1016.55 L 192.51 1012.41 L 182.35 1012.41 L 182.35 1009.05 L 190.91 1009.05 L 190.91 1005.42 L 182.35 1005.42 L 182.35 1002.06 Z M 192.51 1002.06 "/></svg>
+    <div class="title">Connections map<small>Labs</small></div>
+    <div class="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <input id="q" type="search" placeholder="Find an organisation" autocomplete="off" aria-label="Find an organisation">
+      <div class="results" id="results" hidden></div>
+    </div>
+    <div class="sp"></div>
+    <button class="ibtn" id="helpBtn" type="button" aria-expanded="false" aria-haspopup="dialog">How to read</button>
+  </header>
+  <div class="help" id="help" hidden role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <div class="hcard">
+      <div class="hhead"><h2 id="helpTitle">How to read this map</h2><button class="close" id="helpClose" type="button" aria-label="Close help">×</button></div>
+      <p class="hlede">Every organisation in the AWARE network appears once. The Final Brands sit in the top row. Everyone else sits below, in the row that matches how many connections away they are from the nearest Final Brand.</p>
+
+      <h3>The rows: Final Brands and steps</h3>
+      <dl class="steps">
+        <dt>Final Brands</dt><dd>The top row. These are the brands whose products the supply chain ends with.</dd>
+        <dt>Step 1</dt><dd>Connected directly to a Final Brand.</dd>
+        <dt>Step 2</dt><dd>Connected to a Step 1 organisation, and not directly to any brand.</dd>
+        <dt>Step 3</dt><dd>Connected to a Step 2 organisation. This is the furthest the network reaches today.</dd>
+      </dl>
+      <p>A step counts recorded connections. It measures distance from a brand and says nothing about what the organisation makes. An organisation connected to several brands sits at the step of the nearest one. In this data, no two Final Brands connect directly. They are linked through shared suppliers.</p>
+
+      <h3>Key</h3>
+      <div class="key">
+        <div><i class="sw sq"></i><span><b>Final Brand</b></span></div>
+        <div><i class="sw" style="background:var(--r-prod)"></i><span><b>Product producer</b></span></div>
+        <div><i class="sw" style="background:var(--r-fab)"></i><span><b>Fabric producer</b></span></div>
+        <div><i class="sw" style="background:var(--r-yarn)"></i><span><b>Yarn producer</b></span></div>
+        <div><i class="sw" style="background:var(--r-oth)"></i><span><b>Other role</b></span></div>
+        <div><i class="sw ringsw"></i><span><b>Dashed ring.</b> The organisation has a data note, such as a possible duplicate of another organisation or a manual repair. Click it to read the note.</span></div>
+        <div><i class="ls"></i><span><b>Solid line.</b> An accepted connection between two organisations. A thicker line means more tokens moved between them.</span></div>
+        <div><i class="ls d"></i><span><b>Dashed line.</b> Trades without a connection. See below.</span></div>
+        <div><i class="ls r"></i><span><b>Red line.</b> The route from the selected organisation back to a Final Brand.</span></div>
+      </div>
+
+      <h3>Trades without a connection</h3>
+      <p>Two organisations have moved tokens to each other, and the connections data has no accepted connection between them. A solid line needs a recorded connection, so the map draws a dashed line instead. There are <b><span id="npairs"></span></b> such pairs.</p>
+      <p>Where this comes from:</p>
+      <ul>
+        <li><b>A connection is missing from the export.</b> The export keeps one route per organisation per brand and leaves out connections between organisations it has already found. A real connection can drop out this way. This is the most likely cause.</li>
+        <li><b>The organisations traded without ever connecting.</b> Tokens can move between organisations that never formally connected.</li>
+      </ul>
+      <p>Dashed lines do not count towards steps. Steps come from solid connections only. To see a pair, select one organisation: its panel lists each trading partner under "Trades without a connection", with the tokens and transfers involved. Switch the dashed lines off with the "Trades without a connection" toggle in the sidebar.</p>
+
+      <h3>When you select an organisation</h3>
+      <ul>
+        <li><b>Route to a Final Brand.</b> The shortest chain of connections from the organisation to a brand, drawn in red on the map.</li>
+        <li><b>Closer to a Final Brand.</b> Connections one step nearer to a brand.</li>
+        <li><b>Same step.</b> Connections to organisations in the same row.</li>
+        <li><b>Further away.</b> Connections one step further from a brand.</li>
+        <li><b>Tokens moved.</b> The total tokens in the organisation's transfers.</li>
+      </ul>
+
+      <h3>Controls</h3>
+      <ul>
+        <li><b>Find an organisation.</b> Search by name or Aware ID. Enter jumps to the first match.</li>
+        <li><b>Follow one brand.</b> Highlights every organisation reachable from that brand without passing through another Final Brand. Treat the count as a minimum.</li>
+        <li><b>Country.</b> Fades organisations in other countries.</li>
+        <li><b>Show.</b> Switch roles or the dashed lines on and off.</li>
+        <li><b>Move around.</b> Scroll or pinch to zoom, drag to pan, Fit to see everything, Esc to clear the selection.</li>
+      </ul>
+
+      <h3>What the data leaves out</h3>
+      <ul>
+        <li>Some real connections are missing, for the reason above.</li>
+        <li>Demo and test accounts are removed. Possible duplicate organisations are flagged and not merged.</li>
+        <li>Steps are measured from all Final Brands at once.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="body" id="body">
+    <aside class="side" aria-label="Filters">
+      <section class="sec"><h2>Overview</h2><div class="kpis" id="kpis"></div></section>
+      <section class="sec"><h2>Focus</h2>
+        <label class="fld">Follow one brand<select id="brandSel"><option value="">Whole network</option></select></label>
+        <label class="fld">Country<select id="countrySel"><option value="">All countries</option></select></label>
+      </section>
+      <section class="sec"><h2>Show</h2><div id="roles"></div></section>
+      <section class="sec">
+        <p class="fresh" id="fresh"></p>
+        <details><summary>About this data</summary>
+          <p>Built from the latest sync, with known repairs applied. Possible duplicate organisations are flagged and not merged.</p>
+          <p>The export keeps one discovery route per organisation per brand, so a few real connections are missing. Dashed lines show organisations that exchange tokens with no connection recorded.</p>
+          <p>Following one brand blocks every other Final Brand as a pass-through, so it shows that brand's reach as a minimum.</p>
+        </details>
+        <button class="reset" id="reset" type="button">Reset view</button>
+      </section>
+    </aside>
+    <main class="canvas">
+      <svg id="map" role="img" aria-label="Network map of organisations in steps from a Final Brand"><g id="vp"></g></svg>
+      <div id="steps"></div>
+      <div class="hint">Click an organisation to trace it</div>
+      <div class="zoom"><button id="zin" type="button" aria-label="Zoom in">+</button><button id="zout" type="button" aria-label="Zoom out">−</button><button id="fit" class="fit" type="button">Fit</button></div>
+    </main>
+    <aside class="panel" id="panel" hidden aria-live="polite"></aside>
+  </div>
+</div>
+<div id="tip"></div>
+
+<script>
+const API_URL = 'https://aware-labs-data.YOUR-SUBDOMAIN.workers.dev/data';
+const KEY = 'aware-labs-pw';
+const store = { get() { try { return sessionStorage.getItem(KEY); } catch (_) { return null; } }, set(v) { try { sessionStorage.setItem(KEY, v); } catch (_) {} }, del() { try { sessionStorage.removeItem(KEY); } catch (_) {} } };
+let started = false;
+async function load(pw) {
+  const r = await fetch(API_URL, { headers: { Authorization: 'Bearer ' + pw }, cache: 'no-store' });
+  if (r.status === 401) throw new Error('bad');
+  if (!r.ok) throw new Error('err');
+  return r.json();
+}
+function open(pw, D) { store.set(pw); document.getElementById('gate').hidden = true; if (!started) { started = true; run(D); } }
+const gate = { f: document.getElementById('gform'), pw: document.getElementById('gpw'), b: document.getElementById('gbtn'), e: document.getElementById('gerr') };
+gate.f.addEventListener('submit', async ev => {
+  ev.preventDefault(); gate.b.disabled = true; gate.e.textContent = '';
+  try { open(gate.pw.value, await load(gate.pw.value)); }
+  catch (err) { gate.e.textContent = err.message === 'bad' ? 'That password is not right.' : 'Could not reach the data service. Try again.'; gate.pw.select(); }
+  gate.b.disabled = false;
+});
+const saved = store.get();
+if (saved) load(saved).then(D => open(saved, D)).catch(() => { store.del(); gate.pw.focus(); }); else gate.pw.focus();
+function run(D) {
+const META = D.meta;
+const NS = 'http://www.w3.org/2000/svg';
+const $ = id => document.getElementById(id);
+const el = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+const fmt = n => n.toLocaleString('en-GB');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const nodes = D.nodes, edges = D.edges, pairs = D.pairs;
+const byId = {}; nodes.forEach(n => byId[n.id] = n);
+const isBrand = n => n.r === 'Final Brand';
+const brands = nodes.filter(isBrand);
+const adj = {}; nodes.forEach(n => adj[n.id] = []);
+const ekey = (a, b) => a < b ? a + '|' + b : b + '|' + a;
+const eIdx = {}; edges.forEach((e, i) => { eIdx[ekey(e.a, e.b)] = i; adj[e.a].push({o: e.b, e}); adj[e.b].push({o: e.a, e}); });
+const roleKey = n => isBrand(n) ? 'brand' : ({'Product Producer': 'prod', 'Fabric Producer': 'fab', 'Yarn Producer': 'yarn'}[n.r] || 'oth');
+const ROLES = [['prod', 'Product producer'], ['fab', 'Fabric producer'], ['yarn', 'Yarn producer'], ['oth', 'Other']];
+
+/* steps from the nearest Final Brand, and the route back */
+const layer = {}, parent = {}; let frontier = brands.map(b => b.id); frontier.forEach(i => layer[i] = 0);
+while (frontier.length) { const nx = []; frontier.forEach(i => adj[i].forEach(x => { if (layer[x.o] === undefined) { layer[x.o] = layer[i] + 1; parent[x.o] = i; nx.push(x.o); } })); frontier = nx; }
+nodes.forEach(n => { if (layer[n.id] === undefined) layer[n.id] = 99; });
+const maxL = Math.max(...nodes.map(n => layer[n.id]).filter(v => v < 99));
+const L = []; for (let i = 0; i <= maxL; i++) L.push([]);
+nodes.forEach(n => { if (layer[n.id] < 99) L[layer[n.id]].push(n.id); });
+
+/* ordering by barycentre sweeps, then even spread */
+const SP = 34, SUB = 3, SUBH = 40, GAP = 14;
+const widest = Math.max(...L.map(a => a.length));
+const W = Math.max(1150, Math.ceil(widest / SUB) * SP * 1.2);
+const X = {};
+L.forEach(a => { a.sort(); a.forEach((id, i) => X[id] = (i + .5) / a.length * W); });
+function sweep(l, ref) {
+  const key = {};
+  L[l].forEach(id => { const ns = adj[id].filter(x => layer[x.o] === ref).map(x => X[x.o]); key[id] = ns.length ? ns.reduce((s, v) => s + v, 0) / ns.length : X[id]; });
+  L[l].sort((a, b) => key[a] - key[b] || (a < b ? -1 : 1));
+  L[l].forEach((id, i) => X[id] = (i + .5) / L[l].length * W);
+}
+for (let it = 0; it < 40; it++) { for (let l = 1; l <= maxL; l++) sweep(l, l - 1); for (let l = maxL - 1; l >= 0; l--) sweep(l, l + 1); }
+const blocks = []; let yy = 16;
+L.forEach((a, l) => { const rows = a.length > 36 ? SUB : 1, inner = (rows - 1) * SUBH, pad0 = l === 0 ? 100 : 40, h = pad0 + inner + 56; blocks.push({top: yy, h, ny: yy + pad0, rows}); yy += h + GAP; });
+const H = yy + 4;
+const pos = {};
+L.forEach((a, l) => a.forEach((id, i) => { pos[id] = {x: X[id], y: blocks[l].ny + (blocks[l].rows > 1 ? (i % SUB) * SUBH : 0)}; }));
+
+/* draw */
+const vp = $('vp'), gB = el('g', {}, vp), gE = el('g', {}, vp), gP = el('g', {}, vp), gN = el('g', {}, vp), gT = el('g', {}, vp), dyn = el('g', {}, vp);
+blocks.forEach(b => el('rect', {class: 'blk', x: -16, y: b.top, width: W + 32, height: b.h, rx: 14}, gB));
+const lw = e => e.k > 0 ? Math.min(3.2, 1 + Math.log10(e.k + 1) * .36) : 1;
+function path(a, b) {
+  const p = pos[a], q = pos[b];
+  if (layer[a] === layer[b]) { const m = (p.x + q.x) / 2, dy = Math.min(70, Math.abs(p.x - q.x) * .3 + 14); return `M${p.x},${p.y}Q${m},${p.y + dy} ${q.x},${q.y}`; }
+  const my = (p.y + q.y) / 2; return `M${p.x},${p.y}C${p.x},${my} ${q.x},${my} ${q.x},${q.y}`;
+}
+const eEl = edges.map(e => el('path', {d: path(e.a, e.b), class: 'e', 'stroke-width': lw(e), 'stroke-opacity': e.k > 0 ? 1 : .55}, gE));
+const pEl = pairs.map(e => el('path', {d: path(e.a, e.b), class: 'p'}, gP));
+const nEl = {};
+nodes.forEach(n => {
+  if (!pos[n.id]) return;
+  const p = pos[n.id], g = el('g', {class: 'nd', transform: `translate(${p.x},${p.y})`, tabindex: 0, role: 'button', 'aria-label': n.n + ', ' + n.r + ', step ' + layer[n.id]}, gN), w = isBrand(n), rk = roleKey(n);
+  if (n.f) el('circle', {class: 'fring', r: w ? 17 : 14}, g);
+  el('circle', {class: 'ring', r: w ? 17 : 13}, g);
+  if (w) el('rect', {x: -10, y: -10, width: 20, height: 20, rx: 5, fill: 'var(--scarlet)'}, g);
+  else el('circle', {class: 'sh', r: 8, fill: 'var(--r-' + rk + ')'}, g);
+  g.addEventListener('mouseenter', ev => { hover = n.id; tip(ev, n); paint(); });
+  g.addEventListener('mousemove', ev => tip(ev, n));
+  g.addEventListener('mouseleave', () => { $('tip').style.display = 'none'; hover = null; paint(); });
+  g.addEventListener('click', ev => { ev.stopPropagation(); select(n.id); });
+  g.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); select(n.id); } });
+  nEl[n.id] = g;
+});
+brands.forEach((b, i) => { const p = pos[b.id], t = el('text', {class: 'lbl b', x: p.x, y: p.y - 19 - (i % 3) * 15, 'text-anchor': 'middle'}, gT); t.textContent = b.id; });
+function tip(ev, n) { const t = $('tip'); t.style.display = 'block'; t.textContent = n.n + ' · ' + n.id; t.style.left = Math.min(innerWidth - 290, ev.clientX + 14) + 'px'; t.style.top = (ev.clientY + 14) + 'px'; }
+const stepEls = blocks.map((b, l) => { const d = document.createElement('div'); d.className = 'st'; d.innerHTML = `<b>${l === 0 ? 'Final Brands' : 'Step ' + l}</b>${fmt(L[l].length)}${l === 0 ? '' : ' organisations'}`; $('steps').appendChild(d); return d; });
+
+/* state */
+let hover = null, sel = null, brandSel = '', hit = null, route = {nodes: new Set(), edges: new Set()};
+const off = new Set(); let country = '';
+function reachFrom(b) { const seen = new Set([b]); let f = [b]; while (f.length) { const nx = []; f.forEach(i => adj[i].forEach(x => { if (seen.has(x.o) || isBrand(byId[x.o])) return; seen.add(x.o); nx.push(x.o); })); f = nx; } return seen; }
+function routeOf(id) { const ns = [id], es = new Set(); let c = id; while (parent[c] !== undefined) { const p = parent[c]; es.add(eIdx[ekey(c, p)]); ns.push(p); c = p; } return {ns, es}; }
+function activeSets() {
+  const focus = hover || sel;
+  if (focus) { const s = new Set([focus]); adj[focus].forEach(x => s.add(x.o)); pairs.forEach(p => { if (p.a === focus) s.add(p.b); if (p.b === focus) s.add(p.a); }); if (sel && focus === sel) route.nodes.forEach(i => s.add(i)); return {nodes: s, focus}; }
+  if (hit) return {nodes: hit, focus: null};
+  if (brandSel) return {nodes: reachFrom(brandSel), focus: null};
+  return null;
+}
+const pass = n => isBrand(n) || (!off.has(roleKey(n)) && (!country || n.c === country));
+function paint() {
+  const a = activeSets();
+  nodes.forEach(n => { const g = nEl[n.id]; if (!g) return; g.classList.toggle('dim', (!!a && !a.nodes.has(n.id)) || !pass(n)); g.classList.toggle('sel', sel === n.id); });
+  edges.forEach((e, i) => {
+    const ok = !a || (a.focus ? (e.a === a.focus || e.b === a.focus || (route.edges.has(i) && sel === a.focus)) : (a.nodes.has(e.a) && a.nodes.has(e.b)));
+    eEl[i].classList.toggle('dim', !ok || !pass(byId[e.a]) || !pass(byId[e.b]));
+    eEl[i].classList.toggle('hot', !!a && !!a.focus && (e.a === a.focus || e.b === a.focus));
+    eEl[i].classList.toggle('route', !!sel && route.edges.has(i));
+  });
+  pairs.forEach((e, i) => { pEl[i].style.display = off.has('xfer') ? 'none' : ''; const ok = !a || (a.focus ? (e.a === a.focus || e.b === a.focus) : (a.nodes.has(e.a) && a.nodes.has(e.b))); pEl[i].classList.toggle('dim', !ok); });
+  while (dyn.firstChild) dyn.removeChild(dyn.firstChild);
+  if (a && a.focus) { let i = 0; a.nodes.forEach(id => { const n = byId[id]; if (isBrand(n) && id !== a.focus && !route.nodes.has(id)) return; const p = pos[id]; const t = el('text', {class: 'lbl', x: p.x, y: p.y + 25 + (i++ % 3) * 13, 'text-anchor': 'middle'}, dyn); t.textContent = n.n.length > 20 ? n.n.slice(0, 19) + '…' : n.n; }); }
+}
+
+/* drawer */
+function showPanel(on) { $('panel').hidden = !on; $('body').classList.toggle('has-panel', on); }
+function item(x) { return `<li data-id="${esc(x.o)}"><span class="nm">${esc(byId[x.o].n)}</span><small>${esc(x.o)} · ${x.e.k ? fmt(x.e.k) + ' tokens' : 'no transfers'} · request ${esc(x.e.q)}</small></li>`; }
+function select(id) {
+  sel = id; hit = null; $('q').value = ''; $('results').hidden = true;
+  const n = byId[id], r = routeOf(id); route = {nodes: new Set(r.ns), edges: r.es};
+  const list = adj[id].slice().sort((a, b) => b.e.k - a.e.k), closer = list.filter(x => layer[x.o] < layer[id]), same = list.filter(x => layer[x.o] === layer[id]), further = list.filter(x => layer[x.o] > layer[id]);
+  const px = pairs.filter(p => p.a === id || p.b === id), st = layer[id], chain = r.ns.slice().reverse();
+  const routeHtml = chain.length > 1 ? `<h3>Route to a Final Brand</h3><ul class="route">${chain.map((c, i) => `<li data-id="${esc(c)}"><div class="rail"><i class="${i === 0 ? 'b' : (i === chain.length - 1 ? 'me' : '')}"></i><u></u></div><div class="t"><b>${esc(byId[c].n)}</b><small>${i === 0 ? 'Final Brand' : (i === chain.length - 1 ? 'Selected' : 'Step ' + layer[c])}</small></div></li>`).join('')}</ul>` : '';
+  const grp = (t, a) => a.length ? `<h3>${t} (${a.length})</h3><ul class="list">${a.map(item).join('')}</ul>` : '';
+  const pxHtml = px.length ? `<h3>Trades without a connection (${px.length})</h3><ul class="list">${px.map(p => { const o = p.a === id ? p.b : p.a; return `<li data-id="${esc(o)}"><span class="nm">${esc(byId[o].n)}</span><small>${fmt(p.k)} tokens · ${p.t} transfers</small></li>`; }).join('')}</ul>` : '';
+  $('panel').innerHTML = `<div class="ph"><h2>${esc(n.n)}</h2><button class="close" id="pclose" type="button" aria-label="Close">×</button></div>
+  <div class="tags">${isBrand(n) ? '<span class="tag">Final Brand</span>' : `<span class="tag">${esc(n.r || 'Role unknown')}</span>`}${n.c ? `<span class="tag">${esc(n.c)}</span>` : ''}${st < 99 ? `<span class="tag">${st === 0 ? 'Top row' : 'Step ' + st}</span>` : ''}</div>
+  <div class="idl">Aware ID <code>${esc(n.id)}</code><button type="button" id="cp">Copy</button></div>
+  <div class="two"><div class="stat"><b>${list.length}</b><span>connections</span></div><div class="stat"><b>${fmt(n.k)}</b><span>tokens moved</span></div></div>
+  ${n.f ? `<div class="flag">${esc(n.f)}</div>` : ''}${routeHtml}${grp('Closer to a Final Brand', closer)}${grp('Same step', same)}${grp('Further away', further)}${pxHtml}${list.length ? '' : '<p class="empty">No connections in the export.</p>'}`;
+  $('cp').addEventListener('click', e => { try { navigator.clipboard.writeText(n.id).then(() => { e.target.textContent = 'Copied'; }, () => { e.target.textContent = n.id; }); } catch (_) { e.target.textContent = n.id; } });
+  $('pclose').addEventListener('click', clearSel);
+  showPanel(true); $('panel').scrollTop = 0; paint();
+}
+$('panel').addEventListener('click', e => { const li = e.target.closest('li[data-id]'); if (li) { select(li.dataset.id); focusNode(li.dataset.id, false); } });
+function clearSel() { sel = null; hit = null; route = {nodes: new Set(), edges: new Set()}; if (!brandSel) showPanel(false); paint(); }
+
+/* sidebar */
+$('kpis').innerHTML = `<div><b>${nodes.length}</b><span>organisations</span></div><div><b>${edges.length}</b><span>connections</span></div><div><b>${brands.length}</b><span>Final Brands</span></div><div><b>${maxL}</b><span>steps deep</span></div>`;
+$('fresh').textContent = META.label;
+$('npairs').textContent = pairs.length;
+brands.slice().sort((a, b) => a.n.localeCompare(b.n)).forEach(b => { const o = document.createElement('option'); o.value = b.id; o.textContent = b.n; $('brandSel').appendChild(o); });
+[...new Set(nodes.map(n => n.c).filter(Boolean))].sort().forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; $('countrySel').appendChild(o); });
+const cnt = {}; nodes.forEach(n => { const k = roleKey(n); cnt[k] = (cnt[k] || 0) + 1; });
+const R = $('roles');
+R.insertAdjacentHTML('beforeend', `<div class="row static"><i class="sw sq"></i><span class="t">Final Brand</span><span class="n">${cnt.brand || 0}</span></div>`);
+const toggles = [];
+function toggleRow(key, swHtml, label, count) {
+  const l = document.createElement('label'); l.className = 'row';
+  l.innerHTML = `<input type="checkbox" checked>${swHtml}<span class="t">${label}</span>${count !== '' ? `<span class="n">${count}</span>` : ''}`;
+  const inp = l.querySelector('input'); inp.addEventListener('change', () => { inp.checked ? off.delete(key) : off.add(key); paint(); });
+  R.appendChild(l); toggles.push(inp);
+}
+ROLES.forEach(([k, label]) => toggleRow(k, `<i class="sw" style="background:var(--r-${k})"></i>`, label, cnt[k] || 0));
+R.insertAdjacentHTML('beforeend', '<div class="hr"></div><div class="row static"><i class="ls"></i><span class="t">Connection</span></div>');
+toggleRow('xfer', '<i class="ls d"></i>', 'Trades without a connection', pairs.length);
+$('brandSel').addEventListener('change', e => { brandSel = e.target.value; sel = null; hit = null; route = {nodes: new Set(), edges: new Set()};
+  if (brandSel) { const s = reachFrom(brandSel); $('panel').innerHTML = `<div class="ph"><h2>${esc(byId[brandSel].n)}</h2><button class="close" id="pclose" type="button" aria-label="Close">×</button></div><div class="two"><div class="stat"><b>${s.size - 1}</b><span>organisations reached</span></div><div class="stat"><b>${Math.max(...[...s].map(i => layer[i]))}</b><span>steps at most</span></div></div><p class="empty" style="margin-top:12px">Reachable without passing through another Final Brand. The real number is at least this, because the export drops connections that were not a first discovery route.</p>`; $('pclose').addEventListener('click', () => { $('brandSel').value = ''; brandSel = ''; clearSel(); }); showPanel(true); }
+  else showPanel(false);
+  paint(); });
+$('countrySel').addEventListener('change', e => { country = e.target.value; paint(); });
+$('reset').addEventListener('click', () => { $('brandSel').value = ''; brandSel = ''; $('countrySel').value = ''; country = ''; $('q').value = ''; $('results').hidden = true; off.clear(); toggles.forEach(i => i.checked = true); sel = null; hit = null; route = {nodes: new Set(), edges: new Set()}; showPanel(false); paint(); fit(); });
+
+/* search and help */
+$('q').addEventListener('input', e => {
+  const v = e.target.value.trim().toLowerCase(), Rs = $('results');
+  if (!v) { hit = null; Rs.hidden = true; paint(); return; }
+  const m = nodes.filter(n => n.n.toLowerCase().includes(v) || n.id.toLowerCase().includes(v));
+  hit = new Set(m.map(n => n.id)); sel = null; route = {nodes: new Set(), edges: new Set()};
+  Rs.innerHTML = m.slice(0, 8).map(n => `<button type="button" data-id="${esc(n.id)}">${esc(n.n)}<small>${esc(n.id)} · ${esc(n.r || '')}${n.c ? ' · ' + esc(n.c) : ''}</small></button>`).join('') || '<button type="button" disabled>No match</button>';
+  Rs.hidden = false; paint();
+});
+$('results').addEventListener('click', e => { const b = e.target.closest('button[data-id]'); if (b) { select(b.dataset.id); focusNode(b.dataset.id, true); } });
+$('q').addEventListener('keydown', e => { if (e.key === 'Enter') { const b = $('results').querySelector('button[data-id]'); if (b) { select(b.dataset.id); focusNode(b.dataset.id, true); } } });
+$('helpBtn').addEventListener('click', () => { const h = $('help'); h.hidden = !h.hidden; $('helpBtn').setAttribute('aria-expanded', String(!h.hidden)); if (!h.hidden) h.scrollTop = 0; });
+document.addEventListener('click', e => { if (!e.target.closest('.search')) $('results').hidden = true; if (e.target.id === 'help' || e.target.closest('#helpClose')) { $('help').hidden = true; $('helpBtn').setAttribute('aria-expanded', 'false'); } if (e.target.closest('#map') && !e.target.closest('.nd')) clearSel(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { $('results').hidden = true; $('help').hidden = true; clearSel(); } });
+
+/* pan, zoom, focus */
+const svg = $('map'); let k = 1, tx = 0, ty = 0, kMin = .3, kMax = 2.4;
+const GUT = () => 0;
+function clamp() {
+  const r = svg.getBoundingClientRect(), g = GUT(), cw = (W + 40) * k, ch = H * k, vw = r.width - g, m = 60;
+  const x0 = -16 * k;
+  if (cw <= vw) tx = g + (vw - W * k) / 2; else tx = Math.min(g - x0 + m, Math.max(r.width - cw - x0 - m, tx));
+  if (ch <= r.height) ty = (r.height - ch) / 2; else ty = Math.min(m, Math.max(r.height - ch - m, ty));
+}
+function apply() {
+  clamp();
+  vp.setAttribute('transform', `translate(${tx},${ty}) scale(${k})`);
+  stepEls.forEach((d, l) => { const y = ty + (blocks[l].top + 12) * k; d.style.top = y + 'px'; d.style.display = (y < -30 || y > svg.clientHeight) ? 'none' : ''; });
+}
+function fit() {
+  const r = svg.getBoundingClientRect(), g = GUT(), bw = W + 40;
+  k = Math.min((r.width - g - 12) / bw, (r.height - 8) / H);
+  if (r.width < 700) { k = Math.max(k, .6); tx = 12; } else tx = g + (r.width - g - 12 - W * k) / 2;
+  kMin = k * .85; kMax = k * 2.4; ty = 4; apply();
+}
+function zoomAt(f, cx, cy) { const nk = Math.max(kMin, Math.min(kMax, k * f)); tx = cx - (cx - tx) * (nk / k); ty = cy - (cy - ty) * (nk / k); k = nk; apply(); }
+function focusNode(id, zoom) {
+  const p = pos[id]; if (!p) return; const r = svg.getBoundingClientRect(), nk = Math.min(kMax, zoom ? Math.max(k, 1.05) : k), ntx = (r.width + GUT()) / 2 - p.x * nk, nty = r.height / 2 - p.y * nk;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { k = nk; tx = ntx; ty = nty; apply(); return; }
+  const s = {k, tx, ty}, t0 = performance.now();
+  (function step(t) { const u = Math.min(1, (t - t0) / 320), e = 1 - Math.pow(1 - u, 3); k = s.k + (nk - s.k) * e; tx = s.tx + (ntx - s.tx) * e; ty = s.ty + (nty - s.ty) * e; apply(); if (u < 1) requestAnimationFrame(step); })(t0);
+}
+svg.addEventListener('wheel', e => { e.preventDefault(); const r = svg.getBoundingClientRect(); zoomAt(e.deltaY < 0 ? 1.15 : 1 / 1.15, e.clientX - r.left, e.clientY - r.top); }, {passive: false});
+let drag = null, pinch = null; const ptrs = new Map();
+const pdist = () => { const v = [...ptrs.values()]; return Math.hypot(v[0].x - v[1].x, v[0].y - v[1].y); };
+svg.addEventListener('pointerdown', e => {
+  if (e.target.closest('.nd')) return;
+  ptrs.set(e.pointerId, {x: e.clientX, y: e.clientY}); svg.setPointerCapture(e.pointerId);
+  if (ptrs.size === 2) { pinch = {d: pdist(), k: k}; drag = null; } else { drag = {x: e.clientX, y: e.clientY, tx, ty}; svg.classList.add('drag'); }
+});
+svg.addEventListener('pointermove', e => {
+  if (!ptrs.has(e.pointerId)) return; ptrs.set(e.pointerId, {x: e.clientX, y: e.clientY});
+  if (pinch && ptrs.size === 2) { const v = [...ptrs.values()], r = svg.getBoundingClientRect(); zoomAt(pinch.k * pdist() / pinch.d / k, (v[0].x + v[1].x) / 2 - r.left, (v[0].y + v[1].y) / 2 - r.top); return; }
+  if (!drag) return; tx = drag.tx + e.clientX - drag.x; ty = drag.ty + e.clientY - drag.y; apply();
+});
+const endDrag = e => { ptrs.delete(e.pointerId); if (ptrs.size < 2) pinch = null; if (!ptrs.size) { drag = null; svg.classList.remove('drag'); } };
+svg.addEventListener('pointerup', endDrag); svg.addEventListener('pointercancel', endDrag);
+$('zin').addEventListener('click', () => { const r = svg.getBoundingClientRect(); zoomAt(1.3, r.width / 2, r.height / 2); });
+$('zout').addEventListener('click', () => { const r = svg.getBoundingClientRect(); zoomAt(1 / 1.3, r.width / 2, r.height / 2); });
+$('fit').addEventListener('click', fit);
+addEventListener('resize', fit);
+paint(); fit();
+}
+</script>
