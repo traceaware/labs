@@ -90,6 +90,11 @@ button,select,input{font:inherit;color:inherit}
 .row:has(input:not(:checked)){opacity:.4} .row:has(input:not(:checked)) .t{text-decoration:line-through}
 .row.static{cursor:default}
 .row.opt:has(input:not(:checked)){opacity:1} .row.opt:has(input:not(:checked)) .t{text-decoration:none}
+.row.opt{justify-content:space-between;font-weight:600}
+.tgl{position:relative;width:36px;height:20px;border-radius:10px;background:var(--line);border:1px solid var(--mute);flex:none;transition:background .15s}
+.tgl::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--surface);border:1px solid var(--mute);transition:transform .15s}
+.row.opt:has(input:checked) .tgl{background:var(--scarlet);border-color:var(--scarlet)}
+.row.opt:has(input:checked) .tgl::after{transform:translateX(16px);border-color:var(--surface)}
 #actKey{margin:2px 0 4px 0}
 #actKey[hidden]{display:none}
 #actKey .row{padding:3px 0;font-size:13px;color:var(--ink2)}
@@ -712,7 +717,7 @@ function selectEdge(i) {
 function clearSel() { sel = null; selE = null; hit = null; route = {nodes: new Set(), edges: new Set()}; if (!brandSel) showPanel(false); paint(); }
 
 /* sidebar */
-$('kpis').innerHTML = `<div><b>${nodes.length}</b><span>organisations</span></div><div><b>${edges.length}</b><span>connections</span></div><div><b>${brands.length}</b><span>Final Brands</span></div><div><b>${maxL}</b><span>steps deep</span></div>`;
+$('kpis').innerHTML = `<div><b>${nodes.length}</b><span>organisations</span></div><div><b>${edges.length}</b><span>connections</span></div><div><b>${maxL}</b><span>steps deep</span></div>`;
 function syncLabel() {
   if (!META.syncedAt) return META.label;
   try { return 'Synced ' + new Intl.DateTimeFormat('en-GB', {day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Amsterdam', timeZoneName: 'short'}).format(new Date(META.syncedAt)).replace('GMT+2', 'CEST').replace('GMT+1', 'CET'); } catch (_) { return META.label; }
@@ -735,7 +740,7 @@ ROLES.forEach(([k, label]) => toggleRow(k, `<i class="sw" style="background:var(
 R.insertAdjacentHTML('beforeend', '<div class="hr"></div><div class="row static"><i class="ls"></i><span class="t">Connection</span></div>');
 toggleRow('xfer', '<i class="ls d"></i>', 'Trades without a connection', pairs.length);
 if (hasDates) {
-  R.insertAdjacentHTML('beforeend', '<div class="hr"></div><label class="row opt"><input type="checkbox" id="actT"><i class="ls"></i><span class="t">Colour lines by last activity</span></label><div id="actKey" hidden>' + [[1, 'Last 3 months'], [2, '3 to 12 months ago'], [3, 'Over a year ago'], [0, 'Never traded']].map(([b, l]) => `<div class="row static"><i class="ls" style="border-top:3px solid var(--a${b})"></i><span class="t">${l}</span><span class="n">${actCount[b]}</span></div>`).join('') + '</div>');
+  R.insertAdjacentHTML('beforeend', '<div class="hr"></div><label class="row opt"><span class="t">Colour lines by last activity</span><input type="checkbox" id="actT" role="switch"><i class="tgl"></i></label><div id="actKey" hidden>' + [[1, 'Last 3 months'], [2, '3 to 12 months ago'], [3, 'Over a year ago'], [0, 'Never traded']].map(([b, l]) => `<div class="row static"><i class="ls" style="border-top:3px solid var(--a${b})"></i><span class="t">${l}</span><span class="n">${actCount[b]}</span></div>`).join('') + '</div>');
   $('actT').addEventListener('change', e => { byAct = e.target.checked; $('actKey').hidden = !byAct; paint(); });
 }
 $('brandSel').addEventListener('change', e => { brandSel = e.target.value; sel = null; selE = null; hit = null; route = {nodes: new Set(), edges: new Set()};
