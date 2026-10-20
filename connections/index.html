@@ -140,6 +140,15 @@ details p{margin:8px 0 0}
 .list li{padding:7px 0;border-top:1px solid var(--line);cursor:pointer;font-size:13.5px}
 .list li:hover .nm{text-decoration:underline}
 .list small{display:block;color:var(--ink2);font-size:12px;overflow-wrap:anywhere}
+.tier{border-top:1px solid var(--line)}
+.tier summary{display:flex;justify-content:space-between;align-items:center;padding:10px 0;cursor:pointer;font-weight:600;font-size:14px;list-style:none}
+.tier summary::-webkit-details-marker{display:none}
+.tier summary span::before{content:'\25B8';display:inline-block;width:16px;color:var(--mute);transition:transform .15s}
+.tier[open] summary span::before{transform:rotate(90deg)}
+.tier summary b{font-weight:500;color:var(--ink2);font-variant-numeric:tabular-nums}
+.tier summary:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.tier .list{margin:0 0 8px}
+.tier .list li:first-child{border-top:0}
 .flag{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;margin-top:14px}
 .empty{color:var(--ink2);font-size:13.5px;margin:0 0 10px}
 #tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--surface);font-size:12.5px;padding:5px 10px;border-radius:8px;z-index:60;max-width:280px;display:none}
@@ -218,6 +227,10 @@ details p{margin:8px 0 0}
       </dl>
       <p>A step counts recorded connections. It measures distance from a brand and says nothing about what the organisation makes. An organisation connected to several brands sits at the step of the nearest one. In this data, no two Final Brands connect directly. They are linked through shared suppliers.</p>
 
+      <h3>Tiers</h3>
+      <p>Select a Final Brand and its panel lists the brand's supply network by tier. Tier 1 is every organisation connected directly to that brand. Tier 2 is connected to a Tier 1, Tier 3 to a Tier 2, and so on. Each organisation appears once, at its shortest route from the brand.</p>
+      <p>Tiers count distance from the brand you selected. Steps count distance from the nearest Final Brand. The two match only when the selected brand is the nearest one. Many Tier 1 organisations lead to several in Tier 2, and some lead nowhere further. Each line shows how many it leads to.</p>
+
       <h3>Key</h3>
       <div class="key">
         <div><i class="sw sq"></i><span><b>Final Brand</b></span></div>
@@ -242,6 +255,7 @@ details p{margin:8px 0 0}
 
       <h3>When you select an organisation</h3>
       <ul>
+        <li><b>Final Brand.</b> The panel lists its tiers instead, and the map highlights everything it reaches.</li>
         <li><b>Route to a Final Brand.</b> The shortest chain of connections from the organisation to a brand, drawn in red on the map.</li>
         <li><b>Closer to a Final Brand.</b> Connections one step nearer to a brand.</li>
         <li><b>Same step.</b> Connections to organisations in the same row.</li>
@@ -394,8 +408,28 @@ const stepEls = blocks.map((b, l) => { const d = document.createElement('div'); 
 let hover = null, sel = null, brandSel = '', hit = null, route = {nodes: new Set(), edges: new Set()};
 const off = new Set(); let country = '';
 function reachFrom(b) { const seen = new Set([b]); let f = [b]; while (f.length) { const nx = []; f.forEach(i => adj[i].forEach(x => { if (seen.has(x.o) || isBrand(byId[x.o])) return; seen.add(x.o); nx.push(x.o); })); f = nx; } return seen; }
+function tiersOf(b) {
+  const t = {[b]: 0}, tiers = []; let f = [b];
+  while (f.length) { const nx = []; f.forEach(i => adj[i].forEach(x => { if (t[x.o] !== undefined || isBrand(byId[x.o])) return; t[x.o] = t[i] + 1; nx.push(x.o); })); if (nx.length) tiers.push(nx); f = nx; }
+  return {t, tiers};
+}
+function tierHtml(b) {
+  const {t, tiers} = tiersOf(b);
+  if (!tiers.length) return '';
+  const lists = tiers.map((ids, i) => {
+    const d = i + 1;
+    const rows = ids.slice().sort((p, q) => byId[p].n.localeCompare(byId[q].n)).map(id => {
+      const n = byId[id], up = adj[id].filter(x => t[x.o] === d - 1 && x.o !== b).map(x => byId[x.o].n).sort(), down = adj[id].filter(x => t[x.o] === d + 1).length;
+      const bits = [n.r, n.c, d > 1 && up.length ? 'via ' + up[0] + (up.length > 1 ? ' +' + (up.length - 1) : '') : '', down ? 'leads to ' + down + ' in tier ' + (d + 1) : ''].filter(Boolean);
+      return `<li data-id="${esc(id)}"><span class="nm">${esc(n.n)}</span><small>${esc(bits.join(' · '))}</small></li>`;
+    }).join('');
+    return `<details class="tier"${d === 1 ? ' open' : ''}><summary><span>Tier ${d}</span><b>${fmt(ids.length)}</b></summary><ul class="list">${rows}</ul></details>`;
+  }).join('');
+  return `<h3>Supply network by tier</h3><p class="empty">Tiers count connections from ${esc(byId[b].n)}. Steps on the map count from the nearest Final Brand.</p>${lists}`;
+}
 function routeOf(id) { const ns = [id], es = new Set(); let c = id; while (parent[c] !== undefined) { const p = parent[c]; es.add(eIdx[ekey(c, p)]); ns.push(p); c = p; } return {ns, es}; }
 function activeSets() {
+  if (!hover && sel && isBrand(byId[sel])) return {nodes: reachFrom(sel), focus: null};
   const focus = hover || sel;
   if (focus) { const s = new Set([focus]); adj[focus].forEach(x => s.add(x.o)); pairs.forEach(p => { if (p.a === focus) s.add(p.b); if (p.b === focus) s.add(p.a); }); if (sel && focus === sel) route.nodes.forEach(i => s.add(i)); return {nodes: s, focus}; }
   if (hit) return {nodes: hit, focus: null};
@@ -432,7 +466,7 @@ function select(id) {
   <div class="tags">${isBrand(n) ? '<span class="tag">Final Brand</span>' : `<span class="tag">${esc(n.r || 'Role unknown')}</span>`}${n.c ? `<span class="tag">${esc(n.c)}</span>` : ''}${st < 99 ? `<span class="tag">${st === 0 ? 'Top row' : 'Step ' + st}</span>` : ''}</div>
   <div class="idl">Aware ID <code>${esc(n.id)}</code><button type="button" id="cp">Copy</button></div>
   <div class="two"><div class="stat"><b>${list.length}</b><span>connections</span></div><div class="stat"><b>${fmt(n.k)}</b><span>tokens moved</span></div></div>
-  ${n.f ? `<div class="flag">${esc(n.f)}</div>` : ''}${routeHtml}${grp('Closer to a Final Brand', closer)}${grp('Same step', same)}${grp('Further away', further)}${pxHtml}${list.length ? '' : '<p class="empty">No connections in the export.</p>'}`;
+  ${n.f ? `<div class="flag">${esc(n.f)}</div>` : ''}${routeHtml}${isBrand(n) ? tierHtml(id) : grp('Closer to a Final Brand', closer) + grp('Same step', same) + grp('Further away', further)}${pxHtml}${list.length ? '' : '<p class="empty">No connections in the export.</p>'}`;
   $('cp').addEventListener('click', e => { try { navigator.clipboard.writeText(n.id).then(() => { e.target.textContent = 'Copied'; }, () => { e.target.textContent = n.id; }); } catch (_) { e.target.textContent = n.id; } });
   $('pclose').addEventListener('click', clearSel);
   showPanel(true); $('panel').scrollTop = 0; paint();
@@ -442,7 +476,11 @@ function clearSel() { sel = null; hit = null; route = {nodes: new Set(), edges: 
 
 /* sidebar */
 $('kpis').innerHTML = `<div><b>${nodes.length}</b><span>organisations</span></div><div><b>${edges.length}</b><span>connections</span></div><div><b>${brands.length}</b><span>Final Brands</span></div><div><b>${maxL}</b><span>steps deep</span></div>`;
-$('fresh').textContent = META.label;
+function syncLabel() {
+  if (!META.syncedAt) return META.label;
+  try { return 'Synced ' + new Intl.DateTimeFormat('en-GB', {day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Amsterdam', timeZoneName: 'short'}).format(new Date(META.syncedAt)).replace('GMT+2', 'CEST').replace('GMT+1', 'CET'); } catch (_) { return META.label; }
+}
+$('fresh').textContent = syncLabel();
 $('npairs').textContent = pairs.length;
 brands.slice().sort((a, b) => a.n.localeCompare(b.n)).forEach(b => { const o = document.createElement('option'); o.value = b.id; o.textContent = b.n; $('brandSel').appendChild(o); });
 [...new Set(nodes.map(n => n.c).filter(Boolean))].sort().forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; $('countrySel').appendChild(o); });
@@ -460,7 +498,7 @@ ROLES.forEach(([k, label]) => toggleRow(k, `<i class="sw" style="background:var(
 R.insertAdjacentHTML('beforeend', '<div class="hr"></div><div class="row static"><i class="ls"></i><span class="t">Connection</span></div>');
 toggleRow('xfer', '<i class="ls d"></i>', 'Trades without a connection', pairs.length);
 $('brandSel').addEventListener('change', e => { brandSel = e.target.value; sel = null; hit = null; route = {nodes: new Set(), edges: new Set()};
-  if (brandSel) { const s = reachFrom(brandSel); $('panel').innerHTML = `<div class="ph"><h2>${esc(byId[brandSel].n)}</h2><button class="close" id="pclose" type="button" aria-label="Close">×</button></div><div class="two"><div class="stat"><b>${s.size - 1}</b><span>organisations reached</span></div><div class="stat"><b>${Math.max(...[...s].map(i => layer[i]))}</b><span>steps at most</span></div></div><p class="empty" style="margin-top:12px">Reachable without passing through another Final Brand. The real number is at least this, because the export drops connections that were not a first discovery route.</p>`; $('pclose').addEventListener('click', () => { $('brandSel').value = ''; brandSel = ''; clearSel(); }); showPanel(true); }
+  if (brandSel) { const s = reachFrom(brandSel); $('panel').innerHTML = `<div class="ph"><h2>${esc(byId[brandSel].n)}</h2><button class="close" id="pclose" type="button" aria-label="Close">×</button></div><div class="two"><div class="stat"><b>${s.size - 1}</b><span>organisations reached</span></div><div class="stat"><b>${tiersOf(brandSel).tiers.length}</b><span>tiers deep</span></div></div><p class="empty" style="margin-top:12px">Reachable without passing through another Final Brand. The real number is at least this, because the export drops connections that were not a first discovery route.</p>${tierHtml(brandSel)}`; $('pclose').addEventListener('click', () => { $('brandSel').value = ''; brandSel = ''; clearSel(); }); showPanel(true); }
   else showPanel(false);
   paint(); });
 $('countrySel').addEventListener('change', e => { country = e.target.value; paint(); });
