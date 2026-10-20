@@ -10,16 +10,17 @@
   --bg:#F5F5F5; --surface:#FFFFFF; --ink:#3E1A04; --ink2:#6F5849; --mute:#9A887C; --line:#E6E0DB; --soft:#F3EFEC;
   --edge:rgba(62,26,4,.26); --edge-hot:rgba(62,26,4,.85); --node-stroke:#3E1A04;
   --r-prod:#3E1A04; --r-fab:#85695A; --r-yarn:#BBA89D; --r-oth:#FFFFFF;
+  --a1:#3E1A04; --a2:#85695A; --a3:#BBA89D; --a0:#DDD4CD;
   --font:"Rethink Sans",Helvetica,Arial,"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#2E1203; --surface:#3E1A04; --ink:#F5F5F5; --ink2:#D3C2B8; --mute:#A89485; --line:#5C3520; --soft:#4A2308;
   --edge:rgba(245,245,245,.26); --edge-hot:rgba(245,245,245,.9); --node-stroke:#F5F5F5;
-  --r-prod:#F5F5F5; --r-fab:#CDB9AD; --r-yarn:#9C8171; --r-oth:#3E1A04; color-scheme:dark}}
+  --r-prod:#F5F5F5; --r-fab:#CDB9AD; --r-yarn:#9C8171; --r-oth:#3E1A04; --a1:#F5F5F5; --a2:#CDB9AD; --a3:#9C8171; --a0:#6A4A38; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#2E1203; --surface:#3E1A04; --ink:#F5F5F5; --ink2:#D3C2B8; --mute:#A89485; --line:#5C3520; --soft:#4A2308;
   --edge:rgba(245,245,245,.26); --edge-hot:rgba(245,245,245,.9); --node-stroke:#F5F5F5;
-  --r-prod:#F5F5F5; --r-fab:#CDB9AD; --r-yarn:#9C8171; --r-oth:#3E1A04; color-scheme:dark}
+  --r-prod:#F5F5F5; --r-fab:#CDB9AD; --r-yarn:#9C8171; --r-oth:#3E1A04; --a1:#F5F5F5; --a2:#CDB9AD; --a3:#9C8171; --a0:#6A4A38; color-scheme:dark}
 *{box-sizing:border-box}
 html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.45}
@@ -88,6 +89,10 @@ button,select,input{font:inherit;color:inherit}
 .row:has(input:focus-visible){outline:2px solid var(--ink);outline-offset:2px;border-radius:6px}
 .row:has(input:not(:checked)){opacity:.4} .row:has(input:not(:checked)) .t{text-decoration:line-through}
 .row.static{cursor:default}
+.row.opt:has(input:not(:checked)){opacity:1} .row.opt:has(input:not(:checked)) .t{text-decoration:none}
+#actKey{margin:2px 0 4px 0}
+#actKey[hidden]{display:none}
+#actKey .row{padding:3px 0;font-size:13px;color:var(--ink2)}
 .hr{height:1px;background:var(--line);margin:8px 0}
 .reset{width:100%;height:36px;border:1px solid var(--line);background:var(--surface);border-radius:10px;cursor:pointer;font-weight:500}
 .reset:hover{border-color:var(--mute)}
@@ -151,12 +156,41 @@ details p{margin:8px 0 0}
 .tier .list li:first-child{border-top:0}
 .flag{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;margin-top:14px}
 .empty{color:var(--ink2);font-size:13.5px;margin:0 0 10px}
+/* view switch and connections table */
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;padding:2px;background:var(--soft)}
+.seg button{height:28px;padding:0 12px;border:0;background:none;border-radius:8px;cursor:pointer;font-weight:500;font-size:13px;color:var(--ink2)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(62,26,4,.14);font-weight:600}
+.body.t-table{grid-template-columns:268px minmax(0,1fr)!important}
+.body.t-table .canvas,.body.t-table .panel{display:none}
+.tablev{overflow:auto;padding:20px 24px 32px;min-width:0}
+.tablev[hidden]{display:none}
+.tv-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 12px}
+.tv-head h1{font-size:18px;margin:0;font-weight:700;letter-spacing:-.01em}
+.tv-head span{color:var(--ink2);font-size:13px}
+table.it{width:100%;border-collapse:separate;border-spacing:0;font-size:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.it th{position:sticky;top:0;z-index:1;background:var(--surface);text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--mute);font-weight:700;padding:0;border-bottom:1px solid var(--line);white-space:nowrap}
+.it th button{width:100%;text-align:inherit;background:none;border:0;cursor:pointer;padding:11px 14px;font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit}
+.it th button:hover{color:var(--ink)}
+.it th[aria-sort="ascending"] button::after{content:' \2191'} .it th[aria-sort="descending"] button::after{content:' \2193'}
+.it th[aria-sort] button{color:var(--ink)}
+.it td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.it tr:last-child td{border-bottom:0}
+.it tr.go{cursor:pointer}
+.it tr.go:hover td{background:var(--soft)}
+.it tr.go:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.it .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.it th.num{text-align:right}
+.it .mute{color:var(--mute)}
+@media (max-width:900px){.tablev{padding:14px 12px 24px}.it td,.it th button{padding-left:10px;padding-right:10px}}
 #tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--surface);font-size:12.5px;padding:5px 10px;border-radius:8px;z-index:60;max-width:280px;display:none}
 
 /* graph */
 .e{fill:none;stroke:var(--edge);stroke-linecap:round}
+.e.a1{stroke:var(--a1)} .e.a2{stroke:var(--a2)} .e.a3{stroke:var(--a3)} .e.a0{stroke:var(--a0)}
+.e.a1,.e.a2,.e.a3,.e.a0{stroke-opacity:.8}
 .e.hot{stroke:var(--edge-hot);stroke-opacity:1!important}
-.e.route{stroke:var(--scarlet);stroke-opacity:1!important;stroke-width:3.4px}
+.eh{fill:none;stroke:transparent;stroke-width:12px;pointer-events:stroke;cursor:pointer}
+.e.route{stroke:var(--scarlet);stroke-opacity:1!important;stroke-width:max(3.4px,var(--w,3.4px))}
 .p{fill:none;stroke:var(--ink2);stroke-dasharray:5 5;stroke-linecap:round;stroke-width:1.4;opacity:.8}
 .e.dim,.p.dim{opacity:.07}
 .nd{cursor:pointer} .nd .sh{stroke:var(--node-stroke);stroke-width:1.5}
@@ -211,6 +245,7 @@ details p{margin:8px 0 0}
       <div class="results" id="results" hidden></div>
     </div>
     <div class="sp"></div>
+    <div class="seg" role="group" aria-label="View"><button type="button" id="vMap" aria-pressed="true">Map</button><button type="button" id="vTable" aria-pressed="false">Table</button></div>
     <button class="ibtn" id="helpBtn" type="button" aria-expanded="false" aria-haspopup="dialog">How to read</button>
   </header>
   <div class="help" id="help" hidden role="dialog" aria-modal="true" aria-labelledby="helpTitle">
@@ -252,6 +287,17 @@ details p{margin:8px 0 0}
         <li><b>The organisations traded without ever connecting.</b> Tokens can move between organisations that never formally connected.</li>
       </ul>
       <p>Dashed lines do not count towards steps. Steps come from solid connections only. To see a pair, select one organisation: its panel lists each trading partner under "Trades without a connection", with the tokens and transfers involved. Switch the dashed lines off with the "Trades without a connection" toggle in the sidebar.</p>
+
+      <h3>Lines and activity</h3>
+      <ul>
+        <li><b>Thickness.</b> A thicker line means more tokens moved between the two organisations. The scale is not linear. A line ten times thicker does not carry ten times the tokens, because a few connections carry most of the volume.</li>
+        <li><b>Click a line.</b> The panel shows the exact tokens moved, the number of transfers and the date of the last transfer.</li>
+        <li><b>Colour lines by last activity.</b> Switch this on in the sidebar. The darkest lines traded in the last 3 months, mid tones 3 to 12 months ago, pale lines more than a year ago, and the palest lines never traded. Ages count from today.</li>
+      </ul>
+
+      <h3>Table view</h3>
+      <p>The Table button in the top bar shows one row per connection, sorted by tokens moved. Click a column heading to sort. The table uses the same filters as the map: the search box, Follow one brand, Country and the role switches. Click a row to see that line on the map.</p>
+      <p>Step is the step of the organisation further from a Final Brand. Dates show how long ago the last transfer was, with the full date when you hover. A dash means no transfers on record.</p>
 
       <h3>When you select an organisation</h3>
       <ul>
@@ -301,9 +347,10 @@ details p{margin:8px 0 0}
     <main class="canvas">
       <svg id="map" role="img" aria-label="Network map of organisations in steps from a Final Brand"><g id="vp"></g></svg>
       <div id="steps"></div>
-      <div class="hint">Click an organisation to trace it</div>
+      <div class="hint">Click an organisation or a line to inspect it</div>
       <div class="zoom"><button id="zin" type="button" aria-label="Zoom in">+</button><button id="zout" type="button" aria-label="Zoom out">−</button><button id="fit" class="fit" type="button">Fit</button></div>
     </main>
+    <section class="tablev" id="tablev" hidden aria-label="Connections table"></section>
     <aside class="panel" id="panel" hidden aria-live="polite"></aside>
   </div>
 </div>
@@ -375,15 +422,37 @@ const pos = {};
 L.forEach((a, l) => a.forEach((id, i) => { pos[id] = {x: X[id], y: blocks[l].ny + (blocks[l].rows > 1 ? (i % SUB) * SUBH : 0)}; }));
 
 /* draw */
-const vp = $('vp'), gB = el('g', {}, vp), gE = el('g', {}, vp), gP = el('g', {}, vp), gN = el('g', {}, vp), gT = el('g', {}, vp), dyn = el('g', {}, vp);
+const vp = $('vp'), gB = el('g', {}, vp), gE = el('g', {}, vp), gP = el('g', {}, vp), gH = el('g', {}, vp), gN = el('g', {}, vp), gT = el('g', {}, vp), dyn = el('g', {}, vp);
 blocks.forEach(b => el('rect', {class: 'blk', x: -16, y: b.top, width: W + 32, height: b.h, rx: 14}, gB));
-const lw = e => e.k > 0 ? Math.min(3.2, 1 + Math.log10(e.k + 1) * .36) : 1;
+const maxK = Math.max(1, ...edges.map(e => e.k));
+const lw = e => e.k > 0 ? .8 + 5.2 * Math.pow(Math.log10(e.k + 1) / Math.log10(maxK + 1), 3) : 1;
 function path(a, b) {
   const p = pos[a], q = pos[b];
   if (layer[a] === layer[b]) { const m = (p.x + q.x) / 2, dy = Math.min(70, Math.abs(p.x - q.x) * .3 + 14); return `M${p.x},${p.y}Q${m},${p.y + dy} ${q.x},${q.y}`; }
   const my = (p.y + q.y) / 2; return `M${p.x},${p.y}C${p.x},${my} ${q.x},${my} ${q.x},${q.y}`;
 }
-const eEl = edges.map(e => el('path', {d: path(e.a, e.b), class: 'e', 'stroke-width': lw(e), 'stroke-opacity': e.k > 0 ? 1 : .55}, gE));
+const eEl = edges.map(e => { const q = el('path', {d: path(e.a, e.b), class: 'e', 'stroke-width': lw(e), 'stroke-opacity': e.k > 0 ? 1 : .55}, gE); q.style.setProperty('--w', lw(e) + 'px'); return q; });
+const DAY = 864e5;
+function ago(l) {
+  const d = Math.max(0, Math.round((Date.now() - Date.parse(l + 'T00:00:00Z')) / DAY));
+  if (d === 0) return 'today'; if (d === 1) return 'yesterday'; if (d < 14) return d + ' days ago';
+  if (d < 60) return Math.round(d / 7) + ' weeks ago'; if (d < 730) return Math.round(d / 30.4) + ' months ago';
+  return Math.floor(d / 365.25) + ' years ago';
+}
+const dateOf = l => new Date(l + 'T00:00:00Z').toLocaleDateString('en-GB', {day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC'});
+const hasDates = edges.some(e => e.l);
+function actOf(e) { if (!e.t) return 0; if (!e.l) return -1; const d = (Date.now() - Date.parse(e.l + 'T00:00:00Z')) / DAY; return d <= 92 ? 1 : d <= 365 ? 2 : 3; }
+const actCount = {0: 0, 1: 0, 2: 0, 3: 0}; edges.forEach(e => { const b = actOf(e); if (b >= 0) actCount[b]++; });
+const statsLine = e => e.t ? fmt(e.k) + ' tokens · ' + fmt(e.t) + ' transfers' + (e.l ? ' · last ' + ago(e.l) : '') : 'No transfers recorded';
+const hEl = edges.map((e, i) => {
+  const h = el('path', {d: path(e.a, e.b), class: 'eh'}, gH);
+  h.addEventListener('mouseenter', ev => { if (eEl[i].classList.contains('dim')) return; hoverE = i; edgeTip(ev, e); eEl[i].classList.add('hot'); });
+  h.addEventListener('mousemove', ev => { if (hoverE === i) edgeTip(ev, e); });
+  h.addEventListener('mouseleave', () => { if (hoverE === i) { hoverE = null; $('tip').style.display = 'none'; paint(); } });
+  h.addEventListener('click', ev => { ev.stopPropagation(); if (!eEl[i].classList.contains('dim')) selectEdge(i); });
+  return h;
+});
+function edgeTip(ev, e) { const t = $('tip'); t.style.display = 'block'; t.innerHTML = '<b>' + esc(byId[e.a].n) + ' ↔ ' + esc(byId[e.b].n) + '</b><br>' + esc(statsLine(e)); t.style.left = Math.min(innerWidth - 290, ev.clientX + 14) + 'px'; t.style.top = (ev.clientY + 14) + 'px'; }
 const pEl = pairs.map(e => el('path', {d: path(e.a, e.b), class: 'p'}, gP));
 const nEl = {};
 nodes.forEach(n => {
@@ -405,7 +474,7 @@ function tip(ev, n) { const t = $('tip'); t.style.display = 'block'; t.textConte
 const stepEls = blocks.map((b, l) => { const d = document.createElement('div'); d.className = 'st'; d.innerHTML = `<b>${l === 0 ? 'Final Brands' : 'Step ' + l}</b>${fmt(L[l].length)}${l === 0 ? '' : ' organisations'}`; $('steps').appendChild(d); return d; });
 
 /* state */
-let hover = null, sel = null, brandSel = '', hit = null, route = {nodes: new Set(), edges: new Set()};
+let hover = null, hoverE = null, selE = null, byAct = false, view = 'map', sel = null, brandSel = '', hit = null, route = {nodes: new Set(), edges: new Set()};
 const off = new Set(); let country = '';
 function reachFrom(b) { const seen = new Set([b]); let f = [b]; while (f.length) { const nx = []; f.forEach(i => adj[i].forEach(x => { if (seen.has(x.o) || isBrand(byId[x.o])) return; seen.add(x.o); nx.push(x.o); })); f = nx; } return seen; }
 function tiersOf(b) {
@@ -429,6 +498,7 @@ function tierHtml(b) {
 }
 function routeOf(id) { const ns = [id], es = new Set(); let c = id; while (parent[c] !== undefined) { const p = parent[c]; es.add(eIdx[ekey(c, p)]); ns.push(p); c = p; } return {ns, es}; }
 function activeSets() {
+  if (selE !== null && !hover) { const e = edges[selE]; return {nodes: new Set([e.a, e.b]), focus: null, edge: selE}; }
   if (!hover && sel && isBrand(byId[sel])) return {nodes: reachFrom(sel), focus: null};
   const focus = hover || sel;
   if (focus) { const s = new Set([focus]); adj[focus].forEach(x => s.add(x.o)); pairs.forEach(p => { if (p.a === focus) s.add(p.b); if (p.b === focus) s.add(p.a); }); if (sel && focus === sel) route.nodes.forEach(i => s.add(i)); return {nodes: s, focus}; }
@@ -441,21 +511,52 @@ function paint() {
   const a = activeSets();
   nodes.forEach(n => { const g = nEl[n.id]; if (!g) return; g.classList.toggle('dim', (!!a && !a.nodes.has(n.id)) || !pass(n)); g.classList.toggle('sel', sel === n.id); });
   edges.forEach((e, i) => {
-    const ok = !a || (a.focus ? (e.a === a.focus || e.b === a.focus || (route.edges.has(i) && sel === a.focus)) : (a.nodes.has(e.a) && a.nodes.has(e.b)));
+    const ok = !a || (a.edge !== undefined ? i === a.edge : a.focus ? (e.a === a.focus || e.b === a.focus || (route.edges.has(i) && sel === a.focus)) : (a.nodes.has(e.a) && a.nodes.has(e.b)));
     eEl[i].classList.toggle('dim', !ok || !pass(byId[e.a]) || !pass(byId[e.b]));
-    eEl[i].classList.toggle('hot', !!a && !!a.focus && (e.a === a.focus || e.b === a.focus));
+    eEl[i].classList.toggle('hot', !!a && (a.edge === i || (!!a.focus && (e.a === a.focus || e.b === a.focus))));
+    const bk = actOf(e); [0, 1, 2, 3].forEach(c => eEl[i].classList.toggle('a' + c, byAct && bk === c));
     eEl[i].classList.toggle('route', !!sel && route.edges.has(i));
   });
   pairs.forEach((e, i) => { pEl[i].style.display = off.has('xfer') ? 'none' : ''; const ok = !a || (a.focus ? (e.a === a.focus || e.b === a.focus) : (a.nodes.has(e.a) && a.nodes.has(e.b))); pEl[i].classList.toggle('dim', !ok); });
   while (dyn.firstChild) dyn.removeChild(dyn.firstChild);
+  if (a && a.edge !== undefined) { const e = edges[a.edge]; [e.a, e.b].forEach(id => { const n = byId[id], q = pos[id], t = el('text', {class: 'lbl', x: q.x, y: q.y + 25, 'text-anchor': 'middle'}, dyn); t.textContent = n.n.length > 20 ? n.n.slice(0, 19) + '…' : n.n; }); }
   if (a && a.focus) { let i = 0; a.nodes.forEach(id => { const n = byId[id]; if (isBrand(n) && id !== a.focus && !route.nodes.has(id)) return; const p = pos[id]; const t = el('text', {class: 'lbl', x: p.x, y: p.y + 25 + (i++ % 3) * 13, 'text-anchor': 'middle'}, dyn); t.textContent = n.n.length > 20 ? n.n.slice(0, 19) + '…' : n.n; }); }
+  if (view === 'table') renderTable();
 }
 
 /* drawer */
+const tSort = {col: 'k', dir: -1};
+const ordered = e => layer[e.a] < layer[e.b] || (layer[e.a] === layer[e.b] && e.a < e.b) ? [e.a, e.b] : [e.b, e.a];
+function tableRows() {
+  const reach = brandSel ? reachFrom(brandSel) : null;
+  const rows = edges.map((e, i) => i).filter(i => { const e = edges[i]; return !(reach && !(reach.has(e.a) && reach.has(e.b))) && pass(byId[e.a]) && pass(byId[e.b]) && !(hit && !(hit.has(e.a) || hit.has(e.b))); });
+  const val = i => { const e = edges[i], o = ordered(e); return tSort.col === 'n' ? byId[o[0]].n.toLowerCase() : tSort.col === 'k' ? e.k : tSort.col === 't' ? e.t : tSort.col === 'l' ? (e.l ? Date.parse(e.l) : -1) : Math.max(layer[e.a], layer[e.b]); };
+  rows.sort((x, y) => { const a = val(x), b = val(y); return (a < b ? -1 : a > b ? 1 : 0) * tSort.dir || edges[y].k - edges[x].k || x - y; });
+  return rows;
+}
+function renderTable() {
+  const rows = tableRows(), th = (c, t, num) => `<th class="${num ? 'num' : ''}" aria-sort="${tSort.col === c ? (tSort.dir < 0 ? 'descending' : 'ascending') : 'none'}"${c === 's' ? ' title="Step of the organisation further from a Final Brand"' : ''}><button type="button" data-col="${c}">${t}</button></th>`;
+  const body = rows.map(i => { const e = edges[i], o = ordered(e); return `<tr class="go" tabindex="0" data-i="${i}"><td>${esc(byId[o[0]].n)} <span class="mute">↔</span> ${esc(byId[o[1]].n)}</td><td class="num">${e.t ? fmt(e.k) : '<span class="mute">–</span>'}</td><td class="num">${e.t ? fmt(e.t) : '<span class="mute">–</span>'}</td><td class="num"${e.l ? ` title="${esc(dateOf(e.l))}"` : ''}>${e.l ? esc(ago(e.l)) : '<span class="mute">–</span>'}</td><td class="num">${Math.max(layer[e.a], layer[e.b])}</td></tr>`; }).join('');
+  $('tablev').innerHTML = `<div class="tv-head"><h1>Connections</h1><span>${fmt(rows.length)} of ${fmt(edges.length)} connections</span></div><table class="it"><thead><tr>${th('n', 'Connection')}${th('k', 'Tokens', 1)}${th('t', 'Transfers', 1)}${th('l', 'Last transfer', 1)}${th('s', 'Step', 1)}</tr></thead><tbody>${body || '<tr><td colspan="5" class="mute">No connections match these filters.</td></tr>'}</tbody></table>`;
+}
+function setView(v) {
+  view = v; $('body').classList.toggle('t-table', v === 'table'); $('tablev').hidden = v !== 'table';
+  $('vMap').setAttribute('aria-pressed', String(v === 'map')); $('vTable').setAttribute('aria-pressed', String(v === 'table'));
+  if (v === 'table') { renderTable(); $('tablev').scrollTop = 0; } else { fit(); paint(); }
+}
+$('vMap').addEventListener('click', () => setView('map'));
+$('vTable').addEventListener('click', () => setView('table'));
+$('tablev').addEventListener('click', ev => {
+  const b = ev.target.closest('th button'); if (b) { const c = b.dataset.col; if (tSort.col === c) tSort.dir *= -1; else { tSort.col = c; tSort.dir = c === 'n' || c === 's' ? 1 : -1; } renderTable(); return; }
+  const r = ev.target.closest('tr[data-i]'); if (r) openEdge(+r.dataset.i);
+});
+$('tablev').addEventListener('keydown', ev => { if (ev.key === 'Enter') { const r = ev.target.closest('tr[data-i]'); if (r) openEdge(+r.dataset.i); } });
+function openEdge(i) { selectEdge(i); const e = edges[i], a = pos[e.a], b = pos[e.b]; focusAt({x: (a.x + b.x) / 2, y: (a.y + b.y) / 2}, true); }
 function showPanel(on) { $('panel').hidden = !on; $('body').classList.toggle('has-panel', on); }
-function item(x) { return `<li data-id="${esc(x.o)}"><span class="nm">${esc(byId[x.o].n)}</span><small>${esc(x.o)} · ${x.e.k ? fmt(x.e.k) + ' tokens' : 'no transfers'} · request ${esc(x.e.q)}</small></li>`; }
+function item(x) { return `<li data-id="${esc(x.o)}"><span class="nm">${esc(byId[x.o].n)}</span><small>${esc(x.o)} · ${x.e.k ? fmt(x.e.k) + ' tokens' + (x.e.l ? ' · last ' + ago(x.e.l) : '') : 'no transfers'} · request ${esc(x.e.q)}</small></li>`; }
 function select(id) {
-  sel = id; hit = null; $('q').value = ''; $('results').hidden = true;
+  if (view === 'table') setView('map');
+  sel = id; selE = null; hit = null; $('q').value = ''; $('results').hidden = true;
   const n = byId[id], r = routeOf(id); route = {nodes: new Set(r.ns), edges: r.es};
   const list = adj[id].slice().sort((a, b) => b.e.k - a.e.k), closer = list.filter(x => layer[x.o] < layer[id]), same = list.filter(x => layer[x.o] === layer[id]), further = list.filter(x => layer[x.o] > layer[id]);
   const px = pairs.filter(p => p.a === id || p.b === id), st = layer[id], chain = r.ns.slice().reverse();
@@ -472,7 +573,19 @@ function select(id) {
   showPanel(true); $('panel').scrollTop = 0; paint();
 }
 $('panel').addEventListener('click', e => { const li = e.target.closest('li[data-id]'); if (li) { select(li.dataset.id); focusNode(li.dataset.id, false); } });
-function clearSel() { sel = null; hit = null; route = {nodes: new Set(), edges: new Set()}; if (!brandSel) showPanel(false); paint(); }
+function selectEdge(i) {
+  if (view === 'table') setView('map');
+  sel = null; hit = null; selE = i; route = {nodes: new Set(), edges: new Set()}; $('q').value = ''; $('results').hidden = true;
+  const e = edges[i], org = n => `<li data-id="${esc(n.id)}"><span class="nm">${esc(n.n)}</span><small>${esc([n.r, n.c, isBrand(n) ? '' : (layer[n.id] < 99 ? 'Step ' + layer[n.id] : '')].filter(Boolean).join(' · '))}</small></li>`;
+  $('panel').innerHTML = `<div class="ph"><h2>Connection</h2><button class="close" id="pclose" type="button" aria-label="Close">×</button></div>
+  <ul class="list" style="margin-top:8px">${org(byId[e.a])}${org(byId[e.b])}</ul>
+  <div class="two"><div class="stat"><b>${fmt(e.k)}</b><span>tokens moved</span></div><div class="stat"><b>${fmt(e.t)}</b><span>transfers</span></div></div>
+  <div class="two"><div class="stat" style="grid-column:1/-1"><b>${e.l ? esc(ago(e.l)) : 'No transfers'}</b><span>${e.l ? 'last transfer · ' + esc(dateOf(e.l)) : 'on record between these two'}</span></div></div>
+  ${e.q ? `<div class="idl">Request <code>${esc(e.q)}</code></div>` : ''}`;
+  $('pclose').addEventListener('click', clearSel);
+  showPanel(true); $('panel').scrollTop = 0; paint();
+}
+function clearSel() { sel = null; selE = null; hit = null; route = {nodes: new Set(), edges: new Set()}; if (!brandSel) showPanel(false); paint(); }
 
 /* sidebar */
 $('kpis').innerHTML = `<div><b>${nodes.length}</b><span>organisations</span></div><div><b>${edges.length}</b><span>connections</span></div><div><b>${brands.length}</b><span>Final Brands</span></div><div><b>${maxL}</b><span>steps deep</span></div>`;
@@ -497,19 +610,23 @@ function toggleRow(key, swHtml, label, count) {
 ROLES.forEach(([k, label]) => toggleRow(k, `<i class="sw" style="background:var(--r-${k})"></i>`, label, cnt[k] || 0));
 R.insertAdjacentHTML('beforeend', '<div class="hr"></div><div class="row static"><i class="ls"></i><span class="t">Connection</span></div>');
 toggleRow('xfer', '<i class="ls d"></i>', 'Trades without a connection', pairs.length);
-$('brandSel').addEventListener('change', e => { brandSel = e.target.value; sel = null; hit = null; route = {nodes: new Set(), edges: new Set()};
+if (hasDates) {
+  R.insertAdjacentHTML('beforeend', '<div class="hr"></div><label class="row opt"><input type="checkbox" id="actT"><i class="ls"></i><span class="t">Colour lines by last activity</span></label><div id="actKey" hidden>' + [[1, 'Last 3 months'], [2, '3 to 12 months ago'], [3, 'Over a year ago'], [0, 'Never traded']].map(([b, l]) => `<div class="row static"><i class="ls" style="border-top:3px solid var(--a${b})"></i><span class="t">${l}</span><span class="n">${actCount[b]}</span></div>`).join('') + '</div>');
+  $('actT').addEventListener('change', e => { byAct = e.target.checked; $('actKey').hidden = !byAct; paint(); });
+}
+$('brandSel').addEventListener('change', e => { brandSel = e.target.value; sel = null; selE = null; hit = null; route = {nodes: new Set(), edges: new Set()};
   if (brandSel) { const s = reachFrom(brandSel); $('panel').innerHTML = `<div class="ph"><h2>${esc(byId[brandSel].n)}</h2><button class="close" id="pclose" type="button" aria-label="Close">×</button></div><div class="two"><div class="stat"><b>${s.size - 1}</b><span>organisations reached</span></div><div class="stat"><b>${tiersOf(brandSel).tiers.length}</b><span>tiers deep</span></div></div><p class="empty" style="margin-top:12px">Reachable without passing through another Final Brand. The real number is at least this, because the export drops connections that were not a first discovery route.</p>${tierHtml(brandSel)}`; $('pclose').addEventListener('click', () => { $('brandSel').value = ''; brandSel = ''; clearSel(); }); showPanel(true); }
   else showPanel(false);
   paint(); });
 $('countrySel').addEventListener('change', e => { country = e.target.value; paint(); });
-$('reset').addEventListener('click', () => { $('brandSel').value = ''; brandSel = ''; $('countrySel').value = ''; country = ''; $('q').value = ''; $('results').hidden = true; off.clear(); toggles.forEach(i => i.checked = true); sel = null; hit = null; route = {nodes: new Set(), edges: new Set()}; showPanel(false); paint(); fit(); });
+$('reset').addEventListener('click', () => { $('brandSel').value = ''; brandSel = ''; $('countrySel').value = ''; country = ''; $('q').value = ''; $('results').hidden = true; off.clear(); toggles.forEach(i => i.checked = true); byAct = false; if ($('actT')) { $('actT').checked = false; $('actKey').hidden = true; } sel = null; selE = null; hit = null; route = {nodes: new Set(), edges: new Set()}; showPanel(false); paint(); fit(); });
 
 /* search and help */
 $('q').addEventListener('input', e => {
   const v = e.target.value.trim().toLowerCase(), Rs = $('results');
   if (!v) { hit = null; Rs.hidden = true; paint(); return; }
   const m = nodes.filter(n => n.n.toLowerCase().includes(v) || n.id.toLowerCase().includes(v));
-  hit = new Set(m.map(n => n.id)); sel = null; route = {nodes: new Set(), edges: new Set()};
+  hit = new Set(m.map(n => n.id)); sel = null; selE = null; route = {nodes: new Set(), edges: new Set()};
   Rs.innerHTML = m.slice(0, 8).map(n => `<button type="button" data-id="${esc(n.id)}">${esc(n.n)}<small>${esc(n.id)} · ${esc(n.r || '')}${n.c ? ' · ' + esc(n.c) : ''}</small></button>`).join('') || '<button type="button" disabled>No match</button>';
   Rs.hidden = false; paint();
 });
@@ -529,19 +646,22 @@ function clamp() {
   if (ch <= r.height) ty = (r.height - ch) / 2; else ty = Math.min(m, Math.max(r.height - ch - m, ty));
 }
 function apply() {
+  if (!svg.clientWidth) return;
   clamp();
   vp.setAttribute('transform', `translate(${tx},${ty}) scale(${k})`);
   stepEls.forEach((d, l) => { const y = ty + (blocks[l].top + 12) * k; d.style.top = y + 'px'; d.style.display = (y < -30 || y > svg.clientHeight) ? 'none' : ''; });
 }
 function fit() {
   const r = svg.getBoundingClientRect(), g = GUT(), bw = W + 40;
+  if (!r.width) return;
   k = Math.min((r.width - g - 12) / bw, (r.height - 8) / H);
   if (r.width < 700) { k = Math.max(k, .6); tx = 12; } else tx = g + (r.width - g - 12 - W * k) / 2;
   kMin = k * .85; kMax = k * 2.4; ty = 4; apply();
 }
 function zoomAt(f, cx, cy) { const nk = Math.max(kMin, Math.min(kMax, k * f)); tx = cx - (cx - tx) * (nk / k); ty = cy - (cy - ty) * (nk / k); k = nk; apply(); }
-function focusNode(id, zoom) {
-  const p = pos[id]; if (!p) return; const r = svg.getBoundingClientRect(), nk = Math.min(kMax, zoom ? Math.max(k, 1.05) : k), ntx = (r.width + GUT()) / 2 - p.x * nk, nty = r.height / 2 - p.y * nk;
+function focusNode(id, zoom) { const p = pos[id]; if (p) focusAt(p, zoom); }
+function focusAt(p, zoom) {
+  const r = svg.getBoundingClientRect(), nk = Math.min(kMax, zoom ? Math.max(k, 1.05) : k), ntx = (r.width + GUT()) / 2 - p.x * nk, nty = r.height / 2 - p.y * nk;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) { k = nk; tx = ntx; ty = nty; apply(); return; }
   const s = {k, tx, ty}, t0 = performance.now();
   (function step(t) { const u = Math.min(1, (t - t0) / 320), e = 1 - Math.pow(1 - u, 3); k = s.k + (nk - s.k) * e; tx = s.tx + (ntx - s.tx) * e; ty = s.ty + (nty - s.ty) * e; apply(); if (u < 1) requestAnimationFrame(step); })(t0);
@@ -550,7 +670,7 @@ svg.addEventListener('wheel', e => { e.preventDefault(); const r = svg.getBoundi
 let drag = null, pinch = null; const ptrs = new Map();
 const pdist = () => { const v = [...ptrs.values()]; return Math.hypot(v[0].x - v[1].x, v[0].y - v[1].y); };
 svg.addEventListener('pointerdown', e => {
-  if (e.target.closest('.nd')) return;
+  if (e.target.closest('.nd, .eh')) return;
   ptrs.set(e.pointerId, {x: e.clientX, y: e.clientY}); svg.setPointerCapture(e.pointerId);
   if (ptrs.size === 2) { pinch = {d: pdist(), k: k}; drag = null; } else { drag = {x: e.clientX, y: e.clientY, tx, ty}; svg.classList.add('drag'); }
 });
