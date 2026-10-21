@@ -25,7 +25,6 @@
         <a href="./" ${page === 'sort' ? 'aria-current="page"' : ''}>Sort</a>
         <a href="criteria.html" ${page === 'criteria' ? 'aria-current="page"' : ''}>Criteria</a>
       </nav>
-      <span class="who">AWARE™ customer success</span>
     </div>`;
     document.body.prepend(bar);
   }

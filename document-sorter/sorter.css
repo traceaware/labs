@@ -1,13 +1,15 @@
-/* AWARE™ brand kit: Scarlet, Earth, Snow and White. Inter Display and Inter, weights 400 and 500. */
+/* AWARE™ brand kit: Scarlet, Earth and White, Rethink Sans at weights 400 and 500.
+   The page background is a lighter grey than Snow, because the screens are mostly empty space. */
 :root {
   --scarlet: #FF3300;
   --earth: #290800;
   --snow: #F5F5F5;
+  --page: #FAFAFA;
   --white: #FFFFFF;
   --muted: rgba(41, 8, 0, .6);
   --line: rgba(41, 8, 0, .14);
   --line-strong: rgba(41, 8, 0, .32);
-  --font: "Inter", system-ui, sans-serif;
+  --font: "Rethink Sans", system-ui, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   --r-card: 8px;
   --r-input: 6px;
@@ -18,19 +20,18 @@
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  background: var(--snow);
+  background: var(--page);
   color: var(--earth);
   font-family: var(--font);
   font-size: 15px;
   line-height: 1.6;
-  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
 }
 button, input, textarea { font: inherit; color: inherit; }
 [hidden] { display: none !important; }
 a { color: inherit; }
 
-.display { font-variation-settings: "opsz" 32; letter-spacing: -0.02em; font-weight: 500; }
+.display { letter-spacing: -0.02em; font-weight: 500; }
 
 /* Header */
 .bar { background: var(--white); border-bottom: 1px solid var(--line); }
@@ -40,7 +41,6 @@ a { color: inherit; }
 .nav { display: flex; gap: 24px; height: 100%; }
 .nav a { display: flex; align-items: center; text-decoration: none; font-size: 14px; color: var(--muted); border-bottom: 2px solid transparent; padding-top: 2px; }
 .nav a[aria-current="page"] { color: var(--earth); font-weight: 500; border-bottom-color: var(--scarlet); }
-.bar .who { margin-left: auto; font-size: 13px; color: var(--muted); }
 
 main { max-width: 1072px; margin: 0 auto; padding: 36px 16px 64px; display: flex; flex-direction: column; gap: 24px; }
 .title-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
@@ -152,7 +152,7 @@ main > section { display: flex; flex-direction: column; gap: 24px; }
 .saved-msg:empty { display: none; }
 
 /* Password gate */
-#gate { position: fixed; inset: 0; z-index: 100; background: var(--snow); display: flex; align-items: center; justify-content: center; padding: 16px; }
+#gate { position: fixed; inset: 0; z-index: 100; background: var(--page); display: flex; align-items: center; justify-content: center; padding: 16px; }
 .gcard { width: 100%; max-width: 380px; background: var(--white); border: 1px solid var(--line); border-radius: var(--r-card); padding: 28px 24px; }
 .gcard svg { width: 32px; height: 32px; display: block; margin-bottom: 20px; }
 .gcard h1 { font-size: 22px; margin: 0 0 6px; }
@@ -165,7 +165,6 @@ main > section { display: flex; flex-direction: column; gap: 24px; }
   main { padding-top: 24px; }
   h1 { font-size: 26px; }
   .bar-in { gap: 18px; }
-  .bar .who { display: none; }
   .split, .group { flex-direction: column; gap: 12px; }
   .side { width: 100%; }
   .cols { grid-template-columns: 1fr; }
