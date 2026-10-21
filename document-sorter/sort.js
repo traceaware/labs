@@ -91,7 +91,8 @@ Labs.start('sort', status => {
       <div class="card-head">
         <div class="sheets" aria-hidden="true"><i></i><i></i></div>
         <div class="file"><b>${esc(item.file.name)}</b><span>${meta}</span></div>
-        <span class="right">${changed}${state}${copy}</span>
+        <span class="right">${changed}${state}${copy}<button class="remove" type="button" data-remove="${item.id}" aria-label="Remove ${esc(item.file.name)}" title="Remove">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></span>
       </div>
       ${body}
     </article>`;
@@ -194,6 +195,14 @@ Labs.start('sort', status => {
   }
 
   $('cards').addEventListener('click', async e => {
+    // Removing a file that is still sorting drops it; its result is ignored when it arrives.
+    const gone = e.target.closest('[data-remove]');
+    if (gone) {
+      items = items.filter(i => i.id !== Number(gone.dataset.remove));
+      render();
+      pump();
+      return;
+    }
     const btn = e.target.closest('[data-copy]');
     if (!btn) return;
     const item = items.find(i => i.id === Number(btn.dataset.copy));

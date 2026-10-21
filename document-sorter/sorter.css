@@ -104,6 +104,9 @@ input:focus, textarea:focus { outline: none; border-color: var(--earth) !importa
 .file b { font-size: 15px; font-weight: 500; overflow-wrap: anywhere; }
 .file span { font-size: 13px; color: var(--muted); }
 .card-head .right { margin-left: auto; display: flex; gap: 16px; align-items: center; }
+.remove { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; margin-right: -6px; border: 0; border-radius: var(--r-input); background: none; color: var(--muted); cursor: pointer; }
+.remove:hover { color: var(--earth); background: var(--snow); }
+.remove:focus-visible { outline: 2px solid var(--scarlet); outline-offset: 2px; }
 .tag { display: inline-block; padding: 2px 8px; border-radius: var(--r-badge); border: 1px solid var(--scarlet); color: var(--scarlet); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; }
 
 .group { display: flex; gap: 20px; padding: 16px 0; border-top: 1px solid var(--line); }
