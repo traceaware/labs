@@ -3,7 +3,7 @@ Labs.start('sort', status => {
   const { call, esc, pathText, pathHtml } = Labs;
   const $ = id => document.getElementById(id);
   const TYPES = ['application/pdf', 'image/jpeg', 'image/png'];
-  const MAX = 20 * 1024 * 1024;
+  const MAX = 5 * 1024 * 1024;
   const AT_ONCE = 3;
   const NOT_KYB = 'Not KYB';
 
@@ -144,7 +144,7 @@ Labs.start('sort', status => {
 
   function check(file) {
     if (!TYPES.includes(file.type)) return 'Only PDF, JPG and PNG files can be sorted. Save a Word file as PDF first.';
-    if (file.size > MAX) return 'This file is over 20 MB.';
+    if (file.size > MAX) return 'This file is over 5 MB.';
     if (noKey) return 'The AI key is not set on the server, so nothing can be sorted.';
     return null;
   }
