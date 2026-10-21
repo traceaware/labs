@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Criteria</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 259 259'%3E%3Ccircle cx='129.5' cy='129.5' r='129.5' fill='%23FF3300'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="sorter.css">
+</head>
+<body>
+<main>
+  <!-- Viewing -->
+  <section id="view" hidden>
+    <div class="title-row">
+      <h1 class="display">Criteria</h1>
+      <button class="btn primary" type="button" id="edit">Edit</button>
+    </div>
+    <p class="saved-msg" id="msg" role="status"></p>
+    <div class="split">
+      <div class="grow"><div class="panel doc" id="doc"></div></div>
+      <aside class="side"><div class="panel"><h2>Versions</h2><div id="versions"></div></div></aside>
+    </div>
+  </section>
+
+  <!-- Editing -->
+  <section id="editing" hidden>
+    <div class="title-row">
+      <h1 class="display">Edit criteria</h1>
+      <div class="actions">
+        <button class="btn" type="button" id="cancel">Cancel</button>
+        <button class="btn primary" type="button" id="save">Save</button>
+      </div>
+    </div>
+    <div class="notice" id="warn" role="status" hidden><span class="dot unsure"></span><span id="warnText"></span></div>
+    <div class="cols">
+      <div class="col">
+        <label class="label" for="text">Text</label>
+        <textarea class="editor" id="text" spellcheck="true"></textarea>
+      </div>
+      <div class="col">
+        <span class="label">Preview</span>
+        <div class="panel doc" id="preview"></div>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="common.js"></script>
+<script src="criteria.js"></script>
+</body>
+</html>
