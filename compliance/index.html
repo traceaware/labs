@@ -4,6 +4,23 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
+[hidden]{display:none!important}
+.tabs{display:flex;gap:28px;border-bottom:1px solid var(--line);margin-bottom:-24px}
+.tabs button{appearance:none;background:none;border:0;padding:0 0 12px;margin-bottom:-1px;font:inherit;font-size:16px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--soil);border-bottom-color:var(--soil);font-weight:500}
+.tabs button:hover{color:var(--soil)}
+.tabs button:focus-visible{outline:2px solid var(--scarlet);outline-offset:4px}
+.view{display:flex;flex-direction:column;gap:64px}
+.gwrap{overflow-x:auto}
+table.gs1{width:100%;border-collapse:collapse;min-width:620px;border-top:1px solid var(--line)}
+table.gs1 th,table.gs1 td{text-align:left;vertical-align:baseline;padding:14px 16px 14px 0;border-bottom:1px solid var(--line)}
+table.gs1 thead th{font-size:14px;font-weight:400;color:var(--muted)}
+.g-what{font-weight:500;width:22%}
+.g-today{color:var(--muted);width:32%}
+.g-eff{white-space:nowrap}
+.gkey{margin-top:16px;font-size:14px;color:var(--muted);display:grid;gap:4px}
+.gkey b{color:var(--soil);font-weight:500}
+
 .bucket{margin-top:28px}
 .bucket:first-of-type{margin-top:4px}
 h4{font-size:14px;font-weight:500;margin:0 0 4px}
@@ -43,8 +60,9 @@ h3{font-size:16px;font-weight:500;line-height:1.35}
 .s-in{color:var(--scarlet);font-weight:500}
 .s-prog{color:var(--soil)}
 .s-plan{color:var(--muted)}
-.dates{display:grid;grid-template-columns:200px 1fr;gap:12px 24px;margin-top:16px}
-.dates dt{font-weight:500;white-space:nowrap}
+.dates{width:100%;border-collapse:collapse;margin-top:16px;border-top:1px solid var(--line)}
+.dates th,.dates td{text-align:left;vertical-align:baseline;padding:14px 0;border-bottom:1px solid var(--line);font-weight:400}
+.dates th{width:224px;padding-right:24px;font-weight:500}
 .sources{padding-left:20px;display:grid;gap:6px;margin-top:12px}
 footer{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:14px;color:var(--muted)}
 @media (max-width:640px){
@@ -52,8 +70,8 @@ footer{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-co
   .reqs li .name{grid-column:1}
   .reqs li .status{grid-column:2;grid-row:1}
   .reqs li p{grid-column:1 / -1}
-  .dates{grid-template-columns:1fr;gap:2px}
-  .dates dd{margin-bottom:10px}
+  .dates tr{display:block;border-bottom:1px solid var(--line);padding:12px 0}
+  .dates th,.dates td{display:block;width:auto;padding:0;border-bottom:0}
 }
 </style>
 <!-- 100% privacy-first analytics -->
@@ -81,13 +99,18 @@ footer{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-co
   <main>
     <section class="opening">
       <h1>EU product passport readiness</h1>
-      <p class="lede">AWARE™ already holds the supply chain data a textile product passport will need. The EU published the passport format, registry and standards in 2026, and we are building them into AWARE™. This page shows where each requirement stands.</p>
+      <p class="lede">AWARE™ already holds the supply chain data a textile product passport will need. The EU published the passport format, registry and standards in 2026, and we are building them into AWARE™.</p>
     </section>
+    <div class="tabs" role="tablist" aria-label="Compare against">
+      <button type="button" role="tab" id="tab-eu" aria-controls="view-eu" aria-selected="true">EU requirements</button>
+      <button type="button" role="tab" id="tab-gs1" aria-controls="view-gs1" aria-selected="false" tabindex="-1">GS1 standards</button>
+    </div>
+    <div id="view-eu" role="tabpanel" aria-labelledby="tab-eu" class="view">
 
     <section aria-labelledby="h-data">
       <h2 id="h-data">The data</h2>
-      <p class="intro">What a textile passport is expected to contain, and what AWARE™ collects today.</p>
-      <ul class="reqs"><li><div class="name"><h3>Material composition</h3></div><p>Fibre composition with percentages, built up from every material in the product&#x27;s supply chain.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Recycled and sustainable content</h3></div><p>Each sustainable material claim is backed by a source declaration and proof documents from the supplier.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Origin of each production step</h3></div><p>Company, facility and country for every step, from raw material to finished product.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Chain of custody</h3></div><p>Every transfer and transformation is recorded, with quantities in and out and a blockchain record.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Certificates and test reports</h3></div><p>Facility certificates (such as GOTS, GRS, BSCI) and shipment documents (transaction certificates, lab reports), each linked to the file.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Care instructions</h3></div><p>Care information set by the brand and shown on each passport.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Carbon footprint</h3></div><p>Emissions in kg CO2e for each production step. The method will follow the textile rules when they are published.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>End-of-life information</h3></div><p>Circularity information set by the brand. The textile rules will define the full list.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Substances of concern</h3></div><p>Not collected yet. Planned once the textile rules set the list of substances.</p><span class="status s-plan">Planned</span></li></ul>
+      
+      <ul class="reqs"><li><div class="name"><h3>Material composition</h3></div><p>Fibre composition with percentages, built up from every material in the product&#x27;s supply chain.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Recycled and sustainable content</h3></div><p>Each sustainable material claim is backed by a source declaration and proof provided by the supplier.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Origin of each production step</h3></div><p>Company, facility and country for every step, from raw material to finished product.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Chain of custody</h3></div><p>Every transfer and transformation is recorded, with quantities in and out on a blockchain record.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Certificates and test reports</h3></div><p>Facility certificates (such as GOTS, GRS, BSCI) and shipment documents (transaction certificates, lab reports), each linked to the file.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Care instructions</h3></div><p>Care information set by the brand and shown on each passport.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Carbon footprint</h3></div><p>Emissions in kg CO2e for each production step. The method will follow the textile rules when they are published.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>End-of-life information</h3></div><p>Planned once the textile rules define the information required.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Substances of concern</h3></div><p>Not collected yet. Planned once the textile rules set the list of substances.</p><span class="status s-plan">Planned</span></li></ul>
     </section>
 
     <section aria-labelledby="h-format">
@@ -95,13 +118,29 @@ footer{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-co
       <p class="intro">How a passport is identified, structured and registered. These rules are new, and this is where our work is focused.</p>
       <ul class="reqs"><li><div class="name"><h3>Unique product identifier</h3></div><p>Every passport has its own web address today. It will move to the EU format, built on the product&#x27;s GTIN.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Passport level</h3></div><p>AWARE™ passports cover a production batch. Each passport will state its level: model, batch or item.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>GTIN</h3></div><p>Brands already hold GTINs for their products. We are adding a field to store them.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>QR code</h3></div><p>Every passport has a QR code. It will move to the GS1 Digital Link format.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Passport in the EU data model</h3></div><p>Passports open as web pages today. A JSON version in the EU data model, with passport ID and status, is next.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Manufacturer details and identifier</h3></div><p>Full company details are held. We are adding recognised identifiers such as GLN and EORI.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Every company in the supply chain</h3></div><p>Every supplier has a company profile with its registration details. The same identifier work applies.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Facility identifiers</h3></div><p>Address, registration number and certificates are held for each facility. We are adding GLN and Open Supply Hub IDs.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Importer and EORI number</h3></div><p>Not collected yet. Planned alongside the operator identifiers.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Customs commodity code</h3></div><p>Not collected yet. Planned for each product.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Compliance documents</h3></div><p>Certificates and test reports are linked today. EU declarations will be added when the textile rules define them.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Public and restricted views</h3></div><p>Each passport will show the public what the rules require and share protected data only with authorised parties.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Registration with the EU registry</h3></div><p>AWARE™ will register passports through the registry&#x27;s API.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Supply chain events</h3></div><p>The AWARE™ ledger records every transfer and transformation. It maps onto EPCIS events, and an export is planned.</p><span class="status s-prog">In progress</span></li></ul>
     </section>
+    </div>
+    <div id="view-gs1" role="tabpanel" aria-labelledby="tab-gs1" hidden>
+    <section aria-labelledby="h-gs1">
+      <h2 id="h-gs1">GS1 standards</h2>
+      <p class="intro">AWARE™ already records what the GS1 standards describe: products, batches, companies, facilities and every step between them. Today though we use our own identifiers. Moving to meet the GS1 standard means collecting the numbers brands and suppliers hold from our users and formatting passport links to meet GS1 rules. The data itself stays the same. We are currently researching the best way to do this for when a client requires GS1 compliance.</p>
+      <div class="gwrap"><table class="gs1">
+        <thead><tr><th>What</th><th>AWARE™ today</th><th>GS1 standard</th><th>Change</th></tr></thead>
+        <tbody><tr><td class="g-what">Product</td><td class="g-today">Brand's own item number</td><td>GTIN</td><td class="g-eff">A new field</td></tr><tr><td class="g-what">Companies</td><td class="g-today">Company profile and AWARE™ ID</td><td>GLN</td><td class="g-eff">A new field</td></tr><tr><td class="g-what">Facilities</td><td class="g-today">Facility record and registration number</td><td>GLN</td><td class="g-eff">A new field</td></tr><tr><td class="g-what">Batch</td><td class="g-today">Batch number on each token</td><td>GTIN plus batch number</td><td class="g-eff">A format change</td></tr><tr><td class="g-what">Passport link</td><td class="g-today">Address built from AWARE™'s own IDs</td><td>GS1 Digital Link</td><td class="g-eff">A format change</td></tr><tr><td class="g-what">QR code</td><td class="g-today">Links to the AWARE™ address</td><td>QR code with Digital Link</td><td class="g-eff">A format change</td></tr><tr><td class="g-what">Link lookup</td><td class="g-today">Address opens the passport page</td><td>GS1 resolver</td><td class="g-eff">A format change</td></tr><tr><td class="g-what">Product details</td><td class="g-today">Composition in AWARE™'s own lists</td><td>GS1 Web Vocabulary</td><td class="g-eff">A format change</td></tr><tr><td class="g-what">Supply chain events</td><td class="g-today">The token ledger</td><td>EPCIS 2.0</td><td class="g-eff">A new export</td></tr><tr><td class="g-what">Step names</td><td class="g-today">AWARE™'s own step names</td><td>Core Business Vocabulary</td><td class="g-eff">A new export</td></tr><tr><td class="g-what">Certificates on events</td><td class="g-today">Certificates linked to each transfer</td><td>EPCIS certification details</td><td class="g-eff">A new export</td></tr></tbody>
+      </table></div>
+      <div class="gkey">
+        <p><b>A new field:</b> store a number brands and suppliers already hold.</p>
+        <p><b>A format change:</b> present data AWARE™ already holds in the GS1 format.</p>
+        <p><b>A new export:</b> share the ledger in GS1's event format.</p>
+      </div>
+    </section>
+    </div>
     <section aria-labelledby="h-when">
       <h2 id="h-when">When textile passports become mandatory</h2>
-      <dl class="dates">
-        <dt>February 2027</dt><dd>Battery passports become mandatory, the first product group.</dd>
-        <dt>Q4 2027</dt><dd>The Commission plans to adopt the textile rules.</dd>
-        <dt>Q2 2029 at the earliest</dt><dd>Our estimate. Businesses get at least 18 months after the rules are adopted.</dd>
-      </dl>
+      <table class="dates">
+        <tr><th scope="row">February 2027</th><td>Battery passports become mandatory, the first product group.</td></tr>
+        <tr><th scope="row">Q4 2027</th><td>The Commission plans to adopt the textile rules.</td></tr>
+        <tr><th scope="row">Q2 2029 at the earliest</th><td>Our estimate. Businesses get at least 18 months after the rules are adopted.</td></tr>
+      </table>
     </section>
     <section aria-labelledby="h-src">
       <h2 id="h-src">What we check against</h2>
@@ -118,5 +157,22 @@ footer{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-co
     <span>Questions about your passport obligations? <a href="https://traceaware.io/contact-us">Talk to us</a></span>
     <a href="https://traceaware.io">traceaware.io</a>
   </footer>
+
+<script>
+(function(){
+  var tabs=[document.getElementById('tab-eu'),document.getElementById('tab-gs1')];
+  var views={'tab-eu':document.getElementById('view-eu'),'tab-gs1':document.getElementById('view-gs1')};
+  function show(id,push){
+    tabs.forEach(function(t){var on=t.id===id;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;views[t.id].hidden=!on;});
+    if(push){ if(id==='tab-gs1'){history.replaceState(null,'','#gs1');} else {history.replaceState(null,'',location.pathname);} }
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){show(t.id,true);});
+    t.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){var n=tabs[(i+1)%2];n.focus();show(n.id,true);}});
+  });
+  function fromHash(){show(location.hash==='#gs1'?'tab-gs1':'tab-eu',false);}
+  window.addEventListener('hashchange',fromHash); fromHash();
+})();
+</script>
 </div>
 </body></html>
