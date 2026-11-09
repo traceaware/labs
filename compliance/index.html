@@ -4,6 +4,29 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
+.hero{background-position:center 30%;background-size:cover;min-height:clamp(420px,52vw,600px);display:flex;align-items:flex-end;
+  padding-block:clamp(16px,4vw,48px);padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.hero-inner{width:100%;max-width:1120px;margin:0 auto}
+.glass-panel.hero-panel{max-width:680px;padding:28px 30px;gap:40px}
+.hero-panel .logo{height:20px;width:117px}
+.hero-panel h1{color:var(--white);margin-bottom:14px}
+.hero-panel .lede{color:var(--white);margin-bottom:0;font-size:17px;line-height:1.55}
+
+.lens{background-position:center;background-size:cover;padding-block:clamp(24px,6vw,72px);
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+.lens-frame{max-width:960px;margin:0 auto;background:var(--white);border-radius:14px;padding:12px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:12px;min-height:440px}
+.lens-text{padding:20px 20px 24px;display:flex;flex-direction:column;justify-content:space-between;gap:48px}
+.lens-text h1{margin-bottom:16px}
+.lens-text .lede{margin-bottom:0}
+.lens-inset{border-radius:10px;background-position:center;background-size:cover;min-height:220px}
+.glass{border-radius:14px;min-height:380px;background-position:center 35%;background-size:cover;display:flex;align-items:flex-end;padding:16px}
+.glass-panel{max-width:300px;padding:22px;border-radius:12px;color:var(--white);background:rgba(40,24,14,.38);
+  -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3);display:flex;flex-direction:column;gap:32px}
+.glass-panel p{font-size:24px;line-height:1.2;letter-spacing:-.01em}
+.glass-panel .logo{height:16px;width:93px}
+.lens-text .logo{width:117px}
+@media (max-width:700px){.lens-frame{grid-template-columns:1fr;min-height:0}.lens-text{gap:28px}}
+
 [hidden]{display:none!important}
 .tabs{display:flex;gap:28px;border-bottom:1px solid var(--line);margin-bottom:-24px}
 .tabs button{appearance:none;background:none;border:0;padding:0 0 12px;margin-bottom:-1px;font:inherit;font-size:16px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent}
@@ -77,30 +100,34 @@ footer{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-co
 <!-- 100% privacy-first analytics -->
 <script async src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
 </head><body>
-<div class="page">
-  <header><svg class="logo" role="img" aria-label="AWARE™" viewBox="0 0 2000 343" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M255.048 242.614C290.997 201.705 319.35 156.748 319.35 100.185C319.35 50.9273 287.069 0 233.039 0C211.289 0 181.296 8.18176 159.675 46.3772C138.054 8.18176 108.061 0 86.3107 0C32.2802 0 0 50.9273 0 100.185C0 156.748 28.4394 201.622 64.3446 242.489L28.1373 317.252H66.2866L89.461 269.456C96.3227 276.552 103.314 283.565 110.262 290.578C122.475 302.892 135.119 315.624 146.815 328.356L159.675 342.34L172.578 328.398C184.101 315.958 196.486 303.477 208.527 291.413C215.69 284.191 222.941 276.928 230.061 269.622L253.149 317.294H291.299L255.134 242.656L255.048 242.614ZM80.571 209.052C53.5989 176.117 34.5243 141.428 34.5243 100.185C34.5243 67.3743 53.901 33.3949 86.3107 33.3949C105.472 33.3949 119.756 43.6639 131.192 65.7046L140.6 85.1571L80.571 209.052ZM183.583 268.245C175.685 276.176 167.615 284.275 159.675 292.498C151.518 284.024 143.189 275.634 135.076 267.452C124.892 257.183 114.793 247.039 105.17 236.854L159.632 124.48L214.137 236.937C204.297 247.331 193.983 257.726 183.54 268.203L183.583 268.245ZM238.822 209.178L178.749 85.1571L188.157 65.7046C199.594 43.6639 213.878 33.3949 233.039 33.3949C265.449 33.3949 284.825 67.3743 284.825 100.185C284.825 141.469 265.794 176.2 238.822 209.178Z" fill="#FF3300"/>
-<g clip-path="url(#clip0_352_1645)">
-<path d="M1936.39 22.7938H1946.06V50.0942H1952.49V22.7938H1962.15V16.6992H1936.39V22.7938Z" fill="#FF3300"/>
-<path d="M1990.97 16.6992L1983.25 40.0339L1975.74 17.3671L1975.52 16.6992H1966.59V50.0942H1972.93V27.8448L1980.31 50.0942H1986.22L1993.65 27.8448V50.0942H1999.95V16.6992H1990.97Z" fill="#FF3300"/>
-<path d="M1051.27 16.699L968.33 189.56L914.645 16.699H843.482L789.365 189.56L706.895 16.699H633.142L761.918 317.253H812.539L878.912 108.285L945.717 317.253H996.338L1125.11 16.699H1051.32H1051.27Z" fill="#FF3300"/>
-<path d="M507.039 16.6992L374.163 317.254H447.225L475.794 252.384L501.774 193.442L540.484 106.156L578.806 193.442L604.742 252.384L633.354 317.254H706.417L573.584 16.6992H507.082H507.039Z" fill="#FF3300"/>
-<path d="M1184.59 16.699L1051.71 317.253H1124.77L1153.34 252.384L1179.32 193.442L1218.08 106.156L1256.35 193.442L1282.29 252.384L1310.95 317.253H1383.96L1251.05 16.699H1184.54H1184.59Z" fill="#FF3300"/>
-<path d="M1591.36 209.471C1630.2 195.487 1649.62 164.43 1649.62 116.341V116.258C1649.62 81.2765 1639.47 55.938 1619.19 40.2424C1598.86 24.5468 1564.94 16.699 1517.34 16.699H1401.3V317.253H1470.35V221.076H1517L1584.8 316.836H1668.86L1591.4 209.43L1591.36 209.471ZM1567.27 151.99C1558.82 159.421 1542.89 163.178 1519.5 163.178H1470.3V74.2635H1520.75C1542.68 74.2635 1558 77.2691 1566.76 83.3219C1575.47 89.333 1579.83 100.437 1579.83 116.592C1579.83 132.746 1575.65 144.56 1567.19 152.032H1567.27V151.99Z" fill="#FF3300"/>
-<path d="M1927.76 83.4889V16.699H1763.77H1694.72V83.4889V137.756V196.197V250.464V317.253H1763.77H1927.76V250.464H1763.77V196.197H1901.87V137.756H1763.77V83.4889H1927.76Z" fill="#FF3300"/>
+<section class="hero" style="background-image:url('cotton.jpg')">
+  <div class="hero-inner">
+    <div class="glass-panel hero-panel">
+      <svg class="logo" role="img" aria-label="AWARE™" viewBox="0 0 2000 343" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M255.048 242.614C290.997 201.705 319.35 156.748 319.35 100.185C319.35 50.9273 287.069 0 233.039 0C211.289 0 181.296 8.18176 159.675 46.3772C138.054 8.18176 108.061 0 86.3107 0C32.2802 0 0 50.9273 0 100.185C0 156.748 28.4394 201.622 64.3446 242.489L28.1373 317.252H66.2866L89.461 269.456C96.3227 276.552 103.314 283.565 110.262 290.578C122.475 302.892 135.119 315.624 146.815 328.356L159.675 342.34L172.578 328.398C184.101 315.958 196.486 303.477 208.527 291.413C215.69 284.191 222.941 276.928 230.061 269.622L253.149 317.294H291.299L255.134 242.656L255.048 242.614ZM80.571 209.052C53.5989 176.117 34.5243 141.428 34.5243 100.185C34.5243 67.3743 53.901 33.3949 86.3107 33.3949C105.472 33.3949 119.756 43.6639 131.192 65.7046L140.6 85.1571L80.571 209.052ZM183.583 268.245C175.685 276.176 167.615 284.275 159.675 292.498C151.518 284.024 143.189 275.634 135.076 267.452C124.892 257.183 114.793 247.039 105.17 236.854L159.632 124.48L214.137 236.937C204.297 247.331 193.983 257.726 183.54 268.203L183.583 268.245ZM238.822 209.178L178.749 85.1571L188.157 65.7046C199.594 43.6639 213.878 33.3949 233.039 33.3949C265.449 33.3949 284.825 67.3743 284.825 100.185C284.825 141.469 265.794 176.2 238.822 209.178Z" fill="#FFFFFF"/>
+<g clip-path="url(#clip-white)">
+<path d="M1936.39 22.7938H1946.06V50.0942H1952.49V22.7938H1962.15V16.6992H1936.39V22.7938Z" fill="#FFFFFF"/>
+<path d="M1990.97 16.6992L1983.25 40.0339L1975.74 17.3671L1975.52 16.6992H1966.59V50.0942H1972.93V27.8448L1980.31 50.0942H1986.22L1993.65 27.8448V50.0942H1999.95V16.6992H1990.97Z" fill="#FFFFFF"/>
+<path d="M1051.27 16.699L968.33 189.56L914.645 16.699H843.482L789.365 189.56L706.895 16.699H633.142L761.918 317.253H812.539L878.912 108.285L945.717 317.253H996.338L1125.11 16.699H1051.32H1051.27Z" fill="#FFFFFF"/>
+<path d="M507.039 16.6992L374.163 317.254H447.225L475.794 252.384L501.774 193.442L540.484 106.156L578.806 193.442L604.742 252.384L633.354 317.254H706.417L573.584 16.6992H507.082H507.039Z" fill="#FFFFFF"/>
+<path d="M1184.59 16.699L1051.71 317.253H1124.77L1153.34 252.384L1179.32 193.442L1218.08 106.156L1256.35 193.442L1282.29 252.384L1310.95 317.253H1383.96L1251.05 16.699H1184.54H1184.59Z" fill="#FFFFFF"/>
+<path d="M1591.36 209.471C1630.2 195.487 1649.62 164.43 1649.62 116.341V116.258C1649.62 81.2765 1639.47 55.938 1619.19 40.2424C1598.86 24.5468 1564.94 16.699 1517.34 16.699H1401.3V317.253H1470.35V221.076H1517L1584.8 316.836H1668.86L1591.4 209.43L1591.36 209.471ZM1567.27 151.99C1558.82 159.421 1542.89 163.178 1519.5 163.178H1470.3V74.2635H1520.75C1542.68 74.2635 1558 77.2691 1566.76 83.3219C1575.47 89.333 1579.83 100.437 1579.83 116.592C1579.83 132.746 1575.65 144.56 1567.19 152.032H1567.27V151.99Z" fill="#FFFFFF"/>
+<path d="M1927.76 83.4889V16.699H1763.77H1694.72V83.4889V137.756V196.197V250.464V317.253H1763.77H1927.76V250.464H1763.77V196.197H1901.87V137.756H1763.77V83.4889H1927.76Z" fill="#FFFFFF"/>
 </g>
 <defs>
-<clipPath id="clip0_352_1645">
+<clipPath id="clip-white">
 <rect width="1625.83" height="340.381" fill="white" transform="translate(374.17)"/>
 </clipPath>
 </defs>
 </svg>
-</header>
+
+      <div><h1>EU product passport readiness</h1>
+      <p class="lede">AWARE™ already holds the supply chain data a textile product passport will need. The EU published the passport format, registry and standards in 2026, and we are building them into AWARE™.</p></div>
+    </div>
+  </div>
+</section>
+<div class="page">
   <main>
-    <section class="opening">
-      <h1>EU product passport readiness</h1>
-      <p class="lede">AWARE™ already holds the supply chain data a textile product passport will need. The EU published the passport format, registry and standards in 2026, and we are building them into AWARE™.</p>
-    </section>
     <div class="tabs" role="tablist" aria-label="Compare against">
       <button type="button" role="tab" id="tab-eu" aria-controls="view-eu" aria-selected="true">EU requirements</button>
       <button type="button" role="tab" id="tab-gs1" aria-controls="view-gs1" aria-selected="false" tabindex="-1">GS1 standards</button>
@@ -116,7 +143,7 @@ footer{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-co
     <section aria-labelledby="h-format">
       <h2 id="h-format">The format</h2>
       <p class="intro">How a passport is identified, structured and registered. These rules are new, and this is where our work is focused.</p>
-      <ul class="reqs"><li><div class="name"><h3>Unique product identifier</h3></div><p>Every passport has its own web address today. It will move to the EU format, built on the product&#x27;s GTIN.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Passport level</h3></div><p>AWARE™ passports cover a production batch. Each passport will state its level: model, batch or item.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>GTIN</h3></div><p>Brands already hold GTINs for their products. We are adding a field to store them.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>QR code</h3></div><p>Every passport has a QR code. It will move to the GS1 Digital Link format.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Passport in the EU data model</h3></div><p>Passports open as web pages today. A JSON version in the EU data model, with passport ID and status, is next.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Manufacturer details and identifier</h3></div><p>Full company details are held. We are adding recognised identifiers such as GLN and EORI.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Every company in the supply chain</h3></div><p>Every supplier has a company profile with its registration details. The same identifier work applies.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Facility identifiers</h3></div><p>Address, registration number and certificates are held for each facility. We are adding GLN and Open Supply Hub IDs.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Importer and EORI number</h3></div><p>Not collected yet. Planned alongside the operator identifiers.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Customs commodity code</h3></div><p>Not collected yet. Planned for each product.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Compliance documents</h3></div><p>Certificates and test reports are linked today. EU declarations will be added when the textile rules define them.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Public and restricted views</h3></div><p>Each passport will show the public what the rules require and share protected data only with authorised parties.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Registration with the EU registry</h3></div><p>AWARE™ will register passports through the registry&#x27;s API.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Supply chain events</h3></div><p>The AWARE™ ledger records every transfer and transformation. It maps onto EPCIS events, and an export is planned.</p><span class="status s-prog">In progress</span></li></ul>
+      <ul class="reqs"><li><div class="name"><h3>Unique product identifier</h3></div><p>Every passport has its own web address today. It will move to the EU format, built on the product&#x27;s GTIN.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Passport level</h3></div><p>AWARE™ passports cover each production batch and the transactions between suppliers. Each passport will state its level: model, batch or item.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>GTIN</h3></div><p>Brands already hold GTINs for their products. We are adding a field to store them.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>QR code</h3></div><p>Every passport has a QR code. Support for the GS1 Digital Link format will be added.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Passport in the EU data model</h3></div><p>Passports open as web pages today. A JSON version in the EU data model, with passport ID and status, is next.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Manufacturer details and identifier</h3></div><p>Full company details are held. GLN and EORI numbers will be added on request.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Every company in the supply chain</h3></div><p>Every supplier has a company profile with its registration details. GLN and EORI numbers will be added on request.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Facility identifiers</h3></div><p>Address, registration number and certificates are held for each facility. GLN and Open Supply Hub IDs will be added on request.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Importer and EORI number</h3></div><p>Not collected yet. Planned alongside the operator identifiers.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Customs commodity code</h3></div><p>Not collected yet. Planned for each product.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Compliance documents</h3></div><p>Certificates and test reports are linked to each passport. EU declarations will be added when the textile rules define them.</p><span class="status s-in">In place</span></li><li><div class="name"><h3>Public and restricted views</h3></div><p>Each passport will show the public what the rules require and share protected data only with authorised parties.</p><span class="status s-plan">Planned</span></li><li><div class="name"><h3>Registration with the EU registry</h3></div><p>AWARE™ is enrolling with the EU registry and will register passports through its API.</p><span class="status s-prog">In progress</span></li><li><div class="name"><h3>Supply chain events</h3></div><p>The AWARE™ ledger records every transfer and transformation. It maps onto EPCIS events, and an export is planned.</p><span class="status s-prog">In progress</span></li></ul>
     </section>
     </div>
     <div id="view-gs1" role="tabpanel" aria-labelledby="tab-gs1" hidden>
